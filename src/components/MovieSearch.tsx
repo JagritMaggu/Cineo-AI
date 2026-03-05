@@ -58,17 +58,17 @@ function Landing({
                     <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">AI-Powered Cinema Analysis</span>
                 </div>
 
-                <h1 className="text-[clamp(3.5rem,12vw,9rem)] font-black tracking-[-0.05em] leading-[0.8] mb-14 uppercase">
+                <h1 className="text-[clamp(4.5rem,14vw,11rem)] font-black tracking-[-0.05em] leading-[0.78] mb-12 uppercase">
                     <span className="text-white">Decode the</span><br />
                     <span className="text-white/20">Cinema.</span>
                 </h1>
 
-                <p className="text-white/35 text-xs md:text-sm leading-relaxed max-w-2xl font-light mb-20 mx-auto tracking-[0.15em] uppercase">
+                <p className="text-white/35 text-xs md:text-sm leading-[2] max-w-4xl font-light mb-28 mx-auto tracking-[0.25em] uppercase">
                     Go beyond the ratings. Our AI analyzes thousands of audience reviews to reveal the true pulse of any movie in seconds.
                 </p>
 
                 {/* Desktop Search Bar below content */}
-                <form onSubmit={onSubmit} className="hidden md:flex items-center w-full max-w-xl mx-auto border border-white/8 bg-white/[0.03] rounded-md overflow-hidden hover:border-white/18 focus-within:border-white/30 transition-all duration-300">
+                <form onSubmit={onSubmit} className="hidden md:flex items-center w-full max-w-2xl mx-auto border border-white/8 bg-white/[0.03] rounded-md overflow-hidden hover:border-white/18 focus-within:border-white/30 transition-all duration-300">
                     <div className="flex items-center pl-4 text-white/20 shrink-0">
                         <Search size={14} />
                     </div>
