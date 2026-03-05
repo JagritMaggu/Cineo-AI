@@ -52,7 +52,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
 
                 {/* Layer 2: Centered Master Poster (Perfect Dead-Center) */}
                 <div className="absolute inset-0 z-10 flex items-center justify-center px-6">
-                    <div className="relative h-[70vh] md:h-[80vh] aspect-[2/3] group">
+                    <div className="relative h-[80vh] md:h-[90vh] aspect-[2/3] group">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={poster}
@@ -71,9 +71,9 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                 <div className="absolute inset-y-0 left-0 w-1/4 z-20 bg-gradient-to-r from-[#080808]/80 to-transparent" />
                 <div className="absolute inset-y-0 right-0 w-1/4 z-20 bg-gradient-to-l from-[#080808]/80 to-transparent" />
 
-                {/* Layer 5: Hero Content Overlay */}
-                <div className="relative z-30 w-full max-w-screen-2xl mx-auto px-6 md:px-20 pb-16 md:pb-24">
-                    <div className="flex flex-col gap-6 max-w-4xl">
+                {/* Layer 5: Hero Content Overlay - Constrained to Left to avoid overlap */}
+                <div className="relative z-30 w-full max-w-screen-2xl mx-auto px-6 md:px-20 pb-16 md:pb-32 h-full flex flex-col justify-end">
+                    <div className="flex flex-col gap-6 max-w-sm md:max-w-xl">
 
                         {/* Meta row with rating */}
                         <div className="flex items-center gap-3">
@@ -87,7 +87,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">{movie.runtime}</span>
                         </div>
 
-                        <h2 className="text-[clamp(3rem,8vw,7rem)] font-black tracking-[-0.04em] leading-[0.85] text-white uppercase drop-shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+                        <h2 className="text-[clamp(2.5rem,6vw,5.5rem)] font-black tracking-[-0.04em] leading-[0.9] text-white uppercase drop-shadow-[0_10px_40px_rgba(0,0,0,0.7)]">
                             {movie.title}
                         </h2>
 
