@@ -51,8 +51,8 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                 </div>
 
                 {/* Layer 2: Centered Master Poster (Zero-Crop) */}
-                <div className="relative z-10 w-full h-full flex items-center justify-center pt-10 pb-40">
-                    <div className="relative h-full max-h-[85vh] aspect-[2/3] group">
+                <div className="relative z-10 w-full h-full flex items-center justify-center pt-24 pb-48 md:pt-32">
+                    <div className="relative h-full max-h-[75vh] min-h-[400px] aspect-[2/3] group">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={poster}
