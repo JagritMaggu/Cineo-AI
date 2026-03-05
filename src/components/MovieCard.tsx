@@ -50,7 +50,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                 <div className="flex flex-col lg:flex-row gap-16 lg:gap-32 items-center lg:items-start text-center lg:text-left">
 
                     {/* Left: The Uncropped Portrait Masterpiece */}
-                    <div className="w-full max-w-[500px] lg:max-w-none lg:w-[600px] shrink-0">
+                    <div className="w-full max-w-[550px] lg:max-w-none lg:w-[700px] shrink-0">
                         <div className="relative aspect-[2/3] w-full rounded-sm overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.8)] border border-white/5 bg-black/40">
                             <img
                                 src={poster}
