@@ -71,9 +71,9 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                             {movie.plot}
                         </p>
 
-                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
                             {genreTags.map(g => (
-                                <span key={g} className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 border border-white/5 bg-white/[0.03] px-3 py-1.5 rounded-sm">
+                                <span key={g} className="text-[10px] font-black uppercase tracking-[0.4em] text-white/70 border border-white/10 bg-white/[0.08] px-4 py-2 rounded-md shadow-sm">
                                     {g}
                                 </span>
                             ))}
@@ -110,10 +110,10 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                             <div className="animate-marquee flex items-center gap-10 md:gap-20 whitespace-nowrap py-4">
                                 {marqueeCast.map((member, i) => (
                                     <div key={i} className="flex items-center gap-5 shrink-0 group/member cursor-default">
-                                        <div className="w-12 h-12 md:w-16 md:h-16 overflow-hidden bg-white/[0.02] shrink-0 rounded-full ring-1 ring-white/10 p-1 transition-all duration-500 group-hover/member:ring-white/40">
+                                        <div className="w-12 h-12 md:w-16 md:h-16 overflow-hidden bg-white/[0.02] shrink-0 rounded-full ring-1 ring-white/10 p-1">
                                             <div className="w-full h-full rounded-full overflow-hidden">
                                                 {member.image
-                                                    ? <img src={member.image} alt={member.name} className="w-full h-full object-cover opacity-80 group-hover/member:opacity-100 group-hover/member:scale-110 transition-all duration-500" />
+                                                    ? <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
                                                     : <div className="w-full h-full flex items-center justify-center text-[10px] font-black text-white/10 uppercase bg-white/[0.03]">{member.name[0]}</div>
                                                 }
                                             </div>
