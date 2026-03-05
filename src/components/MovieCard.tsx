@@ -30,20 +30,20 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
 
             {/* ── 1. Poster at the Top ── */}
             {hasPoster && (
-                <div className="relative w-full overflow-hidden" style={{ height: 'clamp(300px, 65vh, 750px)' }}>
+                <div className="relative w-full overflow-hidden bg-black/40" style={{ height: '70vh' }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={movie.poster}
                         alt={movie.title}
-                        className="w-full h-full object-cover object-top"
+                        className="w-full h-full object-contain object-center"
                     />
-                    {/* Cinematic bottom fade to blend with title section */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent opacity-100" />
+                    {/* Cinematic bottom fade */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent opacity-60" />
                 </div>
             )}
 
             {/* ── Content Container ── */}
-            <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 md:py-16">
+            <div className="max-w-screen-2xl mx-auto px-6 md:px-16 py-10 md:py-16">
 
                 {/* ── 2. Movie Name and Rating Side by Side ── */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
