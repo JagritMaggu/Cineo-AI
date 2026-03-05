@@ -2,7 +2,7 @@
 
 import { memo, useMemo } from 'react';
 import { Movie } from '@/types/movie';
-import { Star } from 'lucide-react';
+import { Star, Play } from 'lucide-react';
 
 interface MovieCardProps {
     movie: Movie;
@@ -15,147 +15,155 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
         [movie.genre]
     );
 
-    const marqueeCast = useMemo(() => {
-        if (!movie.fullCast?.length) return [];
-        let arr = [...movie.fullCast];
-        while (arr.length < 20) arr = [...arr, ...movie.fullCast];
-        return [...arr, ...arr, ...arr, ...arr];
-    }, [movie.fullCast]);
-
     const hasFullCast = !!movie.fullCast?.length;
 
-    // High-resolution poster extraction (stripping OMDb SX300/SX400 suffixes)
+    // High-resolution poster extraction
     const poster = useMemo(() => {
         if (!movie.poster || movie.poster === 'N/A') return '/placeholder-poster.png';
-        // If it's an IMDb/OMDb URL, strip the scaling suffix to get the master file
         if (movie.poster.includes('._V1_')) {
             return movie.poster.split('._V1_')[0] + '._V1_.jpg';
         }
         return movie.poster;
     }, [movie.poster]);
 
+    // Format cast for display
+    const stars = useMemo(() => {
+        if (hasFullCast) {
+            return movie.fullCast.slice(0, 3).map(c => c.name).join(', ');
+        }
+        return movie.cast;
+    }, [hasFullCast, movie.fullCast, movie.cast]);
+
     return (
-        <article className="animate-fade-up w-full bg-[#080808]">
+        <article className="w-full bg-[#141414] min-h-screen text-white font-sans overflow-x-hidden">
 
-            {/* ── 1. Immersive Centered Hero (Inspired by Netflix/Chernobyl style) ── */}
-            <div className="relative w-full h-[100svh] overflow-hidden flex flex-col items-center justify-end">
-
-                {/* Layer 1: Atmospheric Background (Ambient Glow) */}
-                <div className="absolute inset-0 z-0 overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                        src={poster}
-                        alt=""
-                        className="w-full h-full object-cover blur-[100px] opacity-40 scale-150 saturate-[1.5]"
-                    />
-                </div>
-
-                {/* Layer 2: Centered Master Poster (Perfect Dead-Center) */}
-                <div className="absolute inset-0 z-10 flex items-center justify-center px-6">
-                    <div className="relative h-[80vh] md:h-[90vh] aspect-[2/3] group">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                            src={poster}
-                            alt={movie.title}
-                            className="w-full h-full object-contain shadow-[0_0_150px_rgba(0,0,0,0.85)] rounded-sm"
-                        />
-
-                        {/* Layer 3: The "Merge" Effect — Left & Right Gradient Blurs */}
-                        <div className="absolute inset-y-0 -left-40 w-40 z-20 bg-gradient-to-r from-transparent via-[#080808]/40 to-transparent blur-3xl pointer-events-none" />
-                        <div className="absolute inset-y-0 -right-40 w-40 z-20 bg-gradient-to-l from-transparent via-[#080808]/40 to-transparent blur-3xl pointer-events-none" />
-                    </div>
-                </div>
-
-                {/* Layer 4: Global Atmospheric Gradients */}
-                <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#080808] via-[#080808]/30 to-transparent" />
-                <div className="absolute inset-y-0 left-0 w-1/4 z-20 bg-gradient-to-r from-[#080808]/80 to-transparent" />
-                <div className="absolute inset-y-0 right-0 w-1/4 z-20 bg-gradient-to-l from-[#080808]/80 to-transparent" />
-
-                {/* Layer 5: Hero Content Overlay - Positioned for optimal balance */}
-                <div className="relative z-30 w-full px-6 md:pl-24 md:pr-20 pb-16 md:pb-32 h-full flex flex-col justify-end">
-                    <div className="flex flex-col gap-6 max-w-sm md:max-w-xl">
-
-                        {/* Meta row with rating */}
-                        <div className="flex items-center gap-3">
-                            <div className="flex items-center gap-1.5 bg-yellow-400/10 border border-yellow-400/20 backdrop-blur-xl px-3.5 py-2 rounded text-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.1)]">
-                                <Star size={12} className="fill-yellow-400" />
-                                <span className="text-sm font-black tracking-widest">{movie.rating}</span>
-                                <span className="text-[10px] opacity-40 font-bold uppercase ml-1">IMDb</span>
-                            </div>
-                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">{movie.year}</span>
-                            <span className="w-1 h-1 rounded-full bg-white/10" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">{movie.runtime}</span>
-                        </div>
-
-                        <h2 className="text-[clamp(2rem,5vw,4.5rem)] font-black tracking-[-0.04em] leading-[0.9] text-white uppercase drop-shadow-[0_10px_40px_rgba(0,0,0,0.7)]">
-                            {movie.title}
-                        </h2>
-
-                        <div className="flex flex-wrap gap-2">
-                            {genreTags.map(g => (
-                                <span key={g} className="text-[9px] font-black uppercase tracking-[0.5em] text-white/30 border border-white/5 bg-white/[0.04] px-4 py-2 rounded-sm backdrop-blur-md">
-                                    {g}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+            {/* Ambient Backdrop Layer */}
+            <div className="fixed inset-0 z-0 pointer-events-none opacity-20 overflow-hidden">
+                <img
+                    src={poster}
+                    alt=""
+                    className="w-full h-full object-cover blur-[120px] scale-125 saturate-150"
+                />
             </div>
 
-            {/* ── 2. Detailed Plot & Cast Section ── */}
-            <div className="max-w-screen-2xl mx-auto px-6 md:px-20 py-24 bg-[#080808] relative z-40">
+            <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 py-10 md:py-20 lg:py-32">
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
-                    <div className="lg:col-span-12">
-                        <div className="flex items-center gap-5 mb-12">
-                            <div className="w-16 h-px bg-white/5" />
-                            <h3 className="text-[10px] font-black uppercase tracking-[0.7em] text-white/15 whitespace-nowrap">Cinematic Narrative</h3>
-                            <div className="flex-1 h-px bg-white/5" />
-                        </div>
+                <div className="flex flex-col lg:flex-row gap-10 lg:gap-20 items-start">
 
-                        <p className="text-white/50 text-xl md:text-3xl leading-[1.8] md:leading-[2] font-light tracking-wide max-w-6xl">
-                            {movie.plot}
-                        </p>
+                    {/* Left side: Vertical Poster */}
+                    <div className="w-full lg:w-[450px] shrink-0 relative group">
+                        <div className="relative aspect-[2/3] w-full overflow-hidden rounded-md shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black/40">
+                            <img
+                                src={poster}
+                                alt={movie.title}
+                                className="w-full h-full object-cover"
+                            />
+                            {/* Overlay Details (Netflix style "Resume") */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
+                                <p className="text-red-600 font-bold uppercase tracking-wider text-xs mb-2">Resume</p>
+                                <p className="text-white text-lg font-bold mb-4">{movie.title}</p>
+                                <div className="h-1 w-full bg-white/20 rounded-full overflow-hidden">
+                                    <div className="h-full w-[40%] bg-red-600" />
+                                </div>
+                            </div>
 
-                        {!hasFullCast && movie.cast && (
-                            <p className="mt-12 text-white/20 text-base italic border-l-2 border-white/5 pl-8 max-w-4xl">{movie.cast}</p>
-                        )}
-                    </div>
-                </div>
-
-                {/* ── Ensemble Marquee ── */}
-                {hasFullCast && (
-                    <div className="mt-40 relative group">
-                        <div className="flex items-center gap-5 mb-16">
-                            <h3 className="text-[10px] font-black uppercase tracking-[0.6em] text-white/15">The Global Ensemble</h3>
-                            <div className="flex-1 h-px bg-white/[0.03]" />
-                        </div>
-
-                        <div className="relative -mx-6 md:-mx-20 overflow-hidden">
-                            <div className="absolute inset-y-0 left-0 w-32 md:w-72 z-10 pointer-events-none bg-gradient-to-r from-[#080808] via-[#080808]/80 to-transparent" />
-                            <div className="absolute inset-y-0 right-0 w-32 md:w-72 z-10 pointer-events-none bg-gradient-to-l from-[#080808] via-[#080808]/80 to-transparent" />
-
-                            <div className="animate-marquee flex items-center gap-8 md:gap-14 whitespace-nowrap py-10">
-                                {marqueeCast.map((member, i) => (
-                                    <div key={i} className="flex items-center gap-6 shrink-0 group/member cursor-pointer">
-                                        <div className="w-20 h-20 md:w-24 md:h-24 overflow-hidden bg-white/[0.02] shrink-0 rounded-full ring-1 ring-white/5 p-1 transition-all duration-500 group-hover/member:ring-white/20 group-hover/member:scale-105">
-                                            <div className="w-full h-full rounded-full overflow-hidden">
-                                                {member.image
-                                                    ? <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale opacity-50 group-hover/member:grayscale-0 group-hover/member:opacity-100 transition-all duration-700" />
-                                                    : <div className="w-full h-full flex items-center justify-center text-sm font-black text-white/10 uppercase bg-white/[0.03]">{member.name[0]}</div>
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <p className="text-xs md:text-sm font-black text-white/40 group-hover/member:text-white transition-all duration-300 uppercase tracking-[0.15em]">{member.name}</p>
-                                            <p className="text-[10px] text-white/15 uppercase tracking-[0.3em] mt-1.5 group-hover/member:text-white/40 transition-all">{member.role || 'Performer'}</p>
-                                        </div>
-                                    </div>
-                                ))}
+                            {/* Play Button Overlay */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-red-600/90 rounded-full flex items-center justify-center shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100 pointer-events-none">
+                                <Play size={32} className="fill-white text-white ml-2" />
                             </div>
                         </div>
                     </div>
-                )}
+
+                    {/* Right side: Netflix Detail Layout */}
+                    <div className="flex-1 pt-4 lg:pt-0">
+
+                        {/* Title & Branding */}
+                        <div className="mb-8">
+                            <div className="flex items-center gap-2 mb-4">
+                                <span className="text-red-600 font-black text-xs tracking-[0.2em] uppercase">Netflix Original</span>
+                            </div>
+                            <div className="flex flex-wrap items-center justify-between gap-6">
+                                <h1 className="text-5xl md:text-7xl font-bold tracking-tight max-w-2xl leading-[1.05]">
+                                    {movie.title}
+                                </h1>
+                                <div className="flex items-center gap-2 text-2xl font-bold">
+                                    <span>{movie.rating}</span>
+                                    <Star size={24} className="fill-yellow-400 text-yellow-400" />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Metadata line */}
+                        <div className="flex items-center gap-4 text-sm font-medium text-gray-400 mb-10">
+                            <span className="text-white">{movie.year}</span>
+                            <span className="w-px h-3 bg-gray-700" />
+                            <span>{movie.runtime}</span>
+                            <span className="w-px h-3 bg-gray-700" />
+                            <span className="border border-gray-600 px-1.5 py-0.5 text-[10px] rounded shrink-0">16+</span>
+                        </div>
+
+                        {/* Tabs Navigation (Simulated Netflix Tabs) */}
+                        <div className="flex items-center gap-10 border-b border-white/10 mb-10">
+                            <button className="relative pb-4 text-xs font-black uppercase tracking-widest text-white border-b-2 border-red-600">
+                                Overview
+                            </button>
+                            <button className="pb-4 text-xs font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">
+                                Episodes
+                            </button>
+                            <button className="pb-4 text-xs font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">
+                                Trailers & More
+                            </button>
+                            <button className="pb-4 text-xs font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">
+                                More Like This
+                            </button>
+                        </div>
+
+                        {/* Overview Content */}
+                        <div className="max-w-3xl mb-12">
+                            <p className="text-lg md:text-xl leading-relaxed text-gray-200 font-medium">
+                                {movie.plot}
+                            </p>
+                        </div>
+
+                        {/* Technical Details Sidebar-style List */}
+                        <div className="flex flex-col gap-4 text-sm md:text-base border-t border-white/5 pt-8">
+                            <div className="flex gap-4">
+                                <span className="text-gray-500 min-w-[100px] shrink-0">Starring</span>
+                                <span className="text-gray-300 font-medium">{stars}</span>
+                            </div>
+                            <div className="flex gap-4">
+                                <span className="text-gray-500 min-w-[100px] shrink-0">Genre</span>
+                                <span className="text-gray-300 font-medium">{movie.genre}</span>
+                            </div>
+                            <div className="flex gap-4">
+                                <span className="text-gray-500 min-w-[100px] shrink-0">Director</span>
+                                <span className="text-gray-300 font-medium">The Duffer Brothers (Placeholder)</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                {/* Bottom Row: Episode-style cards (Placeholder visuals) */}
+                <div className="mt-32">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="group cursor-pointer">
+                                <div className="relative aspect-video rounded-sm overflow-hidden mb-4 bg-white/5">
+                                    <img
+                                        src={poster}
+                                        alt=""
+                                        className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                    <div className="absolute inset-x-0 bottom-0 h-1 bg-red-600/60 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+                                </div>
+                                <p className="text-xs text-gray-400 font-bold mb-1 uppercase tracking-tighter">S1:E{i}</p>
+                                <p className="text-sm font-bold text-white group-hover:text-red-500 transition-colors">Neural Sentiment Analysis Part {i}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
             </div>
         </article>
     );
