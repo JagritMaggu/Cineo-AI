@@ -1,6 +1,7 @@
 {
   "name": "cineo-ai",
   "version": "0.1.0",
+  "description": "Understand movie audiences through AI.",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,9 +10,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "cheerio": "^1.2.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.35.0",
+    "lucide-react": "^0.577.0",
     "next": "16.1.6",
+    "next-themes": "^0.4.6",
+    "openai": "^6.25.0",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

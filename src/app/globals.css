@@ -1,26 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #080808;
+  --foreground: #f0f0f0;
+  --surface: #0f0f0f;
+  --border: #1e1e1e;
+  --muted: #555;
+  --blue: #3b82f6;
+  --blue-glow: rgba(59, 130, 246, 0.35);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: 'Inter', sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── Fade-up ─── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ─── Fade-in ─── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+/* ─── Slide up (mobile modal) ─── */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ─── Marquee (4× duplication → -25%) ─── */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-25%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  flex-direction: row;
+  animation: marquee 90s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused !important;
+}
+
+/* ─── Shimmer ─── */
+@keyframes shimmer {
+
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.65;
+  }
+}
+
+.shimmer {
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+/* ─── Pulse dot ─── */
+@keyframes pulseDot {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+}
+
+.pulse-dot {
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+/* ─── Ken Burns zoom  ─── */
+@keyframes kenBurns {
+  from {
+    transform: scale(1.08);
+  }
+
+  to {
+    transform: scale(1.18);
+  }
+}
+
+.animate-ken-burns {
+  animation: kenBurns 12s ease-in-out alternate infinite;
+}
+
+/* ─── Scrollbar ─── */
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
 }
