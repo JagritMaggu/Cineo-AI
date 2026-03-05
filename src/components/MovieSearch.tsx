@@ -8,10 +8,35 @@ import SentimentSkeleton from '@/components/SentimentSkeleton';
 import ErrorState from '@/components/ErrorState';
 import { Search, X, Loader2, Sparkles } from 'lucide-react';
 
+const MOVIE_FACTS = [
+    "The Godfather (1972) • A sprawling epic of crime and family loyalty that redefined cinema.",
+    "Citizen Kane (1941) • A visual masterpiece that pioneered modern cinematography techniques.",
+    "2001: A Space Odyssey (1968) • Stanley Kubrick's definitive vision of human evolution.",
+    "Pulp Fiction (1994) • Non-linear storytelling that revitalized independent filmmaking.",
+    "Schindler's List (1993) • A profound, heart-wrenching exploration of the human spirit.",
+    "Spirited Away (2001) • A breathtaking work of animation that captured global hearts.",
+    "Blade Runner (1982) • The atmospheric blueprint for modern cyberpunk aesthetics.",
+    "Seven Samurai (1954) • Akira Kurosawa's masterclass in action and honor.",
+    "Eternal Sunshine (2004) • A surreal, emotional dive into the mechanics of memory.",
+    "The Matrix (1999) • A revolutionary fusion of philosophy and action cinema."
+];
+
 /* ─────────────────────────────────────────────
    Landing — shown before any search is run
 ───────────────────────────────────────────── */
-function Landing({ onMobileSearch }: { onMobileSearch: () => void }) {
+function Landing({
+    inputVal,
+    setInputVal,
+    onSubmit,
+    isLoading,
+    onMobileSearch
+}: {
+    inputVal: string;
+    setInputVal: (v: string) => void;
+    onSubmit: (e: React.FormEvent) => void;
+    isLoading: boolean;
+    onMobileSearch: () => void;
+}) {
     return (
         <div className="relative flex flex-col min-h-svh md:min-h-[calc(100vh-60px)]">
 
@@ -33,22 +58,40 @@ function Landing({ onMobileSearch }: { onMobileSearch: () => void }) {
                     <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">AI-Powered Cinema Analysis</span>
                 </div>
 
-                <h1 className="text-[clamp(3.5rem,10vw,7rem)] font-black tracking-[-0.04em] leading-[0.88] mb-7">
-                    <span className="text-white">Understand</span><br />
-                    <span className="text-white/20">movie audiences.</span>
+                <h1 className="text-[clamp(3rem,11vw,8rem)] font-black tracking-[-0.05em] leading-[0.82] mb-10 uppercase">
+                    <span className="text-white">Neural</span><br />
+                    <span className="text-white/20">Cinema Insight.</span>
                 </h1>
 
-                <p className="text-white/35 text-sm md:text-base leading-relaxed max-w-md font-light mb-10 mx-auto">
-                    Enter any IMDb ID to surface sentiment, cast intelligence, and critic breakdowns — powered by Gemini AI.
+                <p className="text-white/35 text-xs md:text-sm leading-relaxed max-w-xl font-light mb-14 mx-auto tracking-[0.1em] uppercase">
+                    Synthesizing audience sentiment through large-scale review analysis. Surfaces intelligent metadata from thousands of data points.
                 </p>
 
-                {/* Desktop: inline quick-hint */}
-                <div className="hidden md:flex items-center gap-3">
-                    <div className="flex items-center justify-center gap-2 text-[10px] text-white/25 border border-white/8 px-3.5 py-2 rounded-md font-mono">
-                        <Search size={11} className="text-white/60" />
-                        <span>Search above ↑</span>
+                {/* Desktop Search Bar below content */}
+                <form onSubmit={onSubmit} className="hidden md:flex items-center w-full max-w-md mx-auto border border-white/8 bg-white/[0.03] rounded-md overflow-hidden hover:border-white/18 focus-within:border-white/30 transition-all duration-300">
+                    <div className="flex items-center pl-4 text-white/20 shrink-0">
+                        <Search size={14} />
                     </div>
-                    <span className="text-[10px] text-white/15">or press Enter with an IMDb ID like <strong className="text-white/30">tt0468569</strong></span>
+                    <input
+                        type="text"
+                        value={inputVal}
+                        onChange={e => setInputVal(e.target.value)}
+                        placeholder="ENTER IMDB ID (e.g. tt0468569)"
+                        disabled={isLoading}
+                        className="flex-1 px-4 py-4 text-[10px] bg-transparent focus:outline-none placeholder:text-white/15 text-white disabled:opacity-40 tracking-[0.2em] font-medium"
+                    />
+                    <button
+                        type="submit"
+                        disabled={isLoading || !inputVal.trim()}
+                        className="px-6 py-2 m-2 text-[10px] font-black bg-white text-black hover:bg-white/90 transition-all disabled:bg-white/5 disabled:text-white/18 rounded-sm uppercase tracking-widest shrink-0"
+                    >
+                        Analyze
+                    </button>
+                </form>
+
+                {/* Hints */}
+                <div className="hidden md:block mt-8 text-[9px] text-white/15 tracking-[0.3em] uppercase">
+                    Powered by Gemini 2.0 Flash • IMDb Large Dataset Repository
                 </div>
 
                 {/* Mobile: tap hint pointing to FAB */}
@@ -83,6 +126,12 @@ export default function MovieSearch() {
     const [sentiment, setSentiment] = useState<SentimentResult | null>(null);
     const [inputVal, setInputVal] = useState('');
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [currentFactIdx, setCurrentFactIdx] = useState(0);
+
+    // Rotate facts during loading
+    const rotateFact = useCallback(() => {
+        setCurrentFactIdx(prev => (prev + 1) % MOVIE_FACTS.length);
+    }, []);
 
     const handleSearch = useCallback(async (imdbId: string) => {
         const id = imdbId.trim();
@@ -94,10 +143,15 @@ export default function MovieSearch() {
 
         try {
             setLoadingStep('movie');
+            const factInterval = setInterval(rotateFact, 3500);
+
             const movieRes = await fetch(`/api/movie?imdbId=${id}`);
-            if (!movieRes.ok) throw new Error(
-                movieRes.status === 404 ? 'Movie not found. Check the IMDb ID.' : 'Failed to fetch movie data.'
-            );
+            if (!movieRes.ok) {
+                clearInterval(factInterval);
+                throw new Error(
+                    movieRes.status === 404 ? 'Movie not found. Check the IMDb ID.' : 'Failed to fetch movie data.'
+                );
+            }
             const data: MovieApiResponse = await movieRes.json();
             setMovieData(data.movie);
 
@@ -108,6 +162,8 @@ export default function MovieSearch() {
                 body: JSON.stringify({ reviews: data.reviews, title: data.movie.title, imdbId: id }),
             });
             if (sentimentRes.ok) setSentiment(await sentimentRes.json());
+
+            clearInterval(factInterval);
         } catch (err: unknown) {
             setError(err instanceof Error ? err.message : 'An unexpected error occurred.');
         } finally {
@@ -139,30 +195,32 @@ export default function MovieSearch() {
                     <span className="text-xs font-black uppercase tracking-[0.25em] text-white">Cineo AI</span>
                 </div>
 
-                {/* Search */}
-                <form onSubmit={onDesktopSubmit} className="flex-1 max-w-md flex items-center border border-white/8 bg-white/[0.03] rounded-md overflow-hidden hover:border-white/15 focus-within:border-white/30 transition-all duration-200">
-                    <div className="flex items-center pl-3.5 text-white/20 shrink-0">
-                        {isLoading
-                            ? <Loader2 size={13} className="animate-spin text-white/60" />
-                            : <Search size={13} />
-                        }
-                    </div>
-                    <input
-                        type="text"
-                        value={inputVal}
-                        onChange={e => setInputVal(e.target.value)}
-                        placeholder="IMDb ID — e.g. tt0468569"
-                        disabled={isLoading}
-                        className="flex-1 px-3 py-2.5 text-xs bg-transparent focus:outline-none placeholder:text-white/18 text-white disabled:opacity-40 tracking-wide"
-                    />
-                    <button
-                        type="submit"
-                        disabled={isLoading || !inputVal.trim()}
-                        className="px-3 py-1 m-1 text-[9px] font-black bg-white text-black hover:bg-white/80 transition-colors disabled:bg-white/5 disabled:text-white/20 rounded-sm uppercase tracking-widest shrink-0"
-                    >
-                        {isLoading ? '…' : 'Run'}
-                    </button>
-                </form>
+                {/* Header Search — only visible after result */}
+                {hasResult && (
+                    <form onSubmit={onDesktopSubmit} className="flex-1 max-w-md flex items-center border border-white/8 bg-white/[0.03] rounded-md overflow-hidden hover:border-white/15 focus-within:border-white/30 transition-all duration-200 animate-fade-in">
+                        <div className="flex items-center pl-3.5 text-white/20 shrink-0">
+                            {isLoading
+                                ? <Loader2 size={13} className="animate-spin text-white/60" />
+                                : <Search size={13} />
+                            }
+                        </div>
+                        <input
+                            type="text"
+                            value={inputVal}
+                            onChange={e => setInputVal(e.target.value)}
+                            placeholder="IMDb ID — e.g. tt0468569"
+                            disabled={isLoading}
+                            className="flex-1 px-3 py-2.5 text-xs bg-transparent focus:outline-none placeholder:text-white/18 text-white disabled:opacity-40 tracking-wide"
+                        />
+                        <button
+                            type="submit"
+                            disabled={isLoading || !inputVal.trim()}
+                            className="px-3 py-1 m-1 text-[9px] font-black bg-white text-black hover:bg-white/80 transition-colors disabled:bg-white/5 disabled:text-white/20 rounded-sm uppercase tracking-widest shrink-0"
+                        >
+                            {isLoading ? '…' : 'Run'}
+                        </button>
+                    </form>
+                )}
 
                 <p className="hidden xl:block text-[9px] text-white/20 uppercase tracking-[0.3em] ml-auto">Audience Intelligence</p>
             </header>
@@ -172,18 +230,29 @@ export default function MovieSearch() {
 
                 {/* Landing */}
                 {!hasResult && !isLoading && (
-                    <Landing onMobileSearch={() => setMobileOpen(true)} />
+                    <Landing
+                        inputVal={inputVal}
+                        setInputVal={setInputVal}
+                        onSubmit={onDesktopSubmit}
+                        isLoading={isLoading}
+                        onMobileSearch={() => setMobileOpen(true)}
+                    />
                 )}
 
                 {/* Movie loading spinner */}
-                {loadingStep === 'movie' && (
-                    <div className="flex-1 flex items-center justify-center min-h-[60vh]">
-                        <div className="text-center animate-fade-up">
-                            <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center mx-auto mb-4"
-                                style={{ boxShadow: '0 0 24px rgba(255,255,255,0.05)' }}>
-                                <Loader2 size={20} className="animate-spin text-white/60" />
+                {isLoading && (
+                    <div className="flex-1 flex flex-col items-center justify-center min-h-[70vh] px-8">
+                        <div className="text-center animate-fade-up max-w-lg">
+                            <div className="w-16 h-16 rounded-full border border-white/5 flex items-center justify-center mx-auto mb-8 relative">
+                                <div className="absolute inset-0 rounded-full border-t border-white/40 animate-spin-fast" />
+                                <Sparkles size={20} className="text-white/40" />
                             </div>
-                            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/25">Fetching movie data</p>
+                            <div className="space-y-4">
+                                <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/30 animate-pulse">Running Neural Analysis</p>
+                                <p className="text-[11px] font-light text-white/40 leading-relaxed italic animate-fade-in" key={currentFactIdx}>
+                                    {MOVIE_FACTS[currentFactIdx]}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 )}

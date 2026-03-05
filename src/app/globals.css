@@ -114,6 +114,20 @@ body {
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
+@keyframes spin-fast {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-fast {
+  animation: spin-fast 0.5s linear infinite;
+}
+
 /* ─── Pulse dot ─── */
 @keyframes pulseDot {
 
