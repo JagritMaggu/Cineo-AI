@@ -90,7 +90,7 @@ body {
   display: flex;
   width: max-content;
   flex-direction: row;
-  animation: marquee 90s linear infinite;
+  animation: marquee 180s linear infinite;
 }
 
 .animate-marquee:hover {

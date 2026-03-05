@@ -96,7 +96,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
 
             {/* ── 3. The Infinite Global Ensemble (Marquee Section at Bottom) ── */}
             {hasFullCast && (
-                <div className="relative z-20 w-full bg-gradient-to-t from-black via-black/40 to-transparent pt-10 pb-10">
+                <div className="relative z-20 w-full pt-10 pb-10">
                     <div className="max-w-screen-2xl mx-auto px-6 md:px-20">
                         <div className="flex items-center gap-5 mb-6">
                             <h3 className="text-[9px] font-black uppercase tracking-[0.6em] text-white/15 whitespace-nowrap">The Global Ensemble</h3>
@@ -105,8 +105,8 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
 
                         <div className="relative -mx-6 md:-mx-20 overflow-hidden group">
                             {/* Edge Blurs for smooth blending */}
-                            <div className="absolute inset-y-0 left-0 w-32 z-10 pointer-events-none bg-gradient-to-r from-black to-transparent" />
-                            <div className="absolute inset-y-0 right-0 w-32 z-10 pointer-events-none bg-gradient-to-l from-black to-transparent" />
+                            <div className="absolute inset-y-0 left-0 w-40 z-10 pointer-events-none bg-gradient-to-r from-[#080808] to-transparent" />
+                            <div className="absolute inset-y-0 right-0 w-40 z-10 pointer-events-none bg-gradient-to-l from-[#080808] to-transparent" />
 
                             <div className="animate-marquee flex items-center gap-10 md:gap-20 whitespace-nowrap py-4">
                                 {marqueeCast.map((member, i) => (
