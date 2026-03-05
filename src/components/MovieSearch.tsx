@@ -145,36 +145,39 @@ export default function MovieSearch() {
             setLoadingStep('movie');
             const factInterval = setInterval(rotateFact, 3500);
 
-            const movieRes = await fetch(`/api/movie?imdbId=${id}`);
+            // Fetch Core Movie Data and Cast Data simultaneously
+            const [movieRes, castRes] = await Promise.all([
+                fetch(`/api/movie?imdbId=${id}`),
+                fetch(`/api/cast?imdbId=${id}`)
+            ]);
+
             if (!movieRes.ok) {
                 clearInterval(factInterval);
                 throw new Error(
                     movieRes.status === 404 ? 'Movie not found. Check the IMDb ID.' : 'Failed to fetch movie data.'
                 );
             }
-            const data: MovieApiResponse = await movieRes.json();
-            setMovieData(data.movie);
+
+            const movieJson: MovieApiResponse = await movieRes.json();
+            const castJson = castRes.ok ? await castRes.json() : { fullCast: [] };
+
+            const completeMovieData: Movie = {
+                ...movieJson.movie,
+                fullCast: castJson.fullCast || []
+            };
+
+            setMovieData(completeMovieData);
 
             // Hide main spinner, show AI skeleton locally
             setLoadingStep('sentiment');
 
             // --- FIRE BACKGROUND TASKS (DO NOT AWAIT) ---
 
-            // 1. Fetch Cast securely in the background
-            fetch(`/api/cast?imdbId=${id}`)
-                .then(res => res.json())
-                .then(resData => {
-                    if (resData.fullCast) {
-                        setMovieData(prev => prev ? { ...prev, fullCast: resData.fullCast } : prev);
-                    }
-                })
-                .catch(err => console.error("Failed to fetch full cast", err));
-
             // 2. Fetch Sentiment securely in the background
             fetch('/api/sentiment', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title: data.movie.title, imdbId: id }),
+                body: JSON.stringify({ title: completeMovieData.title, imdbId: id }),
             })
                 .then(res => res.json())
                 .then(sentimentData => {
