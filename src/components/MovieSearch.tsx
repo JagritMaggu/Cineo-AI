@@ -27,8 +27,8 @@ function Landing({ onMobileSearch }: { onMobileSearch: () => void }) {
             </div>
 
             {/* Headline */}
-            <div className="relative flex-1 flex flex-col justify-center px-8 md:px-12 max-w-3xl">
-                <div className="flex items-center gap-2.5 mb-7">
+            <div className="relative flex-1 flex flex-col justify-center items-center text-center px-8 md:px-12 max-w-2xl mx-auto">
+                <div className="flex items-center justify-center gap-2.5 mb-7">
                     <span className="pulse-dot w-1.5 h-1.5 rounded-full bg-white shrink-0" />
                     <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">AI-Powered Cinema Analysis</span>
                 </div>
@@ -38,13 +38,13 @@ function Landing({ onMobileSearch }: { onMobileSearch: () => void }) {
                     <span className="text-white/20">movie audiences.</span>
                 </h1>
 
-                <p className="text-white/35 text-sm md:text-base leading-relaxed max-w-sm font-light mb-10">
+                <p className="text-white/35 text-sm md:text-base leading-relaxed max-w-md font-light mb-10 mx-auto">
                     Enter any IMDb ID to surface sentiment, cast intelligence, and critic breakdowns — powered by Gemini AI.
                 </p>
 
                 {/* Desktop: inline quick-hint */}
                 <div className="hidden md:flex items-center gap-3">
-                    <div className="flex items-center gap-2 text-[10px] text-white/25 border border-white/8 px-3.5 py-2 rounded-md font-mono">
+                    <div className="flex items-center justify-center gap-2 text-[10px] text-white/25 border border-white/8 px-3.5 py-2 rounded-md font-mono">
                         <Search size={11} className="text-white/60" />
                         <span>Search above ↑</span>
                     </div>
@@ -52,7 +52,7 @@ function Landing({ onMobileSearch }: { onMobileSearch: () => void }) {
                 </div>
 
                 {/* Mobile: tap hint pointing to FAB */}
-                <div className="flex md:hidden items-center gap-2 text-white/25">
+                <div className="flex md:hidden items-center justify-center gap-2 text-white/25">
                     <span className="text-xs font-light">Tap</span>
                     <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center">
                         <Search size={12} className="text-white/60" />
