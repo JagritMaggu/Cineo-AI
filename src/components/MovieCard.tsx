@@ -81,8 +81,8 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                     </div>
 
                     {/* Right side: The Floating Portrait Piece */}
-                    <div className="w-full lg:w-auto h-auto max-h-[65vh] flex justify-center order-1 lg:order-2">
-                        <div className="relative h-[65vh] aspect-[2/3] rounded-sm overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.9)] border border-white/5 bg-black/40">
+                    <div className="w-full lg:w-auto h-auto max-h-[75vh] flex justify-center order-1 lg:order-2 lg:-translate-y-6">
+                        <div className="relative h-[75vh] aspect-[2/3] rounded-sm overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.9)] border border-white/5 bg-black/40">
                             <img
                                 src={poster}
                                 alt={movie.title}
