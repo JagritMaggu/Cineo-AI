@@ -29,7 +29,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
         <article className="animate-fade-up w-full bg-[#080808]">
 
             {/* ── 1. Immersive Full-Screen Hero (Inspired by Chernobyl UI) ── */}
-            <div className="relative w-full h-[85vh] md:h-[90vh] overflow-hidden">
+            <div className="relative w-full h-[85vh] md:h-[90vh] overflow-hidden mt-8 md:mt-12">
 
                 {/* Layer 1: Blurred Ambient Backdrop (Fills the sides flawlessly) */}
                 <div className="absolute inset-0 z-0">
@@ -60,7 +60,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
 
                 {/* Layer 4: Hero Content Overlay (Title & Meta positioned like Screenshot 1) */}
                 <div className="absolute bottom-0 left-0 right-0 z-30 px-6 md:px-20 pb-16 md:pb-24 max-w-screen-2xl mx-auto">
-                    <div className="flex flex-col gap-6 scale-95 origin-bottom-left transition-all hover:scale-100 duration-500">
+                    <div className="flex flex-col gap-6">
 
                         {/* Rating row chips */}
                         <div className="flex items-center gap-3">
