@@ -33,7 +33,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
     }, [hasFullCast, movie.fullCast, movie.cast]);
 
     return (
-        <article className="w-full bg-[#080808] min-h-screen text-white relative overflow-hidden">
+        <article className="w-full bg-[#080808] h-[100svh] text-white relative overflow-hidden flex flex-col justify-center">
 
             {/* ── 1. The Cinematic Backdrop (Ambient Cineo Glow) ── */}
             <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.15] overflow-hidden">
@@ -45,13 +45,13 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
             </div>
 
             {/* ── 2. The Multi-Column Profile ── */}
-            <div className="relative z-10 w-full max-w-screen-2xl mx-auto px-6 md:px-20 py-20 lg:py-40">
+            <div className="relative z-10 w-full max-w-screen-2xl mx-auto px-6 md:px-20 py-10">
 
                 <div className="flex flex-col lg:flex-row gap-16 lg:gap-32 items-center lg:items-start text-center lg:text-left">
 
                     {/* Left: The Uncropped Portrait Masterpiece */}
-                    <div className="w-full max-w-[550px] lg:max-w-none lg:w-[700px] shrink-0">
-                        <div className="relative aspect-[2/3] w-full rounded-sm overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.8)] border border-white/5 bg-black/40">
+                    <div className="w-full lg:w-auto h-auto max-h-[85vh] flex justify-center">
+                        <div className="relative h-[85vh] aspect-[2/3] rounded-sm overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.8)] border border-white/5 bg-black/40">
                             <img
                                 src={poster}
                                 alt={movie.title}
@@ -76,30 +76,30 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                         </div>
 
                         {/* Epic Title */}
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] text-white uppercase mb-12 max-w-4xl">
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[0.95] text-white uppercase mb-8 max-w-xl">
                             {movie.title}
                         </h1>
 
-                        <div className="w-20 h-1 bg-white/5 mb-14 hidden lg:block" />
+                        <div className="w-16 h-1 bg-white/5 mb-10 hidden lg:block" />
 
                         {/* Plot Core */}
-                        <div className="mb-16">
-                            <p className="text-lg md:text-2xl leading-[1.8] text-white/50 font-light tracking-wide max-w-3xl">
+                        <div className="mb-10">
+                            <p className="text-base md:text-xl leading-[1.7] text-white/50 font-light tracking-wide max-w-2xl">
                                 {movie.plot}
                             </p>
                         </div>
 
                         {/* Technical Narrative Lists (Cast, Genre) */}
-                        <div className="flex flex-col gap-8 border-t border-white/5 pt-12">
-                            <div className="flex flex-col md:flex-row gap-2 md:gap-10">
-                                <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/10 min-w-[140px] pt-1">Starring</span>
-                                <span className="text-sm md:text-base text-white/40 leading-relaxed font-medium">{starsDisplay}</span>
+                        <div className="flex flex-col gap-6 border-t border-white/5 pt-10">
+                            <div className="flex flex-col md:flex-row gap-2 md:gap-8">
+                                <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/10 min-w-[120px] pt-1">Starring</span>
+                                <span className="text-xs md:text-sm text-white/40 leading-relaxed font-medium">{starsDisplay}</span>
                             </div>
-                            <div className="flex flex-col md:flex-row gap-2 md:gap-10">
-                                <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/10 min-w-[140px] pt-1">Visual Theme</span>
+                            <div className="flex flex-col md:flex-row gap-2 md:gap-8">
+                                <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/10 min-w-[120px] pt-1">Visual Theme</span>
                                 <div className="flex flex-wrap gap-2">
                                     {genreTags.map(g => (
-                                        <span key={g} className="text-[9px] font-black uppercase tracking-[0.4em] text-white/30 border border-white/5 bg-white/[0.03] px-3 py-1.5 rounded-sm">
+                                        <span key={g} className="text-[9px] font-black uppercase tracking-[0.4em] text-white/30 border border-white/5 bg-white/[0.03] px-3 py-1 rounded-sm">
                                             {g}
                                         </span>
                                     ))}
