@@ -129,10 +129,10 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                         style={{ background: 'radial-gradient(circle at 15% 50%, rgba(255,255,255,0.08) 0%, transparent 70%)' }} />
 
                     {/* Content row */}
-                    <div className="relative z-20 flex items-center justify-between gap-24 px-10 xl:px-24 h-full min-h-[calc(100vh-60px)]">
+                    <div className="relative z-20 flex items-stretch h-full min-h-[calc(100vh-60px)]">
 
                         {/* ── Info Panel ── */}
-                        <div className="flex-1 py-20">
+                        <div className="w-full md:w-[55%] flex flex-col justify-center px-10 xl:px-20 py-20">
 
                             {/* Rating + meta row */}
                             <div className="flex items-center gap-4 mb-6">
@@ -148,7 +148,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                             </div>
 
                             {/* Title */}
-                            <h2 className="text-[clamp(4.5rem,14vw,11rem)] font-black tracking-[-0.05em] leading-[0.78] text-white uppercase mb-10 drop-shadow-2xl">
+                            <h2 className="text-[clamp(3.5rem,8vw,8rem)] font-black tracking-[-0.05em] leading-[0.85] text-white uppercase mb-10 drop-shadow-2xl">
                                 {movie.title}
                             </h2>
 
@@ -173,17 +173,16 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                         </div>
 
                         {/* ── Prominent Poster on the Right ── */}
-                        <div className="shrink-0 hidden lg:flex items-center justify-center py-20">
-                            <div className="relative animate-fade-in" style={{ height: '75vh', aspectRatio: '2/3' }}>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
-                                    src={poster}
-                                    alt={movie.title}
-                                    className="w-full h-full object-cover rounded-md border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.9)]"
-                                />
-                                {/* Subtle white ambient glow behind poster */}
-                                <div className="absolute -inset-10 opacity-10 blur-3xl rounded-full bg-white z-[-1]" />
-                            </div>
+                        <div className="hidden md:flex w-[45%] items-center justify-center bg-white/[0.02] border-l border-white/5 relative group overflow-hidden">
+                            {/* Full-bleed dominant poster in the right column */}
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src={poster}
+                                alt={movie.title}
+                                className="w-full h-full object-cover grayscale-[0.1] hover:grayscale-0 transition-all duration-700 animate-ken-burns"
+                            />
+                            {/* Subtle dark overlay to match the left side */}
+                            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#080808] to-transparent z-10" />
                         </div>
                     </div>
                 </div>
