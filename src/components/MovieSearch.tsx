@@ -187,43 +187,6 @@ export default function MovieSearch() {
     return (
         <div className="flex flex-col min-h-screen">
 
-            {/* ── Desktop Header ── */}
-            <header className="hidden md:flex items-center gap-6 px-7 h-[60px] shrink-0 border-b border-white/[0.05] bg-gradient-to-b from-black/80 to-transparent absolute top-0 left-0 right-0 z-40">
-                {/* Branding */}
-                <div className="flex items-center gap-2 shrink-0">
-                    <Sparkles size={13} className="text-white/60" />
-                    <span className="text-xs font-black uppercase tracking-[0.25em] text-white">Cineo AI</span>
-                </div>
-
-                {/* Header Search — only visible after result */}
-                {hasResult && (
-                    <form onSubmit={onDesktopSubmit} className="flex-1 max-w-md flex items-center border border-white/8 bg-white/[0.03] rounded-md overflow-hidden hover:border-white/15 focus-within:border-white/30 transition-all duration-200 animate-fade-in">
-                        <div className="flex items-center pl-3.5 text-white/20 shrink-0">
-                            {isLoading
-                                ? <Loader2 size={13} className="animate-spin text-white/60" />
-                                : <Search size={13} />
-                            }
-                        </div>
-                        <input
-                            type="text"
-                            value={inputVal}
-                            onChange={e => setInputVal(e.target.value)}
-                            placeholder="IMDb ID — e.g. tt0468569"
-                            disabled={isLoading}
-                            className="flex-1 px-3 py-2.5 text-xs bg-transparent focus:outline-none placeholder:text-white/18 text-white disabled:opacity-40 tracking-wide"
-                        />
-                        <button
-                            type="submit"
-                            disabled={isLoading || !inputVal.trim()}
-                            className="px-3 py-1 m-1 text-[9px] font-black bg-white text-black hover:bg-white/80 transition-colors disabled:bg-white/5 disabled:text-white/20 rounded-sm uppercase tracking-widest shrink-0"
-                        >
-                            {isLoading ? '…' : 'Run'}
-                        </button>
-                    </form>
-                )}
-
-                <p className="hidden xl:block text-[9px] text-white/20 uppercase tracking-[0.3em] ml-auto">Audience Intelligence</p>
-            </header>
 
             {/* ── Scrollable Content ── */}
             <div className="flex-1 flex flex-col">

@@ -23,7 +23,16 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
     }, [movie.fullCast]);
 
     const hasFullCast = !!movie.fullCast?.length;
-    const poster = (movie.poster && movie.poster !== 'N/A') ? movie.poster : '/placeholder-poster.png';
+
+    // High-resolution poster extraction (stripping OMDb SX300/SX400 suffixes)
+    const poster = useMemo(() => {
+        if (!movie.poster || movie.poster === 'N/A') return '/placeholder-poster.png';
+        // If it's an IMDb/OMDb URL, strip the scaling suffix to get the master file
+        if (movie.poster.includes('._V1_')) {
+            return movie.poster.split('._V1_')[0] + '._V1_.jpg';
+        }
+        return movie.poster;
+    }, [movie.poster]);
 
     return (
         <article className="animate-fade-up w-full bg-[#080808]">
