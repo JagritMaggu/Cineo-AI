@@ -7,8 +7,8 @@
   --surface: #0f0f0f;
   --border: #1e1e1e;
   --muted: #555;
-  --blue: #3b82f6;
-  --blue-glow: rgba(59, 130, 246, 0.35);
+  --accent: #ffffff;
+  --accent-muted: rgba(255, 255, 255, 0.4);
 }
 
 @theme inline {

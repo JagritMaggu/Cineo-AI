@@ -61,7 +61,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                         {/* Genres */}
                         <div className="flex flex-wrap gap-1.5 mb-3">
                             {genreTags.slice(0, 3).map(g => (
-                                <span key={g} className="text-[9px] font-black uppercase tracking-wider text-blue-300 border border-blue-500/35 bg-blue-500/15 px-2 py-0.5 rounded-sm">
+                                <span key={g} className="text-[9px] font-black uppercase tracking-wider text-white/50 border border-white/10 bg-white/5 px-2 py-0.5 rounded-sm">
                                     {g}
                                 </span>
                             ))}
@@ -130,14 +130,14 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                         className="absolute inset-0 w-full h-full object-cover object-center scale-125 blur-3xl opacity-[0.12] animate-ken-burns"
                     />
                     {/* Directional gradients */}
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg, #080808 42%, rgba(8,8,8,0.75) 65%, rgba(8,8,8,0.1) 100%)' }} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent" />
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg, #080808 30%, rgba(8,8,8,0.7) 60%, rgba(8,8,8,0.1) 100%)' }} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent " />
 
                     {/* Content row */}
-                    <div className="relative flex items-center h-full" style={{ minHeight: 'calc(100vh - 60px)' }}>
+                    <div className="relative flex items-center justify-between gap-12 px-10 xl:px-20 h-full min-h-[calc(100vh-60px)]">
 
                         {/* ── Info Panel ── */}
-                        <div className="flex-1 px-10 xl:px-16 py-14 max-w-[52%]">
+                        <div className="flex-1 py-14 max-w-2xl">
 
                             {/* Rating + meta row */}
                             <div className="flex items-center gap-4 mb-6">
@@ -160,7 +160,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                             {/* Genre pills — bright blue accents */}
                             <div className="flex flex-wrap gap-2 mb-7">
                                 {genreTags.map(g => (
-                                    <span key={g} className="text-[10px] font-black uppercase tracking-wider text-blue-300 border border-blue-500/30 bg-blue-500/10 px-3 py-1 rounded-sm">
+                                    <span key={g} className="text-[10px] font-black uppercase tracking-wider text-white/40 border border-white/10 bg-white/5 px-3 py-1 rounded-sm">
                                         {g}
                                     </span>
                                 ))}
@@ -178,18 +178,18 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                         </div>
 
                         {/* ── Poster ── */}
-                        <div className="shrink-0 flex items-center justify-center pr-10 xl:pr-16 py-10">
+                        <div className="shrink-0 hidden lg:flex items-center justify-center py-10">
                             <div className="relative" style={{ height: 'min(78vh, 560px)', aspectRatio: '2/3' }}>
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                     src={poster}
                                     alt={movie.title}
                                     className="w-full h-full object-cover rounded-xl"
-                                    style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.07), -24px 0 64px rgba(0,0,0,0.5)' }}
+                                    style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.07)' }}
                                 />
-                                {/* Blue glow hint on poster edge */}
+                                {/* Subtle white glow hint */}
                                 <div className="absolute -inset-px rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                                    style={{ boxShadow: '0 0 40px rgba(59,130,246,0.15)' }} />
+                                    style={{ boxShadow: '0 0 40px rgba(255,255,255,0.05)' }} />
                             </div>
                         </div>
                     </div>

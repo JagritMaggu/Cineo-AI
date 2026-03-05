@@ -17,10 +17,10 @@ function Landing({ onMobileSearch }: { onMobileSearch: () => void }) {
 
             {/* Animated ambient glow */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-[0.06]"
-                    style={{ background: 'radial-gradient(circle, #3b82f6 0%, transparent 70%)' }} />
-                <div className="absolute bottom-0 -left-20 w-[400px] h-[400px] rounded-full opacity-[0.04]"
-                    style={{ background: 'radial-gradient(circle, #8b5cf6 0%, transparent 70%)' }} />
+                <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-[0.03]"
+                    style={{ background: 'radial-gradient(circle, #ffffff 0%, transparent 70%)' }} />
+                <div className="absolute bottom-0 -left-20 w-[400px] h-[400px] rounded-full opacity-[0.02]"
+                    style={{ background: 'radial-gradient(circle, #ffffff 0%, transparent 70%)' }} />
                 {/* Subtle grid */}
                 <div className="absolute inset-0 opacity-[0.025]"
                     style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
@@ -29,7 +29,7 @@ function Landing({ onMobileSearch }: { onMobileSearch: () => void }) {
             {/* Headline */}
             <div className="relative flex-1 flex flex-col justify-center px-8 md:px-12 max-w-3xl">
                 <div className="flex items-center gap-2.5 mb-7">
-                    <span className="pulse-dot w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                    <span className="pulse-dot w-1.5 h-1.5 rounded-full bg-white shrink-0" />
                     <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">AI-Powered Cinema Analysis</span>
                 </div>
 
@@ -45,7 +45,7 @@ function Landing({ onMobileSearch }: { onMobileSearch: () => void }) {
                 {/* Desktop: inline quick-hint */}
                 <div className="hidden md:flex items-center gap-3">
                     <div className="flex items-center gap-2 text-[10px] text-white/25 border border-white/8 px-3.5 py-2 rounded-md font-mono">
-                        <Search size={11} className="text-blue-400" />
+                        <Search size={11} className="text-white/60" />
                         <span>Search above ↑</span>
                     </div>
                     <span className="text-[10px] text-white/15">or press Enter with an IMDb ID like <strong className="text-white/30">tt0468569</strong></span>
@@ -54,8 +54,8 @@ function Landing({ onMobileSearch }: { onMobileSearch: () => void }) {
                 {/* Mobile: tap hint pointing to FAB */}
                 <div className="flex md:hidden items-center gap-2 text-white/25">
                     <span className="text-xs font-light">Tap</span>
-                    <div className="w-7 h-7 rounded-full bg-blue-600/25 flex items-center justify-center">
-                        <Search size={12} className="text-blue-400" />
+                    <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center">
+                        <Search size={12} className="text-white/60" />
                     </div>
                     <span className="text-xs font-light">below to search any movie</span>
                 </div>
@@ -64,10 +64,10 @@ function Landing({ onMobileSearch }: { onMobileSearch: () => void }) {
             {/* Floating search FAB — mobile only */}
             <button
                 onClick={onMobileSearch}
-                className="md:hidden fixed bottom-8 right-6 z-50 w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center"
-                style={{ boxShadow: '0 0 0 1px rgba(59,130,246,0.4), 0 8px 32px rgba(59,130,246,0.45), 0 2px 8px rgba(0,0,0,0.6)' }}
+                className="md:hidden fixed bottom-8 right-6 z-50 w-14 h-14 bg-white rounded-full flex items-center justify-center"
+                style={{ boxShadow: '0 8px 32px rgba(255,255,255,0.15), 0 2px 8px rgba(0,0,0,0.6)' }}
             >
-                <Search size={20} className="text-white" />
+                <Search size={20} className="text-black" />
             </button>
         </div>
     );
@@ -135,15 +135,15 @@ export default function MovieSearch() {
             <header className="hidden md:flex items-center gap-6 px-7 h-[60px] shrink-0 border-b border-white/[0.05] bg-[#080808]/90 backdrop-blur-xl sticky top-0 z-40">
                 {/* Branding */}
                 <div className="flex items-center gap-2 shrink-0">
-                    <Sparkles size={13} className="text-blue-500" />
+                    <Sparkles size={13} className="text-white/60" />
                     <span className="text-xs font-black uppercase tracking-[0.25em] text-white">Cineo AI</span>
                 </div>
 
                 {/* Search */}
-                <form onSubmit={onDesktopSubmit} className="flex-1 max-w-md flex items-center border border-white/8 bg-white/[0.03] rounded-md overflow-hidden hover:border-white/15 focus-within:border-blue-500/40 transition-all duration-200">
+                <form onSubmit={onDesktopSubmit} className="flex-1 max-w-md flex items-center border border-white/8 bg-white/[0.03] rounded-md overflow-hidden hover:border-white/15 focus-within:border-white/30 transition-all duration-200">
                     <div className="flex items-center pl-3.5 text-white/20 shrink-0">
                         {isLoading
-                            ? <Loader2 size={13} className="animate-spin text-blue-400" />
+                            ? <Loader2 size={13} className="animate-spin text-white/60" />
                             : <Search size={13} />
                         }
                     </div>
@@ -158,7 +158,7 @@ export default function MovieSearch() {
                     <button
                         type="submit"
                         disabled={isLoading || !inputVal.trim()}
-                        className="px-3 py-1 m-1 text-[9px] font-black bg-blue-600 text-white hover:bg-blue-500 transition-colors disabled:bg-white/5 disabled:text-white/20 rounded-sm uppercase tracking-widest shrink-0"
+                        className="px-3 py-1 m-1 text-[9px] font-black bg-white text-black hover:bg-white/80 transition-colors disabled:bg-white/5 disabled:text-white/20 rounded-sm uppercase tracking-widest shrink-0"
                     >
                         {isLoading ? '…' : 'Run'}
                     </button>
@@ -179,9 +179,9 @@ export default function MovieSearch() {
                 {loadingStep === 'movie' && (
                     <div className="flex-1 flex items-center justify-center min-h-[60vh]">
                         <div className="text-center animate-fade-up">
-                            <div className="w-12 h-12 rounded-full border border-blue-500/30 flex items-center justify-center mx-auto mb-4"
-                                style={{ boxShadow: '0 0 24px rgba(59,130,246,0.2)' }}>
-                                <Loader2 size={20} className="animate-spin text-blue-400" />
+                            <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center mx-auto mb-4"
+                                style={{ boxShadow: '0 0 24px rgba(255,255,255,0.05)' }}>
+                                <Loader2 size={20} className="animate-spin text-white/60" />
                             </div>
                             <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/25">Fetching movie data</p>
                         </div>
@@ -213,15 +213,13 @@ export default function MovieSearch() {
             </div>
 
             {/* ── Mobile FAB (shown after result too) ── */}
-            {hasResult && (
-                <button
-                    onClick={() => setMobileOpen(true)}
-                    className="md:hidden fixed bottom-7 right-5 z-50 w-13 h-13 w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center"
-                    style={{ boxShadow: '0 0 0 1px rgba(59,130,246,0.4), 0 8px 24px rgba(59,130,246,0.4)' }}
-                >
-                    <Search size={18} className="text-white" />
-                </button>
-            )}
+            <button
+                onClick={() => setMobileOpen(false)}
+                className="md:hidden fixed bottom-7 right-5 z-50 w-12 h-12 bg-white rounded-full flex items-center justify-center"
+                style={{ boxShadow: '0 8px 24px rgba(255,255,255,0.1)' }}
+            >
+                <Search size={18} className="text-black" />
+            </button>
 
             {/* ── Mobile Search Modal ── */}
             {mobileOpen && (
@@ -234,7 +232,7 @@ export default function MovieSearch() {
                             </button>
                         </div>
                         <form onSubmit={onMobileSubmit} className="space-y-3">
-                            <div className="flex items-center gap-2 border border-white/12 bg-white/[0.04] rounded-md overflow-hidden focus-within:border-blue-500/40 transition-colors">
+                            <div className="flex items-center gap-2 border border-white/12 bg-white/[0.04] rounded-md overflow-hidden focus-within:border-white/30 transition-colors">
                                 <div className="pl-3.5 text-white/25 shrink-0"><Search size={14} /></div>
                                 <input
                                     autoFocus
@@ -248,8 +246,8 @@ export default function MovieSearch() {
                             <button
                                 type="submit"
                                 disabled={!inputVal.trim()}
-                                className="w-full py-3.5 bg-blue-600 text-white text-xs font-black rounded-md uppercase tracking-[0.3em] hover:bg-blue-500 transition-all active:scale-[0.97] disabled:bg-white/8 disabled:text-white/20"
-                                style={{ boxShadow: inputVal.trim() ? '0 4px 20px rgba(59,130,246,0.35)' : 'none' }}
+                                className="w-full py-3.5 bg-white text-black text-xs font-black rounded-md uppercase tracking-[0.3em] hover:bg-white/80 transition-all active:scale-[0.97] disabled:bg-white/8 disabled:text-white/20"
+                                style={{ boxShadow: inputVal.trim() ? '0 4px 20px rgba(255,255,255,0.1)' : 'none' }}
                             >
                                 Analyze
                             </button>
