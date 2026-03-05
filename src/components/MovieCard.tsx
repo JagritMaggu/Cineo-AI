@@ -103,18 +103,17 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                             <div className="flex-1 h-px bg-white/[0.03]" />
                         </div>
 
-                        <div className="relative -mx-6 md:-mx-20 overflow-hidden group">
-                            {/* Edge Blurs for smooth blending */}
-                            <div className="absolute inset-y-0 left-0 w-40 z-10 pointer-events-none bg-gradient-to-r from-[#080808] to-transparent" />
-                            <div className="absolute inset-y-0 right-0 w-40 z-10 pointer-events-none bg-gradient-to-l from-[#080808] to-transparent" />
-
+                        <div
+                            className="relative -mx-6 md:-mx-20 overflow-hidden group"
+                            style={{ maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)' }}
+                        >
                             <div className="animate-marquee flex items-center gap-10 md:gap-20 whitespace-nowrap py-4">
                                 {marqueeCast.map((member, i) => (
                                     <div key={i} className="flex items-center gap-5 shrink-0 group/member cursor-default">
-                                        <div className="w-12 h-12 md:w-16 md:h-16 overflow-hidden bg-white/[0.02] shrink-0 rounded-full ring-1 ring-white/5 p-1 transition-all duration-500">
+                                        <div className="w-12 h-12 md:w-16 md:h-16 overflow-hidden bg-white/[0.02] shrink-0 rounded-full ring-1 ring-white/10 p-1 transition-all duration-500 group-hover/member:ring-white/40">
                                             <div className="w-full h-full rounded-full overflow-hidden">
                                                 {member.image
-                                                    ? <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500" />
+                                                    ? <img src={member.image} alt={member.name} className="w-full h-full object-cover opacity-80 group-hover/member:opacity-100 group-hover/member:scale-110 transition-all duration-500" />
                                                     : <div className="w-full h-full flex items-center justify-center text-[10px] font-black text-white/10 uppercase bg-white/[0.03]">{member.name[0]}</div>
                                                 }
                                             </div>
