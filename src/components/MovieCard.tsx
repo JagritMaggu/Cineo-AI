@@ -25,7 +25,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
     }, [movie.fullCast]);
 
     const hasFullCast = !!movie.fullCast?.length;
-    const poster = movie.poster !== 'N/A' ? movie.poster : 'https://placehold.co/400x600/111/222?text=No+Poster';
+    const poster = (movie.poster && movie.poster !== 'N/A') ? movie.poster : '/placeholder-poster.png';
 
     return (
         <article className="animate-fade-up w-full">
@@ -38,12 +38,12 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                 {/* Full-bleed poster hero */}
                 <div className="relative w-full" style={{ height: '100svh', minHeight: '600px' }}>
 
-                    {/* Poster — fills the whole hero */}
+                    {/* Poster — fixed background */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={poster}
                         alt={movie.title}
-                        className="absolute inset-0 w-full h-full object-cover object-top animate-ken-burns"
+                        className="absolute inset-0 w-full h-full object-cover object-top"
                     />
 
                     {/* Gradient overlays */}
@@ -57,24 +57,24 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                     </div>
 
                     {/* Bottom overlay — title */}
-                    <div className="absolute bottom-0 left-0 right-0 px-5 pb-8 pt-16">
+                    <div className="absolute bottom-0 left-0 right-0 px-6 pb-10 pt-20">
                         {/* Genres */}
-                        <div className="flex flex-wrap gap-1.5 mb-3">
+                        <div className="flex flex-wrap gap-1.5 mb-4">
                             {genreTags.slice(0, 3).map(g => (
-                                <span key={g} className="text-[9px] font-black uppercase tracking-wider text-white/50 border border-white/10 bg-white/5 px-2 py-0.5 rounded-sm">
+                                <span key={g} className="text-[10px] font-black uppercase tracking-wider text-white/50 border border-white/10 bg-white/5 px-2.5 py-1 rounded-sm">
                                     {g}
                                 </span>
                             ))}
                         </div>
 
-                        <h2 className="text-[2.4rem] font-black tracking-tighter leading-none text-white uppercase mb-2">
+                        <h2 className="text-[2.8rem] font-black tracking-tighter leading-[0.9] text-white uppercase mb-4 break-words">
                             {movie.title}
                         </h2>
 
-                        <div className="flex items-center gap-3 text-white/40">
-                            <span className="text-[10px] font-bold uppercase tracking-widest">{movie.year}</span>
-                            <span className="w-px h-3 bg-white/20" />
-                            <span className="text-[10px] font-bold uppercase tracking-widest">{movie.runtime}</span>
+                        <div className="flex items-center gap-4 text-white/40">
+                            <span className="text-[11px] font-bold uppercase tracking-widest">{movie.year}</span>
+                            <span className="w-px h-3.5 bg-white/20" />
+                            <span className="text-[11px] font-bold uppercase tracking-widest">{movie.runtime}</span>
                         </div>
                     </div>
                 </div>
