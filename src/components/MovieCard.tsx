@@ -50,14 +50,14 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                     />
                 </div>
 
-                {/* Layer 2: Centered Master Poster (Zero-Crop) */}
-                <div className="relative z-10 w-full h-full flex flex-col items-center justify-center pt-[15vh] pb-[25vh]">
-                    <div className="relative h-full max-h-[75vh] min-h-[400px] aspect-[2/3] group">
+                {/* Layer 2: Centered Master Poster (Perfect Dead-Center) */}
+                <div className="absolute inset-0 z-10 flex items-center justify-center px-6">
+                    <div className="relative h-[70vh] md:h-[80vh] aspect-[2/3] group">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={poster}
                             alt={movie.title}
-                            className="w-full h-full object-contain shadow-[0_0_120px_rgba(0,0,0,0.8)] rounded-sm"
+                            className="w-full h-full object-contain shadow-[0_0_150px_rgba(0,0,0,0.85)] rounded-sm"
                         />
 
                         {/* Layer 3: The "Merge" Effect — Left & Right Gradient Blurs */}
