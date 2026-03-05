@@ -155,12 +155,12 @@ export default function MovieSearch() {
             const data: MovieApiResponse = await movieRes.json();
             setMovieData(data.movie);
 
-            clearInterval(factInterval);
-
-            // Hide main spinner, show AI skeleton
+            // Hide main spinner, show AI skeleton locally
             setLoadingStep('sentiment');
 
-            // Fire off background cast scraping immediately, completely detached
+            // --- FIRE BACKGROUND TASKS (DO NOT AWAIT) ---
+
+            // 1. Fetch Cast securely in the background
             fetch(`/api/cast?imdbId=${id}`)
                 .then(res => res.json())
                 .then(resData => {
@@ -170,18 +170,19 @@ export default function MovieSearch() {
                 })
                 .catch(err => console.error("Failed to fetch full cast", err));
 
-            // Fire off AI sentiment analysis immediately, completely detached
+            // 2. Fetch Sentiment securely in the background
             fetch('/api/sentiment', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: data.movie.title, imdbId: id }),
             })
                 .then(res => res.json())
-                .then(resData => {
-                    if (!resData.error) setSentiment(resData);
+                .then(sentimentData => {
+                    setSentiment(sentimentData);
+                    setLoadingStep(null); // Completely finish loading phase when sentiment finishes
                 })
-                .catch(err => console.error("Failed to analyze sentiment", err))
-                .finally(() => {
+                .catch(err => {
+                    console.error("Failed to fetch sentiment", err);
                     setLoadingStep(null);
                 });
 
