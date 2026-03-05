@@ -155,15 +155,29 @@ export default function MovieSearch() {
             const data: MovieApiResponse = await movieRes.json();
             setMovieData(data.movie);
 
+            clearInterval(factInterval);
+
+            // Hide main spinner, show AI skeleton
             setLoadingStep('sentiment');
+
+            // Fetch Cast securely in the background
+            fetch(`/api/cast?imdbId=${id}`)
+                .then(res => res.json())
+                .then(resData => {
+                    if (resData.fullCast) {
+                        setMovieData(prev => prev ? { ...prev, fullCast: resData.fullCast } : prev);
+                    }
+                })
+                .catch(err => console.error("Failed to fetch full cast", err));
+
+            // Fetch Sentiment securely in the background
             const sentimentRes = await fetch('/api/sentiment', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ reviews: data.reviews, title: data.movie.title, imdbId: id }),
+                body: JSON.stringify({ title: data.movie.title, imdbId: id }),
             });
             if (sentimentRes.ok) setSentiment(await sentimentRes.json());
 
-            clearInterval(factInterval);
         } catch (err: unknown) {
             setError(err instanceof Error ? err.message : 'An unexpected error occurred.');
         } finally {

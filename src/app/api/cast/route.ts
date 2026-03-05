@@ -1,4 +1,4 @@
-import { fetchMovie } from '@/lib/fetchMovie';
+import { fetchFullCast } from '@/lib/fetchFullCast';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -10,19 +10,10 @@ export async function GET(request: Request) {
     }
 
     try {
-        const movieData = await fetchMovie(imdbId);
-
-        if (!movieData) {
-            return NextResponse.json({ error: 'Movie not found. Please check the IMDb ID.' }, { status: 404 });
-        }
-
-        const combinedResponse = {
-            movie: movieData,
-        };
-
-        return NextResponse.json(combinedResponse);
+        const fullCast = await fetchFullCast(imdbId);
+        return NextResponse.json({ fullCast });
     } catch (error) {
-        console.error('API Error:', error);
+        console.error('Cast API Error:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }

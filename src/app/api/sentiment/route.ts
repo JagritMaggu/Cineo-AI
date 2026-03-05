@@ -1,4 +1,5 @@
 import { analyzeSentiment } from '@/lib/analyzeSentiment';
+import { fetchReviews } from '@/lib/fetchReviews';
 import { NextResponse } from 'next/server';
 
 // Simple IP-based rate-limiting (10 requests per minute)
@@ -29,15 +30,17 @@ export async function POST(request: Request) {
     rateLimitMap.set(ip, userLimit);
 
     try {
-        const { reviews, title, imdbId } = await request.json();
+        const { title, imdbId } = await request.json();
 
-        if (!reviews || !Array.isArray(reviews)) {
-            return NextResponse.json({ error: 'Array of reviews is required' }, { status: 400 });
+        if (!imdbId) {
+            return NextResponse.json({ error: 'imdbId is required to analyze sentiment' }, { status: 400 });
         }
 
-        if (reviews.length === 0) {
+        const reviews = await fetchReviews(imdbId);
+
+        if (!reviews || reviews.length === 0) {
             return NextResponse.json({
-                summary: "No reviews available to analyze.",
+                summary: "Not enough recent audience reviews available to form a conclusive artificial intelligence analysis at this time.",
                 classification: "mixed"
             });
         }
