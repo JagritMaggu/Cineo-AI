@@ -145,11 +145,7 @@ export default function MovieSearch() {
             setLoadingStep('movie');
             const factInterval = setInterval(rotateFact, 3500);
 
-            // Fetch Core Movie Data and Cast Data simultaneously
-            const [movieRes, castRes] = await Promise.all([
-                fetch(`/api/movie?imdbId=${id}`),
-                fetch(`/api/cast?imdbId=${id}`)
-            ]);
+            const movieRes = await fetch(`/api/movie?imdbId=${id}`);
 
             if (!movieRes.ok) {
                 clearInterval(factInterval);
@@ -159,14 +155,7 @@ export default function MovieSearch() {
             }
 
             const movieJson: MovieApiResponse = await movieRes.json();
-            const castJson = castRes.ok ? await castRes.json() : { fullCast: [] };
-
-            const completeMovieData: Movie = {
-                ...movieJson.movie,
-                fullCast: castJson.fullCast || []
-            };
-
-            setMovieData(completeMovieData);
+            setMovieData(movieJson.movie);
 
             // Hide main spinner, show AI skeleton locally
             setLoadingStep('sentiment');
@@ -177,7 +166,7 @@ export default function MovieSearch() {
             fetch('/api/sentiment', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title: completeMovieData.title, imdbId: id }),
+                body: JSON.stringify({ title: movieJson.movie.title, imdbId: id }),
             })
                 .then(res => res.json())
                 .then(sentimentData => {
