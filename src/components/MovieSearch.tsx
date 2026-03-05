@@ -59,12 +59,12 @@ function Landing({
                 </div>
 
                 <h1 className="text-[clamp(3rem,11vw,8rem)] font-black tracking-[-0.05em] leading-[0.82] mb-10 uppercase">
-                    <span className="text-white">Neural</span><br />
-                    <span className="text-white/20">Cinema Insight.</span>
+                    <span className="text-white">Decode the</span><br />
+                    <span className="text-white/20">Cinema.</span>
                 </h1>
 
-                <p className="text-white/35 text-xs md:text-sm leading-relaxed max-w-xl font-light mb-14 mx-auto tracking-[0.1em] uppercase">
-                    Synthesizing audience sentiment through large-scale review analysis. Surfaces intelligent metadata from thousands of data points.
+                <p className="text-white/35 text-xs md:text-sm leading-relaxed max-w-lg font-light mb-14 mx-auto tracking-[0.1em] uppercase">
+                    Go beyond the ratings. Our AI analyzes thousands of audience reviews to reveal the true pulse of any movie in seconds.
                 </p>
 
                 {/* Desktop Search Bar below content */}
