@@ -38,7 +38,7 @@ function Landing({
     onMobileSearch: () => void;
 }) {
     return (
-        <div className="relative flex flex-col min-h-svh md:min-h-[calc(100vh-60px)]">
+        <div className="relative flex flex-col min-h-svh">
 
             {/* Animated ambient glow */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -188,7 +188,7 @@ export default function MovieSearch() {
         <div className="flex flex-col min-h-screen">
 
             {/* ── Desktop Header ── */}
-            <header className="hidden md:flex items-center gap-6 px-7 h-[60px] shrink-0 border-b border-white/[0.05] bg-[#080808]/90 backdrop-blur-xl sticky top-0 z-40">
+            <header className="hidden md:flex items-center gap-6 px-7 h-[60px] shrink-0 border-b border-white/[0.05] bg-gradient-to-b from-black/80 to-transparent absolute top-0 left-0 right-0 z-40">
                 {/* Branding */}
                 <div className="flex items-center gap-2 shrink-0">
                     <Sparkles size={13} className="text-white/60" />

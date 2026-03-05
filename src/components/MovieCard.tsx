@@ -28,38 +28,32 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
     return (
         <article className="animate-fade-up w-full bg-[#080808]">
 
-            {/* ── 1. Immersive Full-Screen Hero (Inspired by Chernobyl UI) ── */}
-            <div className="relative w-full h-[85vh] md:h-[90vh] overflow-hidden mt-8 md:mt-12">
+            {/* ── 1. Immersive Full-Screen Hero (Inspired by Screenshot 1 & 2) ── */}
+            <div className="relative w-full h-[100svh] overflow-hidden flex flex-col justify-end">
 
-                {/* Layer 1: Blurred Ambient Backdrop (Fills the sides flawlessly) */}
-                <div className="absolute inset-0 z-0">
+                <div className="absolute inset-0 z-0 scale-110">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={poster}
                         alt=""
-                        className="w-full h-full object-cover blur-[80px] opacity-40 scale-125"
+                        className="w-full h-full object-cover blur-[40px] opacity-100 brightness-[0.6]"
                     />
                 </div>
 
-                {/* Layer 2: Primary Cinematic Poster (Dominates the view without stretching) */}
-                <div className="absolute inset-0 z-10 flex items-center justify-center">
+                <div className="absolute inset-0 z-10">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={poster}
                         alt={movie.title}
-                        className="w-full h-full md:w-auto md:h-[90vh] object-cover md:object-contain object-top shadow-[0_0_100px_rgba(0,0,0,0.8)]"
+                        className="w-full h-full object-cover object-[center_20%] shadow-[20px_0_100px_rgba(0,0,0,0.9)] opacity-90 transition-opacity duration-1000"
                     />
                 </div>
 
-                {/* Layer 3: Atmospheric Gradients (The 'Secret Sauce' for readability) */}
-                {/* Heavy bottom fade */}
-                <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#080808] via-[#080808]/40 to-transparent" />
-                {/* Subtle side vignettes */}
-                <div className="absolute inset-y-0 left-0 w-1/3 z-20 bg-gradient-to-r from-[#080808]/60 to-transparent" />
-                <div className="absolute inset-y-0 right-0 w-1/3 z-20 bg-gradient-to-l from-[#080808]/60 to-transparent" />
+                <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#080808] via-[#080808]/50 to-transparent" />
+                <div className="absolute inset-0 z-20 bg-gradient-to-r from-[#080808]/80 via-transparent to-[#080808]/30" />
 
                 {/* Layer 4: Hero Content Overlay (Title & Meta positioned like Screenshot 1) */}
-                <div className="absolute bottom-0 left-0 right-0 z-30 px-6 md:px-20 pb-16 md:pb-24 max-w-screen-2xl mx-auto">
+                <div className="relative z-30 px-6 md:px-20 pb-20 md:pb-32 max-w-screen-2xl mx-auto w-full">
                     <div className="flex flex-col gap-6">
 
                         {/* Rating row chips */}
