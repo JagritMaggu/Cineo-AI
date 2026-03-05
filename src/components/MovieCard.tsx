@@ -121,23 +121,25 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                 {/* Hero split */}
                 <div className="relative overflow-hidden" style={{ minHeight: 'calc(100vh - 60px)' }}>
 
-                    {/* Full-bleed blurred background */}
+                    {/* Full-bleed high-visibility background poster */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={poster}
                         alt=""
                         aria-hidden
-                        className="absolute inset-0 w-full h-full object-cover object-center scale-125 blur-3xl opacity-[0.12] animate-ken-burns"
+                        className="absolute inset-0 w-full h-full object-cover object-top animate-ken-burns opacity-[0.45] grayscale-[0.2] brightness-[0.8]"
                     />
-                    {/* Directional gradients */}
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg, #080808 30%, rgba(8,8,8,0.7) 60%, rgba(8,8,8,0.1) 100%)' }} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent " />
+
+                    {/* Cinematic Gradients for text readability */}
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, #080808 0%, #080808 20%, rgba(8,8,8,0.85) 45%, rgba(8,8,8,0.3) 70%, transparent 100%)' }} />
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #080808 0%, transparent 40%)' }} />
+                    <div className="absolute inset-0 border-b border-white/[0.05]" />
 
                     {/* Content row */}
-                    <div className="relative flex items-center justify-between gap-12 px-10 xl:px-20 h-full min-h-[calc(100vh-60px)]">
+                    <div className="relative flex items-center px-10 xl:px-24 h-full min-h-[calc(100vh-60px)]">
 
                         {/* ── Info Panel ── */}
-                        <div className="flex-1 py-14 max-w-2xl">
+                        <div className="flex-1 py-20 max-w-4xl">
 
                             {/* Rating + meta row */}
                             <div className="flex items-center gap-4 mb-6">
@@ -153,7 +155,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                             </div>
 
                             {/* Title */}
-                            <h2 className="text-[clamp(3rem,6vw,5.5rem)] font-black tracking-[-0.04em] leading-[0.88] text-white uppercase mb-5">
+                            <h2 className="text-[clamp(4.5rem,14vw,11rem)] font-black tracking-[-0.05em] leading-[0.78] text-white uppercase mb-10 drop-shadow-2xl">
                                 {movie.title}
                             </h2>
 
@@ -167,7 +169,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                             </div>
 
                             {/* Plot */}
-                            <p className="text-white/45 text-[0.92rem] leading-relaxed font-light max-w-[480px]">
+                            <p className="text-white/60 text-[1rem] leading-[2.2] font-light max-w-2xl tracking-[0.15em] uppercase">
                                 {movie.plot}
                             </p>
 
@@ -177,20 +179,9 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                             )}
                         </div>
 
-                        {/* ── Poster ── */}
-                        <div className="shrink-0 hidden lg:flex items-center justify-center py-10">
-                            <div className="relative" style={{ height: 'min(78vh, 560px)', aspectRatio: '2/3' }}>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
-                                    src={poster}
-                                    alt={movie.title}
-                                    className="w-full h-full object-cover rounded-xl"
-                                    style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.07)' }}
-                                />
-                                {/* Subtle white glow hint */}
-                                <div className="absolute -inset-px rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                                    style={{ boxShadow: '0 0 40px rgba(255,255,255,0.05)' }} />
-                            </div>
+                        {/* Hidden poster card as we now use the background version exclusively for dominance */}
+                        <div className="shrink-0 hidden items-center justify-center">
+                            {/* Poster content removed to let background dominate */}
                         </div>
                     </div>
                 </div>
