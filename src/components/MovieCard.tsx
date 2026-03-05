@@ -121,23 +121,18 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                 {/* Hero split */}
                 <div className="relative overflow-hidden" style={{ minHeight: 'calc(100vh - 60px)' }}>
 
-                    {/* Full-bleed high-visibility background poster */}
-                    <img
-                        src={poster}
-                        alt={movie.title}
-                        className="absolute inset-0 w-full h-full object-cover object-top animate-ken-burns opacity-[0.65] z-0"
-                    />
+                    {/* Cinematic background (dark slate) */}
+                    <div className="absolute inset-0 bg-[#080808] z-0" />
 
-                    {/* Cinematic Gradients for text readability — carefully balanced to not wash out the poster */}
-                    <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(90deg, #080808 0%, #080808 15%, rgba(8,8,8,0.7) 40%, rgba(8,8,8,0.1) 70%, transparent 100%)' }} />
-                    <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to top, #080808 0%, transparent 25%)' }} />
-                    <div className="absolute inset-0 border-b border-white/[0.05] z-10" />
+                    {/* Subtle glow for the info area */}
+                    <div className="absolute inset-0 z-10 opacity-20"
+                        style={{ background: 'radial-gradient(circle at 15% 50%, rgba(255,255,255,0.08) 0%, transparent 70%)' }} />
 
                     {/* Content row */}
-                    <div className="relative z-20 flex items-center px-10 xl:px-24 h-full min-h-[calc(100vh-60px)]">
+                    <div className="relative z-20 flex items-center justify-between gap-24 px-10 xl:px-24 h-full min-h-[calc(100vh-60px)]">
 
                         {/* ── Info Panel ── */}
-                        <div className="flex-1 py-20 max-w-4xl">
+                        <div className="flex-1 py-20">
 
                             {/* Rating + meta row */}
                             <div className="flex items-center gap-4 mb-6">
@@ -177,9 +172,18 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                             )}
                         </div>
 
-                        {/* Hidden poster card as we now use the background version exclusively for dominance */}
-                        <div className="shrink-0 hidden items-center justify-center">
-                            {/* Poster content removed to let background dominate */}
+                        {/* ── Prominent Poster on the Right ── */}
+                        <div className="shrink-0 hidden lg:flex items-center justify-center py-20">
+                            <div className="relative animate-fade-in" style={{ height: '75vh', aspectRatio: '2/3' }}>
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    src={poster}
+                                    alt={movie.title}
+                                    className="w-full h-full object-cover rounded-md border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.9)]"
+                                />
+                                {/* Subtle white ambient glow behind poster */}
+                                <div className="absolute -inset-10 opacity-10 blur-3xl rounded-full bg-white z-[-1]" />
+                            </div>
                         </div>
                     </div>
                 </div>
