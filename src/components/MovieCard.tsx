@@ -71,8 +71,8 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                 <div className="absolute inset-y-0 left-0 w-1/4 z-20 bg-gradient-to-r from-[#080808]/80 to-transparent" />
                 <div className="absolute inset-y-0 right-0 w-1/4 z-20 bg-gradient-to-l from-[#080808]/80 to-transparent" />
 
-                {/* Layer 5: Hero Content Overlay - Pinned to the Left to avoid overlap */}
-                <div className="relative z-30 w-full px-6 md:pl-10 md:pr-20 pb-16 md:pb-32 h-full flex flex-col justify-end">
+                {/* Layer 5: Hero Content Overlay - Positioned for optimal balance */}
+                <div className="relative z-30 w-full px-6 md:pl-24 md:pr-20 pb-16 md:pb-32 h-full flex flex-col justify-end">
                     <div className="flex flex-col gap-6 max-w-sm md:max-w-xl">
 
                         {/* Meta row with rating */}
@@ -87,7 +87,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">{movie.runtime}</span>
                         </div>
 
-                        <h2 className="text-[clamp(2.5rem,6vw,5.5rem)] font-black tracking-[-0.04em] leading-[0.9] text-white uppercase drop-shadow-[0_10px_40px_rgba(0,0,0,0.7)]">
+                        <h2 className="text-[clamp(2rem,5vw,4.5rem)] font-black tracking-[-0.04em] leading-[0.9] text-white uppercase drop-shadow-[0_10px_40px_rgba(0,0,0,0.7)]">
                             {movie.title}
                         </h2>
 
