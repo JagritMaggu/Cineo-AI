@@ -122,21 +122,19 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                 <div className="relative overflow-hidden" style={{ minHeight: 'calc(100vh - 60px)' }}>
 
                     {/* Full-bleed high-visibility background poster */}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={poster}
-                        alt=""
-                        aria-hidden
-                        className="absolute inset-0 w-full h-full object-cover object-top animate-ken-burns opacity-[0.45] grayscale-[0.2] brightness-[0.8]"
+                        alt={movie.title}
+                        className="absolute inset-0 w-full h-full object-cover object-top animate-ken-burns opacity-[0.65] z-0"
                     />
 
-                    {/* Cinematic Gradients for text readability */}
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, #080808 0%, #080808 20%, rgba(8,8,8,0.85) 45%, rgba(8,8,8,0.3) 70%, transparent 100%)' }} />
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #080808 0%, transparent 40%)' }} />
-                    <div className="absolute inset-0 border-b border-white/[0.05]" />
+                    {/* Cinematic Gradients for text readability — carefully balanced to not wash out the poster */}
+                    <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(90deg, #080808 0%, #080808 15%, rgba(8,8,8,0.7) 40%, rgba(8,8,8,0.1) 70%, transparent 100%)' }} />
+                    <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to top, #080808 0%, transparent 25%)' }} />
+                    <div className="absolute inset-0 border-b border-white/[0.05] z-10" />
 
                     {/* Content row */}
-                    <div className="relative flex items-center px-10 xl:px-24 h-full min-h-[calc(100vh-60px)]">
+                    <div className="relative z-20 flex items-center px-10 xl:px-24 h-full min-h-[calc(100vh-60px)]">
 
                         {/* ── Info Panel ── */}
                         <div className="flex-1 py-20 max-w-4xl">
