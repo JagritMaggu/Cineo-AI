@@ -40,30 +40,41 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
             {/* ── 1. Immersive Full-Screen Hero (Inspired by Screenshot 1 & 2) ── */}
             <div className="relative w-full h-[100svh] overflow-hidden flex flex-col justify-end">
 
-                <div className="absolute inset-0 z-0 scale-110">
+                {/* Layer 1: Ambient Backdrop (Zero-crop color fill) */}
+                <div className="absolute inset-0 z-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={poster}
                         alt=""
-                        className="w-full h-full object-cover blur-[40px] opacity-100 brightness-[0.6]"
+                        className="w-full h-full object-cover blur-[120px] opacity-30 brightness-[0.4] scale-150"
                     />
                 </div>
 
-                <div className="absolute inset-0 z-10">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                        src={poster}
-                        alt={movie.title}
-                        className="w-full h-full object-cover object-[center_20%] shadow-[20px_0_100px_rgba(0,0,0,0.9)] opacity-90 transition-opacity duration-1000"
-                    />
+                {/* Layer 2: The Main Event — 100% Poster Visibility on the Right */}
+                <div className="absolute inset-0 z-10 flex flex-row items-stretch">
+                    {/* Left: Empty space for text */}
+                    <div className="hidden lg:block w-[45%]" />
+
+                    {/* Right: The full poster, zero cropping */}
+                    <div className="w-full lg:w-[55%] relative flex items-center justify-end pr-0 lg:pr-12 xl:pr-32">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={poster}
+                            alt={movie.title}
+                            className="w-full h-full lg:w-auto lg:h-[95vh] object-cover lg:object-contain object-center lg:object-right shadow-[0_0_150px_rgba(0,0,0,0.9)] transition-all duration-1000"
+                        />
+                        {/* Feathered side-blend mask (Makes the poster look like it belongs to the BG) */}
+                        <div className="absolute inset-0 z-20 hidden lg:block bg-gradient-to-r from-[#080808] via-transparent to-transparent pointer-events-none" />
+                    </div>
                 </div>
 
-                <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#080808] via-[#080808]/50 to-transparent" />
-                <div className="absolute inset-0 z-20 bg-gradient-to-r from-[#080808]/80 via-transparent to-[#080808]/30" />
+                {/* Layer 3: Atmospheric Overlays */}
+                <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#080808] via-[#080808]/40 to-transparent" />
+                <div className="absolute inset-y-0 left-0 w-full lg:w-1/2 z-20 bg-gradient-to-r from-[#080808] via-[#080808]/70 to-transparent" />
 
-                {/* Layer 4: Hero Content Overlay (Title & Meta positioned like Screenshot 1) */}
-                <div className="relative z-30 px-6 md:px-20 pb-20 md:pb-32 max-w-screen-2xl mx-auto w-full">
-                    <div className="flex flex-col gap-6">
+                {/* Layer 4: Content Overlay (Locked to the left) */}
+                <div className="relative z-30 px-6 md:px-20 pb-20 md:pb-40 max-w-screen-2xl mx-auto w-full h-full flex flex-col justify-end">
+                    <div className="flex flex-col gap-8 max-w-3xl">
 
                         {/* Rating row chips */}
                         <div className="flex items-center gap-3">
