@@ -271,7 +271,7 @@ export default function MovieSearch() {
 
                 {/* Sentiment */}
                 {movieData && (
-                    <div className="px-5 md:px-8 pb-12 mt-3 md:mt-4">
+                    <div className="max-w-7xl mx-auto w-full px-6 md:px-12 pb-20">
                         {sentiment ? (
                             <SentimentCard sentiment={sentiment} />
                         ) : loadingStep === 'sentiment' ? (

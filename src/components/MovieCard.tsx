@@ -15,209 +15,116 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
         [movie.genre]
     );
 
-    // 4× duplication → -25% = one perfect loop
     const marqueeCast = useMemo(() => {
         if (!movie.fullCast?.length) return [];
         let arr = [...movie.fullCast];
-        // Ensure at least 20 unique slots so marquee fills any screen
         while (arr.length < 20) arr = [...arr, ...movie.fullCast];
         return [...arr, ...arr, ...arr, ...arr];
     }, [movie.fullCast]);
 
     const hasFullCast = !!movie.fullCast?.length;
-    const poster = (movie.poster && movie.poster !== 'N/A') ? movie.poster : '/placeholder-poster.png';
+    const hasPoster = movie.poster && movie.poster !== 'N/A';
 
     return (
-        <article className="animate-fade-up w-full">
+        <article className="animate-fade-up w-full bg-[#080808]">
 
-            {/* ═══════════════════════════
-                MOBILE  — poster fills 100svh
-            ═══════════════════════════ */}
-            <div className="block md:hidden">
-
-                {/* Full-bleed poster hero */}
-                <div className="relative w-full" style={{ height: '100svh', minHeight: '600px' }}>
-
-                    {/* Poster — fixed background */}
+            {/* ── 1. Poster at the Top ── */}
+            {hasPoster && (
+                <div className="relative w-full overflow-hidden" style={{ height: 'clamp(300px, 65vh, 750px)' }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                        src={poster}
+                        src={movie.poster}
                         alt={movie.title}
-                        className="absolute inset-0 w-full h-full object-cover object-top"
+                        className="w-full h-full object-cover object-top"
                     />
+                    {/* Cinematic bottom fade to blend with title section */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent opacity-100" />
+                </div>
+            )}
 
-                    {/* Gradient overlays */}
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #080808 0%, #080808 10%, rgba(8,8,8,0.4) 50%, rgba(8,8,8,0.2) 100%)' }} />
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(8,8,8,0.5) 0%, transparent 20%)' }} />
+            {/* ── Content Container ── */}
+            <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 md:py-16">
 
-                    {/* Rating chip  */}
-                    <div className="absolute top-5 left-5 flex items-center gap-1.5 bg-black/55 backdrop-blur-md px-2.5 py-1.5 rounded-md border border-yellow-400/20">
-                        <Star size={11} className="fill-yellow-400 text-yellow-400" />
-                        <span className="text-xs font-black text-yellow-400">{movie.rating}</span>
-                    </div>
-
-                    {/* Bottom overlay — title */}
-                    <div className="absolute bottom-0 left-0 right-0 px-6 pb-10 pt-20">
-                        {/* Genres */}
-                        <div className="flex flex-wrap gap-1.5 mb-4">
-                            {genreTags.slice(0, 3).map(g => (
-                                <span key={g} className="text-[10px] font-black uppercase tracking-wider text-white/50 border border-white/10 bg-white/5 px-2.5 py-1 rounded-sm">
-                                    {g}
-                                </span>
-                            ))}
-                        </div>
-
-                        <h2 className="text-[2.8rem] font-black tracking-tighter leading-[0.9] text-white uppercase mb-4 break-words">
+                {/* ── 2. Movie Name and Rating Side by Side ── */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                    <div className="flex-1">
+                        <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-black tracking-tighter leading-[0.9] text-white uppercase break-words">
                             {movie.title}
                         </h2>
+                    </div>
 
-                        <div className="flex items-center gap-4 text-white/40">
-                            <span className="text-[11px] font-bold uppercase tracking-widest">{movie.year}</span>
-                            <span className="w-px h-3.5 bg-white/20" />
-                            <span className="text-[11px] font-bold uppercase tracking-widest">{movie.runtime}</span>
+                    <div className="shrink-0 flex items-center gap-3 bg-white/[0.03] border border-white/10 px-6 py-4 rounded-xl backdrop-blur-md">
+                        <Star size={24} className="fill-yellow-400 text-yellow-400 shrink-0" />
+                        <div className="flex flex-col">
+                            <div className="flex items-baseline gap-1">
+                                <span className="text-3xl font-black text-white leading-none">{movie.rating}</span>
+                                <span className="text-xs text-white/30 font-bold uppercase tracking-widest">/10</span>
+                            </div>
+                            <span className="text-[10px] text-white/20 font-bold uppercase tracking-widest mt-1">Global Rating</span>
                         </div>
                     </div>
                 </div>
 
-                {/* Content below hero */}
-                <div className="px-5 pt-7 pb-4 bg-[#080808]">
-                    <p className="text-white/50 text-sm leading-relaxed font-light mb-8">{movie.plot}</p>
+                {/* Meta details */}
+                <div className="flex items-center gap-4 mb-10 overflow-x-auto no-scrollbar whitespace-nowrap">
+                    <span className="text-xs text-white/40 font-bold uppercase tracking-[0.2em]">{movie.year}</span>
+                    <span className="w-px h-4 bg-white/10 shrink-0" />
+                    <span className="text-xs text-white/40 font-bold uppercase tracking-[0.2em]">{movie.runtime}</span>
+                    <span className="w-px h-4 bg-white/10 shrink-0" />
+                    <div className="flex gap-2">
+                        {genreTags.map(g => (
+                            <span key={g} className="text-[10px] font-black uppercase tracking-widest text-white/60 border border-white/10 bg-white/5 px-3 py-1 rounded-full">
+                                {g}
+                            </span>
+                        ))}
+                    </div>
+                </div>
 
-                    {/* Cast marquee */}
-                    {hasFullCast && (
-                        <div>
-                            <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 mb-4">Cast</p>
-                            <div className="relative -mx-5 overflow-hidden">
-                                <div className="absolute inset-y-0 left-0 w-16 z-10 pointer-events-none" style={{ background: 'linear-gradient(to right, #080808 20%, transparent)' }} />
-                                <div className="absolute inset-y-0 right-0 w-16 z-10 pointer-events-none" style={{ background: 'linear-gradient(to left, #080808 20%, transparent)' }} />
-                                <div className="animate-marquee flex items-start gap-4 px-5 py-1">
-                                    {marqueeCast.map((member, i) => (
-                                        <div key={i} className="flex flex-col items-center gap-1.5 shrink-0 w-[68px]">
-                                            <div className="w-12 h-12 overflow-hidden bg-[#1c1c1c] shrink-0 rounded-full ring-1 ring-white/5">
-                                                {member.image
-                                                    // eslint-disable-next-line @next/next/no-img-element
-                                                    ? <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
-                                                    : <div className="w-full h-full flex items-center justify-center text-sm font-black text-white/15">{member.name[0]}</div>
-                                                }
-                                            </div>
-                                            <p className="text-[9px] font-semibold text-white/60 text-center leading-tight line-clamp-2 w-full">{member.name}</p>
-                                            <p className="text-[8px] text-white/25 text-center uppercase tracking-wide line-clamp-1 w-full">{member.role || 'Actor'}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
+                {/* ── 3. Movie Description ── */}
+                <div className="max-w-4xl mb-20 lg:mb-32">
+                    <p className="text-white/60 text-lg md:text-xl leading-relaxed md:leading-[2.2] font-light tracking-wide">
+                        {movie.plot}
+                    </p>
+                    {!hasFullCast && movie.cast && (
+                        <p className="mt-8 text-white/30 text-sm italic tracking-wide">{movie.cast}</p>
                     )}
                 </div>
-            </div>
 
-            {/* ═══════════════════════════
-                DESKTOP — split hero layout
-                Left 48%: info panel
-                Right 52%: floating poster
-            ═══════════════════════════ */}
-            <div className="hidden md:flex flex-col">
+                {/* ── 4. Cast ── */}
+                {hasFullCast && (
+                    <div className="relative group">
+                        <div className="flex items-center justify-between mb-8">
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20">The Ensemble</h3>
+                            <div className="hidden md:block h-px flex-1 mx-8 bg-white/5" />
+                        </div>
 
-                {/* Hero split */}
-                <div className="relative overflow-hidden" style={{ minHeight: 'calc(100vh - 60px)' }}>
+                        <div className="relative -mx-6 md:-mx-12 overflow-hidden">
+                            {/* Gradient Masks */}
+                            <div className="absolute inset-y-0 left-0 w-24 md:w-44 z-10 pointer-events-none bg-gradient-to-r from-[#080808] to-transparent" />
+                            <div className="absolute inset-y-0 right-0 w-24 md:w-44 z-10 pointer-events-none bg-gradient-to-l from-[#080808] to-transparent" />
 
-                    {/* Cinematic background (dark slate) */}
-                    <div className="absolute inset-0 bg-[#080808] z-0" />
-
-                    {/* Subtle glow for the info area */}
-                    <div className="absolute inset-0 z-10 opacity-20"
-                        style={{ background: 'radial-gradient(circle at 15% 50%, rgba(255,255,255,0.08) 0%, transparent 70%)' }} />
-
-                    {/* Content row */}
-                    <div className="relative z-20 flex items-stretch h-full min-h-[calc(100vh-60px)]">
-
-                        {/* ── Info Panel ── */}
-                        <div className="w-full md:w-[55%] flex flex-col justify-center px-10 xl:px-20 py-20">
-
-                            {/* Rating + meta row */}
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="flex items-center gap-1.5">
-                                    <Star size={15} className="fill-yellow-400 text-yellow-400" />
-                                    <span className="text-lg font-black text-white leading-none">{movie.rating}</span>
-                                    <span className="text-xs text-white/25 font-medium">/10</span>
-                                </div>
-                                <span className="w-px h-5 bg-white/10" />
-                                <span className="text-[10px] text-white/30 font-bold uppercase tracking-widest">{movie.year}</span>
-                                <span className="w-px h-5 bg-white/10" />
-                                <span className="text-[10px] text-white/30 font-bold uppercase tracking-widest">{movie.runtime}</span>
-                            </div>
-
-                            {/* Title */}
-                            <h2 className="text-[clamp(3.5rem,8vw,8rem)] font-black tracking-[-0.05em] leading-[0.85] text-white uppercase mb-10 drop-shadow-2xl">
-                                {movie.title}
-                            </h2>
-
-                            {/* Genre pills — bright blue accents */}
-                            <div className="flex flex-wrap gap-2 mb-7">
-                                {genreTags.map(g => (
-                                    <span key={g} className="text-[10px] font-black uppercase tracking-wider text-white/40 border border-white/10 bg-white/5 px-3 py-1 rounded-sm">
-                                        {g}
-                                    </span>
+                            <div className="animate-marquee flex items-center gap-4 md:gap-6 whitespace-nowrap py-4">
+                                {marqueeCast.map((member, i) => (
+                                    <div key={i} className="flex flex-col items-center gap-3 shrink-0 group/member">
+                                        <div className="w-16 h-16 md:w-20 md:h-20 overflow-hidden bg-[#1c1c1c] shrink-0 rounded-full ring-1 ring-white/5 group-hover/member:ring-white/20 transition-all duration-300 transform group-hover/member:scale-105">
+                                            {member.image
+                                                ? <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                                                : <div className="w-full h-full flex items-center justify-center text-xs font-black text-white/15 uppercase">{member.name[0]}</div>
+                                            }
+                                        </div>
+                                        <div className="text-center w-full max-w-[100px]">
+                                            <p className="text-[10px] md:text-[11px] font-bold text-white/80 group-hover/member:text-white transition-colors truncate">{member.name}</p>
+                                            <p className="text-[8px] md:text-[9px] text-white/25 uppercase tracking-wider mt-1 truncate">{member.role || 'Actor'}</p>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
-
-                            {/* Plot */}
-                            <p className="text-white/60 text-[1rem] leading-[2.2] font-light max-w-2xl tracking-[0.15em] uppercase">
-                                {movie.plot}
-                            </p>
-
-                            {/* Fallback cast text */}
-                            {!hasFullCast && movie.cast && (
-                                <p className="mt-6 text-white/25 text-sm italic">{movie.cast}</p>
-                            )}
-                        </div>
-
-                        {/* ── Prominent Poster on the Right ── */}
-                        <div className="hidden md:flex w-[45%] items-center justify-center bg-white/[0.02] border-l border-white/5 relative group overflow-hidden">
-                            {/* Full-bleed dominant poster in the right column */}
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                                src={poster}
-                                alt={movie.title}
-                                className="w-full h-full object-cover grayscale-[0.1] hover:grayscale-0 transition-all duration-700 animate-ken-burns"
-                            />
-                            {/* Subtle dark overlay to match the left side */}
-                            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#080808] to-transparent z-10" />
-                        </div>
-                    </div>
-                </div>
-
-                {/* ── Full Cast Marquee ── */}
-                {hasFullCast && (
-                    <div className="relative overflow-hidden border-t border-white/[0.05] bg-[#080808] py-7">
-                        <p className="text-[9px] font-black uppercase tracking-[0.45em] text-white/18 px-10 mb-5">Full Cast</p>
-
-                        {/* Masks */}
-                        <div className="absolute inset-y-0 left-0 w-44 z-10 pointer-events-none"
-                            style={{ background: 'linear-gradient(to right, #080808 20%, transparent)' }} />
-                        <div className="absolute inset-y-0 right-0 w-44 z-10 pointer-events-none"
-                            style={{ background: 'linear-gradient(to left, #080808 20%, transparent)' }} />
-
-                        <div className="animate-marquee flex items-center gap-2.5 whitespace-nowrap">
-                            {marqueeCast.map((member, i) => (
-                                <div key={i} className="flex items-center gap-3.5 shrink-0 bg-white/[0.025] border border-white/[0.06] hover:bg-white/[0.05] hover:border-white/10 transition-all duration-200 px-4 py-3 rounded-md cursor-default group">
-                                    <div className="w-10 h-10 overflow-hidden bg-[#1c1c1c] shrink-0 rounded-full ring-1 ring-white/6 group-hover:ring-white/12 transition-all">
-                                        {member.image
-                                            // eslint-disable-next-line @next/next/no-img-element
-                                            ? <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
-                                            : <div className="w-full h-full flex items-center justify-center text-xs font-black text-white/15">{member.name[0]}</div>
-                                        }
-                                    </div>
-                                    <div>
-                                        <p className="text-[11px] font-semibold text-white/75 whitespace-nowrap group-hover:text-white/90 transition-colors">{member.name}</p>
-                                        <p className="text-[9px] text-white/25 uppercase tracking-wider mt-0.5 whitespace-nowrap">{member.role || 'Actor'}</p>
-                                    </div>
-                                </div>
-                            ))}
                         </div>
                     </div>
                 )}
             </div>
+
+            {/* ── 5. Reviews at the Bottom — handled in MovieSearch.tsx container ── */}
 
         </article>
     );
