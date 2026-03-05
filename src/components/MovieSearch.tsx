@@ -160,7 +160,7 @@ export default function MovieSearch() {
             // Hide main spinner, show AI skeleton
             setLoadingStep('sentiment');
 
-            // Fetch Cast securely in the background
+            // Fire off background cast scraping immediately, completely detached
             fetch(`/api/cast?imdbId=${id}`)
                 .then(res => res.json())
                 .then(resData => {
@@ -170,17 +170,23 @@ export default function MovieSearch() {
                 })
                 .catch(err => console.error("Failed to fetch full cast", err));
 
-            // Fetch Sentiment securely in the background
-            const sentimentRes = await fetch('/api/sentiment', {
+            // Fire off AI sentiment analysis immediately, completely detached
+            fetch('/api/sentiment', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: data.movie.title, imdbId: id }),
-            });
-            if (sentimentRes.ok) setSentiment(await sentimentRes.json());
+            })
+                .then(res => res.json())
+                .then(resData => {
+                    if (!resData.error) setSentiment(resData);
+                })
+                .catch(err => console.error("Failed to analyze sentiment", err))
+                .finally(() => {
+                    setLoadingStep(null);
+                });
 
         } catch (err: unknown) {
             setError(err instanceof Error ? err.message : 'An unexpected error occurred.');
-        } finally {
             setLoadingStep(null);
         }
     }, []);
