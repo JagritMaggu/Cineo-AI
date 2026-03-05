@@ -203,7 +203,7 @@ export default function MovieSearch() {
                 )}
 
                 {/* Movie loading spinner */}
-                {isLoading && (
+                {loadingStep === 'movie' && (
                     <div className="flex-1 flex flex-col items-center justify-center min-h-[70vh] px-8">
                         <div className="text-center animate-fade-up max-w-lg">
                             <div className="w-16 h-16 rounded-full border border-white/5 flex items-center justify-center mx-auto mb-8 relative">
