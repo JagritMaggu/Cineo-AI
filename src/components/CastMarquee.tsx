@@ -111,7 +111,7 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
                                 key={`${member.name}-${i}`}
                                 className="flex flex-col gap-6 shrink-0 snap-start cursor-default transition-all duration-500 w-[160px] md:w-[220px]"
                             >
-                                <div className="relative aspect-[2/3] w-full rounded-sm overflow-hidden border border-white/5 bg-white/[0.02]">
+                                <div className="relative aspect-[2/3] w-full rounded-sm overflow-hidden border border-white/5 bg-[#0f0f0f]">
                                     {member.image ? (
                                         <img
                                             src={member.image}

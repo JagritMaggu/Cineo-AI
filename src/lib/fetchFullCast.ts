@@ -68,7 +68,7 @@ export async function fetchFullCast(imdbId: string): Promise<CastMember[]> {
 
                         if (name && !cast.find(c => c.name === name)) {
                             if (image?.includes('._V1_')) {
-                                image = image.split('._V1_')[0] + '._V1_UX214_CR0,0,214,317_AL_.jpg';
+                                image = image.split('._V1_')[0] + '._V1_UX512_.jpg';
                             }
                             cast.push({ name, role, image });
                         }
@@ -91,7 +91,7 @@ export async function fetchFullCast(imdbId: string): Promise<CastMember[]> {
 
                             if (name && !cast.find(c => c.name === name)) {
                                 if (image?.includes('._V1_')) {
-                                    image = image.split('._V1_')[0] + '._V1_UX214_CR0,0,214,317_AL_.jpg';
+                                    image = image.split('._V1_')[0] + '._V1_UX512_.jpg';
                                 }
                                 cast.push({ name, role, image });
                             }
@@ -115,7 +115,7 @@ export async function fetchFullCast(imdbId: string): Promise<CastMember[]> {
 
                 if (image?.includes('nopicture')) image = undefined;
                 if (image?.includes('._V1_')) {
-                    image = image.split('._V1_')[0] + '._V1_UX214_CR0,0,214,317_AL_.jpg';
+                    image = image.split('._V1_')[0] + '._V1_UX512_.jpg';
                 }
 
                 if (name && !cast.find(c => c.name === name)) {
@@ -137,7 +137,7 @@ export async function fetchFullCast(imdbId: string): Promise<CastMember[]> {
 
                 if (image?.includes('nopicture')) image = undefined;
                 if (image?.includes('._V1_')) {
-                    image = image.split('._V1_')[0] + '._V1_UX214_CR0,0,214,317_AL_.jpg';
+                    image = image.split('._V1_')[0] + '._V1_UX512_.jpg';
                 }
 
                 if (name && !cast.find(c => c.name === name)) {
