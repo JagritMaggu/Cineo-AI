@@ -31,15 +31,11 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
 
                     <div className="relative overflow-hidden">
                         {/* ── 1. Edge Blurs for Skeleton ── */}
-                        <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-transparent z-40 pointer-events-none" />
-                        <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-[#080808] via-[#080808]/80 to-transparent z-40 pointer-events-none" />
+                        <div className="absolute left-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-transparent z-40 pointer-events-none" />
+                        <div className="absolute right-0 top-0 bottom-0 w-8 md:w-48 bg-gradient-to-l from-[#080808] via-[#080808]/80 to-transparent z-40 pointer-events-none" />
 
                         <div
-                            className="flex gap-8 md:gap-16 p-1 overflow-hidden"
-                            style={{
-                                WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
-                                maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)'
-                            }}
+                            className="flex gap-8 md:gap-16 p-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] md:[mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] md:[-webkit-mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]"
                         >
                             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                                 <div key={i} className="flex flex-col gap-6 shrink-0 opacity-10 animate-pulse w-[160px] md:w-[220px]">
@@ -76,15 +72,11 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
 
                 <div className="relative overflow-hidden">
                     {/* ── 1. Edge Blurs (Gradient Overlays) ── */}
-                    <div className="absolute left-0 top-0 bottom-0 w-32 md:w-64 bg-gradient-to-r from-[#080808] via-[#080808] to-transparent z-40 pointer-events-none" />
-                    <div className="absolute right-0 top-0 bottom-0 w-32 md:w-64 bg-gradient-to-l from-[#080808] via-[#080808] to-transparent z-40 pointer-events-none" />
+                    <div className="absolute left-0 top-0 bottom-0 w-8 md:w-64 bg-gradient-to-r from-[#080808] via-[#080808] to-transparent z-40 pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-8 md:w-64 bg-gradient-to-l from-[#080808] via-[#080808] to-transparent z-40 pointer-events-none" />
 
                     <div
-                        className="flex gap-8 md:gap-16 p-1 animate-marquee"
-                        style={{
-                            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%)',
-                            maskImage: 'linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%)'
-                        }}
+                        className="flex gap-8 md:gap-16 p-1 animate-marquee [mask-image:linear-gradient(to_right,transparent_0%,black_5%,black_95%,transparent_100%)] md:[mask-image:linear-gradient(to_right,transparent_0%,black_20%,black_80%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_5%,black_95%,transparent_100%)] md:[-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_20%,black_80%,transparent_100%)]"
                     >
                         {extendedCast.map((member, i) => (
                             <div

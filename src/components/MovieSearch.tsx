@@ -50,19 +50,26 @@ function PosterStepMarquee({ onStep }: { onStep: (movie: { title: string; poster
         onStep(MARQUEE_MOVIES[index % MARQUEE_MOVIES.length], index % MARQUEE_MOVIES.length);
     }, [index, onStep]);
 
-    // Multiple clones for infinite scroll
-    const extendedMovies = useMemo(() => [
-        ...MARQUEE_MOVIES,
-        ...MARQUEE_MOVIES,
-        ...MARQUEE_MOVIES,
-        ...MARQUEE_MOVIES
-    ], []);
+    // Huge number of clones for practically infinite scroll without resetting
+    const extendedMovies = useMemo(() => {
+        const arr = [];
+        for (let i = 0; i < 50; i++) {
+            arr.push(...MARQUEE_MOVIES);
+        }
+        return arr;
+    }, []);
 
     return (
-        <div className="relative w-full h-[400px] overflow-hidden flex items-end">
+        <div
+            className="relative w-full h-[400px] overflow-hidden flex items-end"
+            style={{ maskImage: 'linear-gradient(to right, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, black 80%, transparent 100%)' }}
+        >
+            {/* Added a subtle blur overlay on the right edge */}
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black/20 to-transparent backdrop-blur-[2px] z-20 pointer-events-none" />
+
             <motion.div
                 className="flex gap-4 items-end"
-                animate={{ x: -(index % (MARQUEE_MOVIES.length * 2)) * (CARD_WIDTH + 16) }}
+                animate={{ x: -(index) * (CARD_WIDTH + 16) }}
                 transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                 style={{ width: 'max-content' }}
             >
