@@ -27,11 +27,11 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
         <article className="w-full bg-[#080808] h-[100svh] text-white relative overflow-hidden flex flex-col">
 
             {/* ── 1. The Cinematic Backdrop (Ambient Cineo Glow) ── */}
-            <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.2] overflow-hidden">
+            <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.25] overflow-hidden">
                 <img
                     src={poster}
                     alt=""
-                    className="w-full h-full object-cover blur-[140px] scale-150 saturate-[1.3]"
+                    className="w-full h-full object-cover blur-[160px] scale-150 saturate-[1.3]"
                 />
             </div>
 
@@ -90,8 +90,8 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                     </div>
 
                     {/* Right side: The Floating Portrait Piece */}
-                    <div className="w-full lg:w-auto h-auto max-h-[75vh] flex justify-center order-1 lg:order-2 lg:translate-y-4">
-                        <div className="relative h-[75vh] aspect-[2/3] rounded-sm overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.9)] border border-white/5 bg-black/40">
+                    <div className="w-full lg:w-auto h-auto max-h-[85vh] flex justify-center order-1 lg:order-2 lg:translate-y-4">
+                        <div className="relative h-[85vh] aspect-[2/3] rounded-sm overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-white/5 bg-black/40">
                             <img
                                 src={poster}
                                 alt={movie.title}
@@ -104,7 +104,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
             </div>
 
             {/* ── Seamless Bottom Merge Gradient ── */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#080808] via-[#080808]/50 to-transparent z-20 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#080808] to-transparent z-20 pointer-events-none" />
         </article>
     );
 });
