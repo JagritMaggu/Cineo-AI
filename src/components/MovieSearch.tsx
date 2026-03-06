@@ -162,38 +162,36 @@ export default function MovieSearch() {
             // Hide main spinner, show AI skeleton locally
             setLoadingStep('sentiment');
 
-            // --- FIRE BACKGROUND TASKS (DO NOT AWAIT) ---
+            // --- FIRE BACKGROUND TASKS SEQUENTIALLY TO AVOID BOTTLE-NECKING ---
 
             // 1. Fetch Cast securely in the background
             setIsCastLoading(true);
-            fetch(`/api/cast?imdbId=${id}`)
-                .then(res => res.json())
-                .then(resData => {
-                    if (resData.fullCast) {
-                        setMovieData(prev => prev ? { ...prev, fullCast: resData.fullCast } : prev);
-                    }
-                    setIsCastLoading(false);
-                })
-                .catch(err => {
-                    console.error("Failed to fetch full cast", err);
-                    setIsCastLoading(false);
-                });
+            try {
+                const castRes = await fetch(`/api/cast?imdbId=${id}`);
+                const castData = await castRes.json();
+                if (castData.fullCast) {
+                    setMovieData(prev => prev ? { ...prev, fullCast: castData.fullCast } : prev);
+                }
+            } catch (err) {
+                console.error("Failed to fetch full cast", err);
+            } finally {
+                setIsCastLoading(false);
+            }
 
-            // 2. Fetch Sentiment securely in the background
-            fetch('/api/sentiment', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title: movieJson.movie.title, imdbId: id }),
-            })
-                .then(res => res.json())
-                .then(sentimentData => {
-                    setSentiment(sentimentData);
-                    setLoadingStep(null); // Completely finish loading phase when sentiment finishes
-                })
-                .catch(err => {
-                    console.error("Failed to fetch sentiment", err);
-                    setLoadingStep(null);
+            // 2. ONLY AFTER Cast finishes, Fetch Sentiment securely in the background
+            try {
+                const sentimentRes = await fetch('/api/sentiment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: movieJson.movie.title, imdbId: id }),
                 });
+                const sentimentData = await sentimentRes.json();
+                setSentiment(sentimentData);
+            } catch (err) {
+                console.error("Failed to fetch sentiment", err);
+            } finally {
+                setLoadingStep(null); // Completely finish loading phase when sentiment finishes
+            }
 
         } catch (err: unknown) {
             setError(err instanceof Error ? err.message : 'An unexpected error occurred.');
