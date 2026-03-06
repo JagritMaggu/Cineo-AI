@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { Movie, SentimentResult, MovieApiResponse } from '@/types/movie';
 import MovieCard from '@/components/MovieCard';
 import CastMarquee from '@/components/CastMarquee';
@@ -22,6 +22,76 @@ const MOVIE_FACTS = [
     "The Matrix (1999) • A revolutionary fusion of philosophy and action cinema."
 ];
 
+const MARQUEE_MOVIES = [
+    { title: "Pulp Fiction", poster: "https://image.tmdb.org/t/p/w500/vQWk5YBFWF4bZaofAbv0tShwBvQ.jpg", backdrop: "https://image.tmdb.org/t/p/original/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg" },
+    { title: "Inception", poster: "https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg", backdrop: "https://image.tmdb.org/t/p/original/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg" },
+    { title: "The Dark Knight", poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg", backdrop: "https://image.tmdb.org/t/p/original/dqK9Hag1054tghRQSqLSfrkvQnA.jpg" },
+    { title: "A Beautiful Mind", poster: "https://image.tmdb.org/t/p/w500/zwzWCmH72OSC9NA0ipoqw5Zjya8.jpg", backdrop: "https://image.tmdb.org/t/p/original/vVBcIN68kFq681b4lObiNJhEVro.jpg" },
+    { title: "The Godfather", poster: "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg", backdrop: "https://image.tmdb.org/t/p/original/tSPT36ZKlP2WVHJLM4cQPLSzv3b.jpg" },
+    { title: "Good Will Hunting", poster: "https://image.tmdb.org/t/p/w500/z2FnLKpFi1HPO7BEJxdkv6hpJSU.jpg", backdrop: "https://image.tmdb.org/t/p/original/bpV8wn48s82au37QyUJ51S7X2Vf.jpg" },
+    { title: "Bohemian Rhapsody", poster: "https://image.tmdb.org/t/p/w500/lHu1wtNaczFPGFDTrjCSzeLPTKN.jpg", backdrop: "https://image.tmdb.org/t/p/original/dcvbs8z0GEXslC1kCT77x19XDeR.jpg" }
+];
+
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+
+function PosterStepMarquee({ onStep }: { onStep: (movie: { title: string; poster: string; backdrop: string }) => void }) {
+    const [index, setIndex] = useState(0);
+    const CARD_WIDTH = 424; // 400px width + 24px gap
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIndex(prev => prev + 1);
+        }, 3500); // slightly slower for better impact
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        onStep(MARQUEE_MOVIES[index % MARQUEE_MOVIES.length]);
+    }, [index, onStep]);
+
+    // Multiple clones for infinite scroll
+    const extendedMovies = useMemo(() => [
+        ...MARQUEE_MOVIES,
+        ...MARQUEE_MOVIES,
+        ...MARQUEE_MOVIES,
+        ...MARQUEE_MOVIES
+    ], []);
+
+    return (
+        <div className="relative w-full h-[540px] overflow-hidden flex items-center">
+            {/* Edge Blurs */}
+            <div className="absolute left-0 inset-y-0 w-32 bg-gradient-to-r from-[#080808] to-transparent z-10" />
+            <div className="absolute right-0 inset-y-0 w-32 bg-gradient-to-l from-[#080808] to-transparent z-10" />
+
+            <motion.div
+                className="flex gap-6 items-center"
+                animate={{ x: -(index % (MARQUEE_MOVIES.length * 2)) * CARD_WIDTH }}
+                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                style={{ width: 'max-content' }}
+            >
+                {extendedMovies.map((movie: { title: string; poster: string; backdrop: string }, i: number) => (
+                    <div
+                        key={`${movie.title}-${i}`}
+                        className="w-[400px] shrink-0 group"
+                    >
+                        <div className="aspect-[2/3] w-full rounded-sm overflow-hidden border border-white/5 bg-[#0a0a0a] transition-all duration-700 group-hover:border-white/20 relative">
+                            <img
+                                src={movie.poster}
+                                alt={movie.title}
+                                className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
+                                <p className="text-xs font-black uppercase tracking-[0.3em] text-white underline underline-offset-8 decoration-white/30">{movie.title}</p>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </motion.div>
+        </div>
+    );
+}
+
 /* ─────────────────────────────────────────────
    Landing — shown before any search is run
 ───────────────────────────────────────────── */
@@ -38,81 +108,139 @@ function Landing({
     isLoading: boolean;
     onMobileSearch: () => void;
 }) {
+    const [activeMovie, setActiveMovie] = useState(MARQUEE_MOVIES[0]);
+    const handleStep = useCallback((movie: { title: string; poster: string; backdrop: string }) => {
+        setActiveMovie(movie);
+    }, []);
+
     return (
-        <div className="relative flex flex-col min-h-svh">
+        <div className="relative flex flex-col min-h-svh justify-end mt-1.5 pb-6 lg:pt-0 lg:pb-32 overflow-hidden">
 
-            {/* Animated ambient glow */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-[0.03]"
-                    style={{ background: 'radial-gradient(circle, #ffffff 0%, transparent 70%)' }} />
-                <div className="absolute bottom-0 -left-20 w-[400px] h-[400px] rounded-full opacity-[0.02]"
-                    style={{ background: 'radial-gradient(circle, #ffffff 0%, transparent 70%)' }} />
-                {/* Subtle grid */}
-                <div className="absolute inset-0 opacity-[0.025]"
-                    style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
-            </div>
+            {/* Brighter Proper Poster Background */}
+            <div className="fixed inset-0 z-0 pointer-events-none transition-all duration-300 ease-out bg-[#080808]">
 
-            {/* Headline */}
-            <div className="relative flex-1 flex flex-col justify-center items-center text-center px-8 md:px-12 max-w-2xl mx-auto">
-                <div className="flex items-center justify-center gap-2.5 mb-7">
-                    <span className="pulse-dot w-1.5 h-1.5 rounded-full bg-white shrink-0" />
-                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30">AI-Powered Cinema Analysis</span>
-                </div>
-
-                <h1 className="text-[clamp(4.5rem,14vw,11rem)] font-black tracking-[-0.05em] leading-[0.78] mb-12 uppercase">
-                    <span className="text-white">Decode the</span><br />
-                    <span className="text-white/20">Cinema.</span>
-                </h1>
-
-                <p className="text-white/35 text-xs md:text-sm leading-[2] max-w-4xl font-light mb-28 mx-auto tracking-[0.25em] uppercase">
-                    Go beyond the ratings. Our AI analyzes thousands of audience reviews to reveal the true pulse of any movie in seconds.
-                </p>
-
-                {/* Desktop Search Bar below content */}
-                <form onSubmit={onSubmit} className="hidden md:flex items-center w-full max-w-2xl mx-auto border border-white/8 bg-white/[0.03] rounded-md overflow-hidden hover:border-white/18 focus-within:border-white/30 transition-all duration-300">
-                    <div className="flex items-center pl-4 text-white/20 shrink-0">
-                        <Search size={14} />
-                    </div>
-                    <input
-                        type="text"
-                        value={inputVal}
-                        onChange={e => setInputVal(e.target.value)}
-                        placeholder="ENTER IMDB ID (e.g. tt0468569)"
-                        disabled={isLoading}
-                        className="flex-1 px-4 py-4 text-[10px] bg-transparent focus:outline-none placeholder:text-white/15 text-white disabled:opacity-40 tracking-[0.2em] font-medium"
+                {/* Mobile: Ambient Blur Section (Full Screen) */}
+                <div className="absolute inset-0 md:hidden opacity-50 saturate-150">
+                    <img
+                        key={`blur-${activeMovie.title}`}
+                        src={activeMovie.poster.replace('/w500/', '/original/')}
+                        alt=""
+                        className="w-full h-full object-cover blur-[60px] scale-110"
+                        style={{ transition: 'opacity 0.2s ease-in-out' }}
                     />
-                    <button
-                        type="submit"
-                        disabled={isLoading || !inputVal.trim()}
-                        className="px-6 py-2 m-2 text-[10px] font-black bg-white text-black hover:bg-white/90 transition-all disabled:bg-white/5 disabled:text-white/18 rounded-sm uppercase tracking-widest shrink-0"
-                    >
-                        Analyze
-                    </button>
-                </form>
-
-                {/* Hints */}
-                <div className="hidden md:block mt-8 text-[9px] text-white/15 tracking-[0.3em] uppercase">
-                    Powered by Gemini 2.0 Flash • IMDb Large Dataset Repository
                 </div>
 
-                {/* Mobile: tap hint pointing to FAB */}
-                <div className="flex md:hidden items-center justify-center gap-2 text-white/25">
-                    <span className="text-xs font-light">Tap</span>
-                    <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center">
-                        <Search size={12} className="text-white/60" />
-                    </div>
-                    <span className="text-xs font-light">below to search any movie</span>
+                {/* Mobile: Top Poster (Full Width, Natural Height) */}
+                <div className="absolute top-0 left-0 right-0 h-[76vh] md:hidden">
+                    <Image
+                        key={`${activeMovie.title}-mobile`}
+                        src={activeMovie.poster.replace('/w500/', '/original/')}
+                        alt=""
+                        fill
+                        unoptimized
+                        priority
+                        className="object-cover object-top saturate-[1.1]"
+                        style={{
+                            transition: 'opacity 0.2s ease-in-out',
+                            maskImage: 'linear-gradient(to bottom, black 90%, transparent 100%)',
+                            WebkitMaskImage: 'linear-gradient(to bottom, black 90%, transparent 100%)'
+                        }}
+                    />
                 </div>
+
+                {/* Desktop: Full Landscape Backdrop */}
+                <picture className="absolute inset-0 hidden md:block">
+                    <source media="(min-width: 768px)" srcSet={activeMovie.backdrop} />
+                    <img
+                        key={`${activeMovie.title}-desktop`}
+                        src={activeMovie.backdrop}
+                        alt=""
+                        className="w-full h-full object-cover object-center saturate-[1.1] opacity-[0.6]"
+                        style={{
+                            transition: 'opacity 0.2s ease-in-out',
+                            imageRendering: 'auto'
+                        }}
+                    />
+                </picture>
             </div>
 
-            {/* Floating search FAB — mobile only */}
-            <button
-                onClick={onMobileSearch}
-                className="md:hidden fixed bottom-8 right-6 z-50 w-14 h-14 bg-white rounded-full flex items-center justify-center"
-                style={{ boxShadow: '0 8px 32px rgba(255,255,255,0.15), 0 2px 8px rgba(0,0,0,0.6)' }}
-            >
-                <Search size={20} className="text-black" />
-            </button>
+            {/* Subtle Overlay for legibility only */}
+            <div className="fixed inset-0 bg-black/20 z-[1] pointer-events-none hidden md:block" />
+            <div className="fixed inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent z-[2] pointer-events-none opacity-40 hidden md:block" />
+
+            <div className="relative z-10 w-full max-w-[1720px] mx-auto px-6 md:px-20 grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] items-end gap-16 lg:gap-24">
+
+                {/* Left side: Tagline, Narrative & Search */}
+                <div className="flex flex-col text-center lg:text-left pt-6 lg:pt-0">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="flex items-center justify-center lg:justify-start gap-2 lg:gap-3 mb-3 lg:mb-8"
+                    >
+                        <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-white" />
+                        <span className="text-[8px] md:text-[11px] font-black uppercase tracking-[0.5em] text-white/40">AI-Powered Cinema Analysis</span>
+                    </motion.div>
+
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.1 }}
+                        className="text-[clamp(2.2rem,7vw,8rem)] font-black tracking-[-0.04em] leading-[0.85] mb-4 lg:mb-10 uppercase"
+                    >
+                        <span className="text-white pb-2">Decode the</span><br />
+                        <span className="text-white/20">Cinema.</span>
+                    </motion.h1>
+
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="text-white/40 text-[9px] md:text-sm leading-[1.6] max-w-[18rem] md:max-w-xl mx-auto lg:mx-0 font-light mb-6 lg:mb-12 tracking-[0.15em] uppercase px-2 lg:px-0"
+                    >
+                        Analyze thousands of audience reviews to reveal the true pulse of any movie in seconds.
+                    </motion.p>
+
+                    {/* Search Input */}
+                    <motion.form
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                        onSubmit={onSubmit}
+                        className="flex items-center w-full max-w-xl border border-white/5 bg-black/40 rounded-md overflow-hidden hover:border-white/10 focus-within:border-white/20 transition-all duration-500"
+                    >
+                        <div className="flex items-center pl-4 lg:pl-6 text-white/30 shrink-0">
+                            <Search size={15} className="scale-90 md:scale-100" />
+                        </div>
+                        <input
+                            type="text"
+                            value={inputVal}
+                            onChange={e => setInputVal(e.target.value)}
+                            placeholder="Enter IMDB ID"
+                            disabled={isLoading}
+                            className="flex-1 px-3 lg:px-5 py-3.5 lg:py-5 text-[10px] lg:text-[11px] bg-transparent focus:outline-none placeholder:text-white/20 placeholder:text-[8px] lg:placeholder:text-[11px] text-white tracking-[0.3em] font-bold uppercase transition-all"
+                        />
+                        <button
+                            type="submit"
+                            disabled={isLoading || !inputVal.trim()}
+                            className="px-6 lg:px-8 py-2.5 lg:py-3 m-1.5 lg:m-3 text-[9px] lg:text-[10px] font-black bg-white text-black hover:bg-[#e0e0e0] transition-all disabled:opacity-40 disabled:hover:bg-white rounded-sm uppercase tracking-[0.2em] shrink-0"
+                        >
+                            Analyze
+                        </button>
+                    </motion.form>
+                </div>
+
+                {/* Right side: The Infinite Poster Stream */}
+                <div className="hidden lg:block w-full overflow-hidden">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1.2, delay: 0.4 }}
+                    >
+                        <PosterStepMarquee onStep={handleStep} />
+                    </motion.div>
+                </div>
+            </div>
         </div>
     );
 }
@@ -162,7 +290,15 @@ export default function MovieSearch() {
                 .then((movieJson: MovieApiResponse) => {
                     clearInterval(factInterval); // Stop spinner once core data arrives
                     setMovieData(movieJson.movie);
-                    if (!sentiment) setLoadingStep('sentiment'); // Switch UI to AI loading state
+
+                    // If sentiment already arrived, we can stop the loading phase entirely
+                    setLoadingStep(prev => {
+                        if (prev === 'movie') {
+                            // If sentiment isn't here yet, transition to sentiment loading
+                            return sentiment ? null : 'sentiment';
+                        }
+                        return prev;
+                    });
                 })
                 .catch(err => {
                     clearInterval(factInterval);
@@ -225,14 +361,14 @@ export default function MovieSearch() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen w-full max-w-[100vw] overflow-x-hidden">
 
 
             {/* ── Scrollable Content ── */}
             <div className="flex-1 flex flex-col">
 
                 {/* Landing */}
-                {!hasResult && !isLoading && (
+                {!movieData && !error && !loadingStep && (
                     <Landing
                         inputVal={inputVal}
                         setInputVal={setInputVal}
@@ -242,8 +378,8 @@ export default function MovieSearch() {
                     />
                 )}
 
-                {/* Movie loading spinner */}
-                {loadingStep === 'movie' && (
+                {/* Movie loading spinner - only show if we don't have movie data yet */}
+                {loadingStep === 'movie' && !movieData && (
                     <div className="flex-1 flex flex-col items-center justify-center min-h-[70vh] px-8">
                         <div className="text-center animate-fade-up max-w-lg">
                             <div className="w-16 h-16 rounded-full border border-white/5 flex items-center justify-center mx-auto mb-8 relative">
@@ -281,31 +417,22 @@ export default function MovieSearch() {
                     />
                 )}
 
-                {/* Cast Marquee - renders below hero to prevent blocking */}
-                {movieData && (
-                    <CastMarquee cast={movieData.fullCast} isLoading={isCastLoading} />
+                {/* Cast Marquee - renders below hero, paints skeleton if loading */}
+                {(movieData || isCastLoading) && (
+                    <CastMarquee cast={movieData?.fullCast} isLoading={isCastLoading} />
                 )}
 
-                {/* Sentiment */}
-                {movieData && (
+                {/* Sentiment - paints skeleton if loading regardless of movieData state */}
+                {(movieData || sentiment || loadingStep === 'sentiment') && (
                     <div className="max-w-screen-2xl mx-auto w-full px-6 md:px-16 pb-20">
                         {sentiment ? (
                             <SentimentCard sentiment={sentiment} />
-                        ) : loadingStep === 'sentiment' ? (
+                        ) : (loadingStep === 'sentiment' || (loadingStep === 'movie' && !sentiment)) ? (
                             <SentimentSkeleton />
                         ) : null}
                     </div>
                 )}
             </div>
-
-            {/* ── Mobile FAB (shown after result too) ── */}
-            <button
-                onClick={() => setMobileOpen(false)}
-                className="md:hidden fixed bottom-7 right-5 z-50 w-12 h-12 bg-white rounded-full flex items-center justify-center"
-                style={{ boxShadow: '0 8px 24px rgba(255,255,255,0.1)' }}
-            >
-                <Search size={18} className="text-black" />
-            </button>
 
             {/* ── Mobile Search Modal ── */}
             {mobileOpen && (
@@ -333,7 +460,6 @@ export default function MovieSearch() {
                                 type="submit"
                                 disabled={!inputVal.trim()}
                                 className="w-full py-3.5 bg-white text-black text-xs font-black rounded-md uppercase tracking-[0.3em] hover:bg-white/80 transition-all active:scale-[0.97] disabled:bg-white/8 disabled:text-white/20"
-                                style={{ boxShadow: inputVal.trim() ? '0 4px 20px rgba(255,255,255,0.1)' : 'none' }}
                             >
                                 Analyze
                             </button>

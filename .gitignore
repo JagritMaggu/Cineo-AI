@@ -39,3 +39,31 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# scratch scripts
+ask_gpt.js
+check_models.js
+debug_fetch.js
+fetch_fix.js
+fetch_images.js
+fetch_proxy.js
+fetch_tmdb.py
+fetch_tmdb_2.js
+fetch_tmdb_final.js
+find_paths.js
+parse_json.js
+save_json.js
+scrape_images.js
+scrape_imdb.js
+test_gemini.js
+test_images.js
+
+# temp data
+cineo_movies.json
+codetabs_output.txt
+imdb_full.json
+itunes.txt
+omdb_posters.json
+out.txt
+out2.txt
+out3.txt
