@@ -35,10 +35,10 @@ function NotFoundContent() {
     const activeMovie = MARQUEE_MOVIES[index];
 
     // Cinematic content variations
-    const errorTitle = isImdbError ? "INVALID SUBJECT ID" : "SCENE NOT FOUND";
+    const errorTitle = isImdbError ? "INVALID IMDB ID" : "SCENE NOT FOUND";
     const errorSub = isImdbError ? "Missing Archivist Tag" : "Directed to a Dead End";
     const errorDesc = isImdbError
-        ? "The identifier provided does not match any entry in our records. Please verify the 'tt' sequence and re-submit for analysis."
+        ? "The IMDB ID provided does not match any entry in our records. Please verify the 'tt' sequence and re-submit for analysis."
         : "The coordinates you provided don't exist in our cinematic library. This sequence appears to have been cut in the editing room.";
     const ErrorIcon = isImdbError ? Film : Clapperboard;
 
@@ -82,7 +82,7 @@ function NotFoundContent() {
 
 
                     <h1 className="text-5xl md:text-9xl font-black tracking-[-0.05em] text-white leading-none mb-4 selection:bg-white selection:text-black min-w-0">
-                        {isImdbError ? "ID_ERROR" : "404"}
+                        {isImdbError ? "ID ERROR" : "404"}
                     </h1>
 
                     <div className="flex items-center justify-center gap-3 mb-8">
@@ -94,7 +94,7 @@ function NotFoundContent() {
                     </div>
 
                     <div className="mb-8">
-                        <span className="text-[10px] md:text-xs font-bold text-white/60 uppercase tracking-[0.2em] px-4 py-1.5 border border-white/5 bg-white/[0.02] rounded-full">
+                        <span className="text-[10px] md:text-xs font-bold text-white/60 uppercase tracking-[0.2em] px-4 py-1.5 border border-white/5 bg-white/[0.02] rounded-md">
                             {errorSub}
                         </span>
                     </div>
