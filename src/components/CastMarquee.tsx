@@ -66,7 +66,7 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
 
     return (
         <section className="w-full bg-[#080808] py-20 relative z-20 border-t border-white/[0.02]">
-            <div className="max-w-screen-3xl mx-auto px-6 md:px-20">
+            <div className="max-w-[1720px] mx-auto px-6 md:px-20">
                 <div className="flex items-center justify-between mb-12">
                     <div className="flex items-center gap-6 flex-1">
                         <h3 className="text-[10px] font-black uppercase tracking-[0.8em] text-white/40 whitespace-nowrap">The Global Ensemble</h3>
@@ -78,37 +78,43 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
                     </div>
                 </div>
 
-                <div
-                    ref={scrollRef}
-                    onMouseEnter={() => setIsPaused(true)}
-                    onMouseLeave={() => setIsPaused(false)}
-                    className="relative -mx-6 md:-mx-20 px-6 md:px-20 overflow-x-auto no-scrollbar pb-8 flex gap-8 md:gap-16 snap-x snap-mandatory scroll-smooth"
-                >
-                    {cast.map((member, i) => (
-                        <div
-                            key={i}
-                            className="flex flex-col gap-6 shrink-0 snap-start cursor-default transition-all duration-500 w-[160px] md:w-[220px]"
-                        >
-                            <div className="relative aspect-[2/3] w-full rounded-sm overflow-hidden border border-white/5 bg-white/[0.02]">
-                                {member.image ? (
-                                    <img
-                                        src={member.image}
-                                        alt={member.name}
-                                        className="w-full h-full object-cover grayscale-[0.2]"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-2xl font-black text-white/10 uppercase bg-[#0f0f0f]">
-                                        {member.name[0]}
-                                    </div>
-                                )}
-                            </div>
+                <div className="relative group">
+                    {/* ── 1. End-to-End Edge Blurs ── */}
+                    <div className="absolute left-0 top-0 bottom-0 w-24 md:w-56 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-transparent z-30 pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-24 md:w-56 bg-gradient-to-l from-[#080808] via-[#080808]/80 to-transparent z-30 pointer-events-none" />
 
-                            <div className="flex flex-col px-1">
-                                <p className="text-xs md:text-sm font-black text-white/80 uppercase tracking-wider mb-1 line-clamp-1">{member.name}</p>
-                                <p className="text-[10px] md:text-[11px] text-white/20 uppercase tracking-[0.2em] font-medium line-clamp-1">{member.role || 'Principal Cast'}</p>
+                    <div
+                        ref={scrollRef}
+                        onMouseEnter={() => setIsPaused(true)}
+                        onMouseLeave={() => setIsPaused(false)}
+                        className="relative -mx-6 md:-mx-20 px-6 md:px-20 overflow-x-auto no-scrollbar pb-8 flex gap-8 md:gap-16 snap-x snap-mandatory scroll-smooth"
+                    >
+                        {cast.map((member, i) => (
+                            <div
+                                key={i}
+                                className="flex flex-col gap-6 shrink-0 snap-start cursor-default transition-all duration-500 w-[160px] md:w-[220px]"
+                            >
+                                <div className="relative aspect-[2/3] w-full rounded-sm overflow-hidden border border-white/5 bg-white/[0.02]">
+                                    {member.image ? (
+                                        <img
+                                            src={member.image}
+                                            alt={member.name}
+                                            className="w-full h-full object-cover grayscale-[0.2]"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-2xl font-black text-white/10 uppercase bg-[#0f0f0f]">
+                                            {member.name[0]}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="flex flex-col px-1">
+                                    <p className="text-xs md:text-sm font-black text-white/80 uppercase tracking-wider mb-1 line-clamp-1">{member.name}</p>
+                                    <p className="text-[10px] md:text-[11px] text-white/20 uppercase tracking-[0.2em] font-medium line-clamp-1">{member.role || 'Principal Cast'}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
