@@ -59,6 +59,22 @@ body {
   animation: fadeIn 0.6s ease forwards;
 }
 
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-left {
+  animation: fadeInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* ─── Slide up (mobile modal) ─── */
 @keyframes slideUp {
   from {

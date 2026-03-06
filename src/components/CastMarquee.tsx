@@ -9,7 +9,6 @@ interface CastMarqueeProps {
 }
 
 export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
-    const [isPaused, setIsPaused] = useState(false);
 
     // Duplicate the cast array to create enough runway for seamless continuous loop
     const extendedCast = useMemo(() => {
@@ -22,9 +21,10 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
         return (
             <div className="w-full bg-[#080808] py-20 relative z-20">
                 <div className="max-w-[1720px] mx-auto px-6 md:px-20">
-                    <div className="flex items-center justify-between mb-12">
+                    <div className="flex items-center justify-center mb-12">
                         <div className="flex items-center gap-6 flex-1 opacity-20">
-                            <h3 className="text-[10px] font-black uppercase tracking-[0.8em] text-white whitespace-nowrap">The Global Ensemble</h3>
+                            <div className="flex-1 h-px bg-white/20" />
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.4em] lg:tracking-[0.8em] text-white whitespace-nowrap">The Global Ensemble</h3>
                             <div className="flex-1 h-px bg-white/20" />
                         </div>
                     </div>
@@ -62,9 +62,10 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
     return (
         <section className="w-full bg-[#080808] py-20 relative z-20 border-t border-white/[0.02]">
             <div className="max-w-[1720px] mx-auto px-6 md:px-20">
-                <div className="flex items-center justify-between mb-12">
+                <div className="flex items-center justify-center mb-12">
                     <div className="flex items-center gap-6 flex-1">
-                        <h3 className="text-[10px] font-black uppercase tracking-[0.8em] text-white/40 whitespace-nowrap">The Global Ensemble</h3>
+                        <div className="flex-1 h-px bg-gradient-to-l from-white/[0.05] to-transparent md:hidden" />
+                        <h3 className="text-[10px] font-black uppercase tracking-[0.4em] lg:tracking-[0.8em] text-white/40 whitespace-nowrap">The Global Ensemble</h3>
                         <div className="flex-1 h-px bg-gradient-to-r from-white/[0.05] to-transparent" />
                     </div>
                     <div className="hidden md:flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.2em] text-white/20">
@@ -75,16 +76,14 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
 
                 <div className="relative overflow-hidden">
                     {/* ── 1. Edge Blurs (Gradient Overlays) ── */}
-                    <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-transparent z-40 pointer-events-none" />
-                    <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-[#080808] via-[#080808]/80 to-transparent z-40 pointer-events-none" />
+                    <div className="absolute left-0 top-0 bottom-0 w-32 md:w-64 bg-gradient-to-r from-[#080808] via-[#080808] to-transparent z-40 pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-32 md:w-64 bg-gradient-to-l from-[#080808] via-[#080808] to-transparent z-40 pointer-events-none" />
 
                     <div
-                        onMouseEnter={() => setIsPaused(true)}
-                        onMouseLeave={() => setIsPaused(false)}
-                        className={`flex gap-8 md:gap-16 p-1 animate-marquee ${isPaused ? '[animation-play-state:paused]' : ''}`}
+                        className="flex gap-8 md:gap-16 p-1 animate-marquee"
                         style={{
-                            WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
-                            maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)'
+                            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%)',
+                            maskImage: 'linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%)'
                         }}
                     >
                         {extendedCast.map((member, i) => (

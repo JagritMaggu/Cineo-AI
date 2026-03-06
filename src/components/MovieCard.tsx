@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState, useEffect } from 'react';
 import { Movie } from '@/types/movie';
 import { Star, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -12,6 +12,11 @@ interface MovieCardProps {
 }
 
 const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
+    const [isDesktop, setIsDesktop] = useState(false);
+
+    useEffect(() => {
+        setIsDesktop(window.innerWidth >= 1024);
+    }, []);
     const genreTags = useMemo(
         () => movie.genre.split(',').map(g => g.trim()).filter(Boolean),
         [movie.genre]
@@ -26,7 +31,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
     }, [movie.poster]);
 
     return (
-        <article className="w-full overflow-x-hidden bg-[#080808] min-h-[100svh] lg:h-[105svh] text-white relative flex flex-col pt-0 pb-10 lg:py-0">
+        <article className="w-full max-w-full overflow-x-hidden bg-[#080808] min-h-[106svh] text-white relative flex flex-col pt-0 pb-10 lg:py-0 overscroll-x-none">
 
             {/* ── 1. The Cinematic Backdrop (Ambient Cineo Glow) ── */}
             <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.25] overflow-hidden">
@@ -37,8 +42,8 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                 />
             </div>
 
-            {/* ── 2. The Fluid 100vh Dashboard (Inspired by Lucifer/Netflix Layout) ── */}
-            <div className="relative z-10 w-full max-w-[1720px] mx-auto px-0 md:px-20 flex-1 flex flex-col justify-start lg:justify-center">
+            {/* ── 2. The Fluid 120svh Dashboard (Increased Height) ── */}
+            <div className="relative z-40 w-full max-w-full lg:max-w-[1720px] mx-auto px-0 md:px-20 flex-1 flex flex-col justify-start lg:justify-center lg:h-[120svh] lg:shrink-0 lg:pb-52 overflow-x-clip">
 
                 {/* Back Button */}
                 {onBack && (
@@ -50,11 +55,11 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                     </button>
                 )}
 
-                <div className="flex flex-col lg:flex-row gap-0 lg:gap-24 items-center lg:items-end">
+                <div className="flex flex-col lg:flex-row gap-0 lg:gap-24 items-center justify-center lg:justify-start lg:items-end w-full max-w-full overflow-x-hidden">
 
                     {/* Right side: The Floating Portrait Piece (Moved up for mobile context) */}
-                    <div className="w-full lg:w-auto h-auto flex justify-center order-1 lg:order-2 lg:-translate-y-6 lg:max-h-[90vh]">
-                        <div className="relative w-full h-[71vh] lg:w-auto lg:h-[90vh] lg:aspect-[2/3] lg:rounded-sm overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-0 border-transparent lg:border-white/5 bg-transparent lg:bg-black/40 [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[mask-image:none]">
+                    <div className="w-full lg:w-auto h-auto flex justify-center order-1 lg:order-2 lg:max-h-[90vh] overflow-hidden lg:mt-10">
+                        <div className="relative w-full h-[67vh] lg:w-auto lg:h-[90vh] lg:aspect-[2/3] lg:rounded-sm overflow-hidden lg:overflow-y-clip shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-0 border-transparent lg:border-white/5 bg-transparent lg:bg-black/40 [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[mask-image:none] [WebkitMaskImage:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[WebkitMaskImage:none]">
                             <img
                                 src={poster}
                                 alt={movie.title}
@@ -64,14 +69,19 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                     </div>
 
                     {/* Left side: The Narrative & Meta (Cineo Theme) */}
-                    <div className="flex-1 text-center lg:text-left order-2 lg:order-1 lg:-translate-y-20 px-6 md:px-0 mt-4 lg:mt-0 pb-12 lg:pb-0">
+                    <motion.div
+                        initial={isDesktop ? { opacity: 0, x: -10 } : {}}
+                        animate={isDesktop ? { opacity: 1, x: 0 } : {}}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="flex-1 w-full max-w-full text-center lg:text-left order-2 lg:order-1 px-0 md:px-0 mt-2 lg:mt-0 pb-8 lg:pb-0 overflow-x-hidden -translate-x-[6px] lg:translate-x-0 lg:-translate-y-4"
+                    >
 
-                        <div className="flex flex-nowrap items-center justify-center lg:justify-start gap-3 md:gap-5 mb-4 md:mb-10 overflow-x-auto no-scrollbar px-4 lg:px-0">
+                        <div className="flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-start gap-2 md:gap-5 mb-5 md:mb-10 px-0 lg:px-0 w-full overflow-hidden">
                             <motion.h1
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                                className="text-[16.5px] md:text-3xl lg:text-6xl font-black tracking-tighter leading-none text-white uppercase whitespace-nowrap shrink truncate"
+                                className="text-[17px] md:text-3xl lg:text-5xl xl:text-6xl font-black tracking-tighter leading-none text-white uppercase whitespace-normal lg:whitespace-nowrap min-w-0 text-center lg:text-left"
                             >
                                 {movie.title}
                             </motion.h1>
@@ -87,14 +97,14 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                                 <span className="text-[8px] lg:text-[10px] opacity-40 font-bold uppercase ml-0.5 lg:ml-1">IMDb</span>
                             </div>
 
-                            <span className="text-[9px] lg:text-xs font-black uppercase tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.runtime}</span>
+                            <span className="text-[9px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.runtime}</span>
                         </div>
 
                         <motion.p
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-                            className="text-[12px] md:text-xl lg:text-2xl leading-[1.6] text-white/50 font-light tracking-wide max-w-2xl mb-5 lg:mb-10 px-2 lg:px-0 overflow-visible"
+                            className="text-[12px] md:text-xl lg:text-[1.2rem] leading-[1.6] text-white/50 font-light tracking-wide max-w-[85%] md:max-w-2xl mb-4 lg:mb-10 px-2 lg:px-0 mx-auto lg:mx-0 line-clamp-3 lg:line-clamp-none"
                         >
                             {movie.plot}
                         </motion.p>
@@ -103,10 +113,10 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                             initial={{ y: 10, opacity: 0 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
-                            className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-4 lg:mb-0"
+                            className="flex flex-wrap items-center justify-center lg:justify-start gap-1.5 lg:gap-2 mb-4 lg:mb-0"
                         >
                             {genreTags.map(g => (
-                                <span key={g} className="text-[8px] lg:text-[10px] font-black uppercase tracking-[0.4em] text-white/70 border border-white/10 bg-black/40 px-2.5 lg:px-4 py-1 lg:py-2 rounded-md">
+                                <span key={g} className="text-[8px] lg:text-[10px] font-black uppercase tracking-[0.1em] lg:tracking-[0.4em] text-white/70 border border-white/10 bg-black/40 px-1.5 lg:px-4 py-1 lg:py-2 rounded-md">
                                     {g}
                                 </span>
                             ))}
@@ -115,11 +125,12 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                         {/* Top Billed OMDb Cast */}
                         {movie.cast && movie.cast !== 'N/A' && (
                             <div className="mt-2 lg:mt-12 flex flex-col items-center lg:items-start">
-                                <div className="flex items-center gap-2 lg:gap-3 mb-2 lg:mb-4">
+                                <div className="flex items-center gap-3 mb-1 lg:mb-4">
                                     <div className="w-6 h-px bg-yellow-400/40" />
-                                    <h3 className="text-[8px] font-black uppercase tracking-[0.4em] text-yellow-400/70 whitespace-nowrap">Lead Performers</h3>
+                                    <h3 className="text-[8px] font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-yellow-400/70">Lead Performers</h3>
+                                    <div className="w-6 h-px bg-yellow-400/40 md:hidden" />
                                 </div>
-                                <p className="text-[10px] lg:text-sm md:text-base text-white/70 font-medium tracking-widest text-center lg:text-left leading-relaxed">
+                                <p className="text-[10px] lg:text-sm md:text-base text-white/70 font-medium tracking-widest text-center lg:text-left leading-relaxed max-w-[85%] lg:max-w-none">
                                     {movie.cast.split(',').map((actor, idx, arr) => (
                                         <span key={idx}>
                                             <span className="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">{actor.trim()}</span>
@@ -129,13 +140,14 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                                 </p>
                             </div>
                         )}
-                    </div>
+                    </motion.div>
 
                 </div>
             </div>
 
-            {/* ── Seamless Bottom Merge Gradient ── */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#080808] via-[#080808] to-transparent z-20 pointer-events-none" />
+            {/* ── Seamless Bottom Merge Gradient with Blur ── */}
+            <div className="absolute bottom-0 left-0 right-0 h-28 lg:h-32 bg-gradient-to-t from-[#080808] via-[#080808]/90 to-transparent z-20 pointer-events-none lg:backdrop-blur-[2px]" />
+            <div className="absolute bottom-0 left-0 right-0 h-8 lg:h-8 bg-[#080808] z-30 pointer-events-none [mask-image:linear-gradient(to_bottom,transparent,black)]" />
         </article>
     );
 });
