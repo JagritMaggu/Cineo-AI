@@ -139,7 +139,7 @@ function Landing({
                 </div>
 
                 {/* Mobile: Top Poster (Full Width, Natural Height) */}
-                <div className="absolute top-0 left-0 right-0 h-[72vh] md:hidden">
+                <div className="absolute top-0 left-0 right-0 h-[74vh] md:hidden">
                     <Image
                         key={`${activeMovie.title}-mobile`}
                         src={activeMovie.poster.replace('/w500/', '/original/')}
@@ -206,7 +206,7 @@ function Landing({
                                     animate={{ opacity: 1 }}
                                     exit={isDesktop ? { x: 20, opacity: 0 } : { opacity: 0 }}
                                     transition={isDesktop ? { duration: 0.8, ease: [0.22, 1, 0.36, 1] } : { duration: 0.2 }}
-                                    className="text-[clamp(1.8rem,5vw,6rem)] lg:text-3xl font-black tracking-[-0.03em] leading-none uppercase"
+                                    className="hidden lg:block text-[clamp(1.8rem,5vw,6rem)] lg:text-3xl font-black tracking-[0.02em] leading-none uppercase"
                                 >
                                     <span className="text-white block truncate max-w-xl mx-auto lg:mx-0">{activeMovie.title}</span>
                                 </motion.h1>
