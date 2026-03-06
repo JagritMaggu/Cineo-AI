@@ -145,22 +145,30 @@ export default function MovieSearch() {
 
         try {
             setLoadingStep('movie');
+            setIsCastLoading(true);
             const factInterval = setInterval(rotateFact, 3500);
 
-            const movieRes = await fetch(`/api/movie?imdbId=${id}`);
+            // --- FIRE ALL 3 APIS SIMULTANEOUSLY (FIRST COME FIRST SERVE) ---
 
-            if (!movieRes.ok) {
-                clearInterval(factInterval);
-                throw new Error(
-                    movieRes.status === 404 ? 'Movie not found. Check the IMDb ID.' : 'Failed to fetch movie data.'
-                );
-            }
-
-            const movieJson: MovieApiResponse = await movieRes.json();
-            setMovieData(movieJson.movie);
-
-            // Hide main spinner, show AI skeleton locally
-            setLoadingStep('sentiment');
+            // 1. Fetch Core Movie
+            fetch(`/api/movie?imdbId=${id}`)
+                .then(res => {
+                    if (!res.ok) {
+                        clearInterval(factInterval);
+                        throw new Error(res.status === 404 ? 'Movie not found. Check the IMDb ID.' : 'Failed to fetch movie data.');
+                    }
+                    return res.json();
+                })
+                .then((movieJson: MovieApiResponse) => {
+                    clearInterval(factInterval); // Stop spinner once core data arrives
+                    setMovieData(movieJson.movie);
+                    if (!sentiment) setLoadingStep('sentiment'); // Switch UI to AI loading state
+                })
+                .catch(err => {
+                    clearInterval(factInterval);
+                    setError(err instanceof Error ? err.message : 'An unexpected error occurred.');
+                    setLoadingStep(null);
+                });
 
             // --- FIRE BACKGROUND TASKS IN PARALLEL ---
 
@@ -184,7 +192,7 @@ export default function MovieSearch() {
             fetch('/api/sentiment', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title: movieJson.movie.title, imdbId: id }),
+                body: JSON.stringify({ imdbId: id }),
             })
                 .then(res => res.json())
                 .then(sentimentData => {
@@ -194,7 +202,7 @@ export default function MovieSearch() {
                     console.error("Failed to fetch sentiment", err);
                 })
                 .finally(() => {
-                    setLoadingStep(null); // Finish loading phase when sentiment finishes
+                    setLoadingStep(prev => prev === 'sentiment' ? null : prev); // Finish loading phase when sentiment finishes
                 });
 
         } catch (err: unknown) {
