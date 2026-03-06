@@ -15,8 +15,6 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
         [movie.genre]
     );
 
-    const hasFullCast = !!movie.fullCast?.length;
-
     const poster = useMemo(() => {
         if (!movie.poster || movie.poster === 'N/A') return '/placeholder-poster.png';
         if (movie.poster.includes('._V1_')) {
@@ -24,13 +22,6 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
         }
         return movie.poster;
     }, [movie.poster]);
-
-    const marqueeCast = useMemo(() => {
-        if (!movie.fullCast?.length) return [];
-        let arr = [...movie.fullCast];
-        while (arr.length < 20) arr = [...arr, ...movie.fullCast];
-        return [...arr, ...arr];
-    }, [movie.fullCast]);
 
     return (
         <article className="w-full bg-[#080808] h-[100svh] text-white relative overflow-hidden flex flex-col">
@@ -78,6 +69,24 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                                 </span>
                             ))}
                         </div>
+
+                        {/* Top Billed OMDb Cast */}
+                        {movie.cast && movie.cast !== 'N/A' && (
+                            <div className="mt-10 lg:mt-12 flex flex-col items-center lg:items-start animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-8 h-px bg-yellow-400/40" />
+                                    <h3 className="text-[9px] font-black uppercase tracking-[0.4em] text-yellow-400/70 whitespace-nowrap">Lead Performers</h3>
+                                </div>
+                                <p className="text-sm md:text-base text-white/70 font-medium tracking-widest text-center lg:text-left leading-relaxed">
+                                    {movie.cast.split(',').map((actor, idx, arr) => (
+                                        <span key={idx}>
+                                            <span className="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">{actor.trim()}</span>
+                                            {idx < arr.length - 1 && <span className="text-white/20 mx-2">•</span>}
+                                        </span>
+                                    ))}
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     {/* Right side: The Floating Portrait Piece */}
@@ -93,42 +102,6 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
 
                 </div>
             </div>
-
-            {/* ── 3. The Infinite Global Ensemble (Marquee Section at Bottom) ── */}
-            {hasFullCast && (
-                <div className="relative z-20 w-full pt-10 pb-10">
-                    <div className="max-w-screen-2xl mx-auto px-6 md:px-20">
-                        <div className="flex items-center gap-5 mb-6">
-                            <h3 className="text-[9px] font-black uppercase tracking-[0.6em] text-white/40 whitespace-nowrap">The Global Ensemble</h3>
-                            <div className="flex-1 h-px bg-white/[0.03]" />
-                        </div>
-
-                        <div
-                            className="relative -mx-6 md:-mx-20 overflow-hidden group"
-                            style={{ maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)' }}
-                        >
-                            <div className="animate-marquee flex items-center gap-10 md:gap-20 whitespace-nowrap py-4">
-                                {marqueeCast.map((member, i) => (
-                                    <div key={i} className="flex items-center gap-5 shrink-0 group/member cursor-default">
-                                        <div className="w-12 h-12 md:w-16 md:h-16 overflow-hidden bg-white/[0.02] shrink-0 rounded-full">
-                                            <div className="w-full h-full rounded-full overflow-hidden">
-                                                {member.image
-                                                    ? <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
-                                                    : <div className="w-full h-full flex items-center justify-center text-[10px] font-black text-white/10 uppercase bg-white/[0.03]">{member.name[0]}</div>
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <p className="text-[11px] font-black text-white/30 uppercase tracking-[0.1em]">{member.name}</p>
-                                            <p className="text-[9px] text-white/10 uppercase tracking-[0.2em] mt-1">{member.role || 'Performer'}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
 
         </article>
     );

@@ -1,5 +1,4 @@
 import { fetchMovie } from '@/lib/fetchMovie';
-import { fetchFullCast } from '@/lib/fetchFullCast';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -11,21 +10,14 @@ export async function GET(request: Request) {
     }
 
     try {
-        // Fetch core data and scrape IMDb cast SIMULTANEOUSLY on the backend server
-        const [movieData, fullCast] = await Promise.all([
-            fetchMovie(imdbId),
-            fetchFullCast(imdbId)
-        ]);
+        const movieData = await fetchMovie(imdbId);
 
         if (!movieData) {
             return NextResponse.json({ error: 'Movie not found. Please check the IMDb ID.' }, { status: 404 });
         }
 
         const combinedResponse = {
-            movie: {
-                ...movieData,
-                fullCast: fullCast || []
-            }
+            movie: movieData
         };
 
         return NextResponse.json(combinedResponse);

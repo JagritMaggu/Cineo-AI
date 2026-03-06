@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { Movie, SentimentResult, MovieApiResponse } from '@/types/movie';
 import MovieCard from '@/components/MovieCard';
+import CastMarquee from '@/components/CastMarquee';
 import SentimentCard from '@/components/SentimentCard';
 import SentimentSkeleton from '@/components/SentimentSkeleton';
 import ErrorState from '@/components/ErrorState';
@@ -123,6 +124,7 @@ export default function MovieSearch() {
     const [loadingStep, setLoadingStep] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [movieData, setMovieData] = useState<Movie | null>(null);
+    const [isCastLoading, setIsCastLoading] = useState<boolean>(false);
     const [sentiment, setSentiment] = useState<SentimentResult | null>(null);
     const [inputVal, setInputVal] = useState('');
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -161,6 +163,21 @@ export default function MovieSearch() {
             setLoadingStep('sentiment');
 
             // --- FIRE BACKGROUND TASKS (DO NOT AWAIT) ---
+
+            // 1. Fetch Cast securely in the background
+            setIsCastLoading(true);
+            fetch(`/api/cast?imdbId=${id}`)
+                .then(res => res.json())
+                .then(resData => {
+                    if (resData.fullCast) {
+                        setMovieData(prev => prev ? { ...prev, fullCast: resData.fullCast } : prev);
+                    }
+                    setIsCastLoading(false);
+                })
+                .catch(err => {
+                    console.error("Failed to fetch full cast", err);
+                    setIsCastLoading(false);
+                });
 
             // 2. Fetch Sentiment securely in the background
             fetch('/api/sentiment', {
@@ -243,6 +260,11 @@ export default function MovieSearch() {
                 {/* Movie card — full width, poster-dominant */}
                 {movieData && (
                     <MovieCard movie={movieData} onSearchOpen={() => setMobileOpen(true)} />
+                )}
+
+                {/* Cast Marquee - renders below hero to prevent blocking */}
+                {movieData && (
+                    <CastMarquee cast={movieData.fullCast} isLoading={isCastLoading} />
                 )}
 
                 {/* Sentiment */}
