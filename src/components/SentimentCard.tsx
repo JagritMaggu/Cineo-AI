@@ -10,7 +10,7 @@ const SentimentCard = memo(function SentimentCard({ sentiment }: { sentiment: Se
                     <p className="text-[13px] md:text-[15px] lg:text-base leading-[1.7] md:leading-[1.8] text-white/80 font-medium tracking-wide mb-6">
                         {sentiment.summary}
                     </p>
-                    <div className="flex items-center gap-2 pt-4 border-t border-white/5">
+                    <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-white/5">
                         <p className="text-[9px] md:text-[10px] lg:text-[11px] font-black uppercase tracking-[0.2em] text-white/20">
                             AI-generated from user reviews
                         </p>
@@ -18,6 +18,14 @@ const SentimentCard = memo(function SentimentCard({ sentiment }: { sentiment: Se
                         <p className="text-[9px] md:text-[10px] lg:text-[11px] font-black uppercase tracking-[0.2em] text-white/40">
                             {sentiment.classification} Vibe
                         </p>
+                        {sentiment.model && (
+                            <>
+                                <span className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-white/10" />
+                                <p className="text-[9px] md:text-[10px] lg:text-[11px] font-black uppercase tracking-[0.2em] text-white/20">
+                                    {sentiment.model}
+                                </p>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

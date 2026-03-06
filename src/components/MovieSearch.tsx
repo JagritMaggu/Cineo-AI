@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { Movie, SentimentResult, MovieApiResponse } from '@/types/movie';
 import MovieCard from '@/components/MovieCard';
 import CastMarquee from '@/components/CastMarquee';
@@ -284,6 +285,7 @@ export default function MovieSearch() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [currentFactIdx, setCurrentFactIdx] = useState(0);
     const [isDesktop, setIsDesktop] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         setIsDesktop(window.innerWidth >= 1024);
@@ -333,6 +335,10 @@ export default function MovieSearch() {
                 })
                 .catch(err => {
                     clearInterval(factInterval);
+                    if (err.message.includes('Movie not found')) {
+                        router.push('/notfound?error=invalid_id');
+                        return;
+                    }
                     setError(err instanceof Error ? err.message : 'An unexpected error occurred.');
                     setLoadingStep(null);
                 });
@@ -388,7 +394,7 @@ export default function MovieSearch() {
 
     const onMobileSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        handleSearch(inputVal);
+        handleSearch(inputVal.trim().toLowerCase());
     };
 
     return (

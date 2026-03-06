@@ -64,7 +64,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
 
                     {/* Right side: The Floating Portrait Piece (Moved up for mobile context) */}
                     <div className="w-full lg:w-auto h-auto flex justify-center order-1 lg:order-2 lg:max-h-[90vh] overflow-hidden lg:mt-10">
-                        <div className="relative w-full h-[57vh] lg:w-auto lg:h-[90vh] lg:aspect-[2/3] lg:rounded-sm overflow-hidden lg:overflow-y-clip shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-0 border-transparent lg:border-white/5 bg-transparent lg:bg-black/40 [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[mask-image:none] [WebkitMaskImage:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[WebkitMaskImage:none]">
+                        <div className="relative w-full h-[55vh] lg:w-auto lg:h-[90vh] lg:aspect-[2/3] lg:rounded-sm overflow-hidden lg:overflow-y-clip shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-0 border-transparent lg:border-white/5 bg-transparent lg:bg-black/40 [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[mask-image:none] [WebkitMaskImage:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[WebkitMaskImage:none]">
                             <img
                                 src={poster}
                                 alt={movie.title}
@@ -81,7 +81,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                         className="flex-1 w-full max-w-full text-left order-2 lg:order-1 px-0 md:px-0 mt-2 lg:mt-0 pb-8 lg:pb-0 overflow-x-hidden -translate-x-[6px] lg:translate-x-0 lg:-translate-y-4"
                     >
 
-                        <div className="flex flex-row items-start justify-between lg:justify-start gap-4 lg:gap-5 mb-5 md:mb-10 px-5 lg:px-0 w-full overflow-hidden">
+                        <div className="flex flex-row items-start justify-between lg:justify-start gap-4 lg:gap-5 mb-5 md:mb-10 px-4 lg:px-0 w-full overflow-hidden">
                             <div className="flex flex-col items-start lg:flex-row lg:items-center lg:gap-5 min-w-0">
                                 <motion.h1
                                     initial={{ opacity: 0, x: -20 }}
@@ -115,7 +115,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-                            className="text-[11px] md:text-xl lg:text-[1.2rem] leading-[1.6] text-white/50 font-light tracking-wide max-w-[85%] md:max-w-2xl mb-4 lg:mb-10 px-2 lg:px-0 mx-auto lg:mx-0"
+                            className="text-[11px] md:text-xl lg:text-[1.2rem] leading-[1.6] text-white/50 font-light tracking-wide max-w-[92%] md:max-w-2xl mb-4 lg:mb-10 px-2 lg:px-0 mx-auto lg:mx-0"
                         >
                             {movie.plot}
                         </motion.p>
@@ -141,7 +141,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                                     <h3 className="text-[8px] font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-yellow-400/70">Lead Performers</h3>
                                     <div className="w-6 h-px bg-yellow-400/40 md:hidden" />
                                 </div>
-                                <p className="text-[10px] lg:text-sm md:text-base text-white/70 font-medium tracking-widest text-center lg:text-left leading-relaxed max-w-[85%] lg:max-w-none">
+                                <p className="text-[10px] lg:text-sm md:text-base text-white/70 font-medium tracking-widest text-center lg:text-left leading-relaxed max-w-[92%] lg:max-w-none">
                                     {movie.cast.split(',').map((actor, idx, arr) => (
                                         <span key={idx}>
                                             <span className="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">{actor.trim()}</span>
