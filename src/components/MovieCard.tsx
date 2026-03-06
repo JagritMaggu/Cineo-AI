@@ -72,7 +72,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
 
                         {/* Top Billed OMDb Cast */}
                         {movie.cast && movie.cast !== 'N/A' && (
-                            <div className="mt-10 lg:mt-12 flex flex-col items-center lg:items-start animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                            <div className="mt-10 lg:mt-12 flex flex-col items-center lg:items-start">
                                 <div className="flex items-center gap-3 mb-4">
                                     <div className="w-8 h-px bg-yellow-400/40" />
                                     <h3 className="text-[9px] font-black uppercase tracking-[0.4em] text-yellow-400/70 whitespace-nowrap">Lead Performers</h3>
@@ -103,6 +103,8 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
                 </div>
             </div>
 
+            {/* ── Seamless Bottom Merge Gradient ── */}
+            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#080808] via-[#080808]/50 to-transparent z-20 pointer-events-none" />
         </article>
     );
 });

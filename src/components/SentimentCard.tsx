@@ -3,57 +3,58 @@ import { SentimentResult } from '@/types/movie';
 import { Brain, Smile, Meh, Frown } from 'lucide-react';
 
 const SentimentCard = memo(function SentimentCard({ sentiment }: { sentiment: SentimentResult }) {
-    const { isPositive, isNegative } = useMemo(() => ({
-        isPositive: sentiment.classification === 'positive',
-        isNegative: sentiment.classification === 'negative',
-    }), [sentiment.classification]);
-
-    const config = isPositive
-        ? { border: 'border-emerald-500/30', bg: 'bg-emerald-500/10', dot: 'bg-emerald-400', badge: 'bg-emerald-500/20 text-emerald-300', text: 'text-emerald-400', quote: 'text-emerald-100/80' }
-        : isNegative
-            ? { border: 'border-red-500/30', bg: 'bg-red-500/10', dot: 'bg-red-400', badge: 'bg-red-500/20 text-red-300', text: 'text-red-400', quote: 'text-red-100/80' }
-            : { border: 'border-blue-500/30', bg: 'bg-blue-500/10', dot: 'bg-blue-400', badge: 'bg-blue-500/20 text-blue-300', text: 'text-blue-400', quote: 'text-blue-100/80' };
-
-    const Icon = isPositive ? Smile : isNegative ? Frown : Meh;
+    const Icon = useMemo(() => {
+        const c = sentiment.classification?.toLowerCase() || '';
+        if (c.includes('pos')) return Smile;
+        if (c.includes('neg')) return Frown;
+        return Meh;
+    }, [sentiment.classification]);
 
     return (
-        <div className={`animate-fade-up border rounded-md ${config.border} ${config.bg} p-6 md:p-8`}>
-
-            {/* Header */}
-            <div className="flex items-start justify-between gap-6 mb-5">
-                <div className="flex items-center gap-3">
-                    <Brain size={16} className={`shrink-0 ${config.text}`} />
-                    <div>
-                        <p className="text-[9px] font-black uppercase tracking-[0.35em] text-white/30 mb-1.5">
-                            AI Audience Insight
-                        </p>
-                        <div className="flex items-center gap-2">
-                            <span className={`w-2 h-2 rounded-full shrink-0 ${config.dot}`} />
-                            <p className={`text-sm font-black uppercase tracking-widest ${config.text}`}>
-                                {sentiment.classification} Sentiment
-                            </p>
+        <div className="animate-fade-up border border-white/[0.05] bg-white/[0.02] rounded-2xl p-8 backdrop-blur-md relative overflow-hidden">
+            <div className="relative z-10">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.05]">
+                            <Brain size={20} strokeWidth={2.5} className="text-white/40" />
                         </div>
+                        <div>
+                            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 mb-1 block">Neural Analysis</span>
+                            <div className="flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-white/40" />
+                                <h4 className="text-sm font-black uppercase tracking-[0.2em] text-white/70">
+                                    {sentiment.classification} Vibe
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 bg-white/[0.02] border border-white/[0.05] rounded-full px-5 py-2">
+                        <Icon size={14} className="text-white/30" />
+                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/30">Verified Insight</span>
                     </div>
                 </div>
 
-                {/* Vivid icon badge */}
-                <div className={`shrink-0 rounded-md p-2.5 ${config.badge}`}>
-                    <Icon size={18} />
+                <div className="relative">
+                    <div className="absolute -left-4 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
+                    <p className="text-base md:text-lg lg:text-xl leading-[1.8] text-white/60 font-light italic tracking-wide pl-4">
+                        &ldquo;{sentiment.summary}&rdquo;
+                    </p>
+                </div>
+
+                <div className="mt-10 pt-8 border-t border-white/[0.05] flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">
+                            Powered by {sentiment.model || 'Cineo Semantic Engine'}
+                        </p>
+                    </div>
+                    <div className="flex gap-1">
+                        {[1, 2, 3].map(i => (
+                            <div key={i} className="w-1 h-1 rounded-full bg-white/[0.05]" />
+                        ))}
+                    </div>
                 </div>
             </div>
-
-            {/* Divider */}
-            <div className={`border-t ${config.border} mb-5`} />
-
-            {/* Summary */}
-            <blockquote className={`text-sm md:text-[15px] leading-relaxed font-light italic ${config.quote}`}>
-                &ldquo;{sentiment.summary}&rdquo;
-            </blockquote>
-
-            {/* Footer */}
-            <p className="mt-5 text-[9px] font-bold uppercase tracking-[0.3em] text-white/20">
-                Analyzed by — {sentiment.model || 'Gemini 2.5 Pro'}
-            </p>
         </div>
     );
 });
