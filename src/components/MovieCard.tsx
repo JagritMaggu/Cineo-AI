@@ -49,12 +49,12 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                     </button>
                 )}
 
-                <div className="flex flex-col lg:flex-row gap-10 lg:gap-24 items-center lg:items-center">
+                <div className="flex flex-col lg:flex-row gap-10 lg:gap-24 items-center lg:items-end justify-center lg:justify-between h-full pt-16">
 
                     {/* Left side: The Narrative & Meta (Cineo Theme) */}
-                    <div className="flex-1 text-center lg:text-left order-2 lg:order-1">
+                    <div className="flex-1 text-center lg:text-left order-2 lg:order-1 animate-fade-in-left">
 
-                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-6">
+                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-8">
                             <div className={`flex items-center gap-1.5 border backdrop-blur-xl px-4 py-2 rounded shadow-[0_0_20px_rgba(250,204,21,0.05)] ${movie.rating === 'N/A' ? 'bg-white/5 border-white/10 text-white/40' : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'}`}>
                                 <Star size={13} className={movie.rating === 'N/A' ? 'fill-white/10' : 'fill-yellow-400'} />
                                 <span className="text-sm font-black tracking-widest leading-none">
@@ -71,11 +71,11 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                             {movie.title}
                         </h1>
 
-                        <p className="text-base md:text-xl lg:text-2xl leading-[1.6] text-white/50 font-light tracking-wide max-w-2xl mb-10">
+                        <p className="text-base md:text-xl lg:text-2xl leading-[1.6] text-white/40 font-light tracking-wide max-w-2xl mb-12">
                             {movie.plot}
                         </p>
 
-                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-10">
                             {genreTags.map(g => (
                                 <span key={g} className="text-[10px] font-black uppercase tracking-[0.4em] text-white/70 border border-white/10 bg-white/[0.08] px-4 py-2 rounded-md shadow-sm">
                                     {g}
@@ -85,7 +85,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
 
                         {/* Top Billed OMDb Cast */}
                         {movie.cast && movie.cast !== 'N/A' && (
-                            <div className="mt-10 lg:mt-12 flex flex-col items-center lg:items-start">
+                            <div className="flex flex-col items-center lg:items-start">
                                 <div className="flex items-center gap-3 mb-4">
                                     <div className="w-8 h-px bg-yellow-400/40" />
                                     <h3 className="text-[9px] font-black uppercase tracking-[0.4em] text-yellow-400/70 whitespace-nowrap">Lead Performers</h3>
@@ -103,8 +103,8 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                     </div>
 
                     {/* Right side: The Floating Portrait Piece */}
-                    <div className="w-full lg:w-auto h-auto max-h-[94vh] flex justify-center order-1 lg:order-2 lg:-translate-y-6">
-                        <div className="relative h-[94vh] aspect-[2/3] rounded-sm overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-white/5 bg-black/40">
+                    <div className="w-full lg:w-auto flex justify-center order-1 lg:order-2">
+                        <div className="relative h-[90vh] aspect-[2/3] rounded-sm overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-white/5 bg-black/40 lg:translate-y-16">
                             <img
                                 src={poster}
                                 alt={movie.title}
