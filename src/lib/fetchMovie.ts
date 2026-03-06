@@ -7,7 +7,7 @@ export async function fetchMovie(imdbId: string): Promise<Movie | null> {
         return null;
     }
 
-    const response = await fetch(`http://www.omdbapi.com/?i=${imdbId}&apikey=${apiKey}`);
+    const response = await fetch(`https://www.omdbapi.com/?i=${imdbId}&apikey=${apiKey}`);
     const data = await response.json();
 
     if (data.Response === 'False') {

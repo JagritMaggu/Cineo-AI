@@ -238,13 +238,17 @@ function Landing({
                             type="text"
                             value={inputVal}
                             onChange={e => setInputVal(e.target.value)}
+                            onFocus={!isDesktop ? onMobileSearch : undefined}
+                            onClick={!isDesktop ? onMobileSearch : undefined}
                             placeholder="Enter IMDB ID"
+                            readOnly={!isDesktop}
                             disabled={isLoading}
                             className="flex-1 px-3 lg:px-5 py-3 lg:py-5 text-[10px] lg:text-[11px] bg-transparent focus:outline-none placeholder:text-white/20 placeholder:text-[8px] lg:placeholder:text-[11px] text-white tracking-[0.3em] font-bold uppercase transition-all"
                         />
                         <button
-                            type="submit"
-                            disabled={isLoading || !inputVal.trim()}
+                            type={isDesktop ? "submit" : "button"}
+                            onClick={!isDesktop ? onMobileSearch : undefined}
+                            disabled={isLoading || (isDesktop && !inputVal.trim())}
                             className="px-4 lg:px-8 py-2 lg:py-3 m-1.5 lg:m-3 text-[9px] lg:text-[10px] font-black bg-white text-black hover:bg-[#e0e0e0] transition-all disabled:opacity-40 disabled:hover:bg-white rounded-sm uppercase tracking-[0.2em] shrink-0"
                         >
                             Analyze
