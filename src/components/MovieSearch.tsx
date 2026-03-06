@@ -122,7 +122,7 @@ function Landing({
     }, []);
 
     return (
-        <div className="relative flex flex-col h-[100svh] lg:h-svh lg:min-h-svh justify-end pb-21 lg:pb-32 overflow-y-clip overscroll-y-none w-full max-w-[100vw]">
+        <div className="relative flex flex-col h-[100svh] lg:h-svh lg:min-h-svh justify-end pb-15 lg:pb-32 overflow-y-clip overscroll-y-none w-full max-w-[100vw]">
 
             {/* Brighter Proper Poster Background */}
             <div className="fixed inset-0 z-0 pointer-events-none transition-all duration-300 ease-out bg-[#080808]">
