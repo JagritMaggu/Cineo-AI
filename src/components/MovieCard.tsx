@@ -37,7 +37,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
             </div>
 
             {/* ── 2. The Fluid 100vh Dashboard (Inspired by Lucifer/Netflix Layout) ── */}
-            <div className="relative z-10 w-full max-w-screen-3xl mx-auto px-6 md:px-20 flex-1 flex flex-col justify-center">
+            <div className="relative z-10 w-full max-w-[1720px] mx-auto px-6 md:px-20 flex-1 flex flex-col justify-center">
 
                 {/* Back Button */}
                 {onBack && (
