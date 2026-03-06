@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { CastMember } from '@/types/movie';
 
 interface CastMarqueeProps {
@@ -85,10 +86,12 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
                             >
                                 <div className="relative aspect-[2/3] w-full rounded-sm overflow-hidden border border-white/5 bg-[#0f0f0f]">
                                     {member.image ? (
-                                        <img
+                                        <Image
                                             src={member.image}
                                             alt={member.name}
-                                            className="w-full h-full object-cover grayscale-[0.2] pointer-events-none"
+                                            fill
+                                            unoptimized
+                                            className="object-cover grayscale-[0.2] pointer-events-none"
                                         />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center text-2xl font-black text-white/10 uppercase bg-[#0f0f0f]">

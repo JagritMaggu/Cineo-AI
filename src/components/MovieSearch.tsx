@@ -81,10 +81,12 @@ function PosterStepMarquee({ onStep }: { onStep: (movie: { title: string; poster
                             className="w-[220px] shrink-0 group"
                         >
                             <div className="aspect-[2/3] w-full rounded-sm overflow-hidden bg-[#0a0a0a] relative shadow-2xl">
-                                <img
+                                <Image
                                     src={movie.poster}
                                     alt={movie.title}
-                                    className="w-full h-full object-cover opacity-80 pointer-events-none"
+                                    fill
+                                    unoptimized
+                                    className="object-cover opacity-80 pointer-events-none"
                                 />
 
                             </div>
@@ -130,10 +132,12 @@ function Landing({
 
                 {/* Mobile: Ambient Blur Section (Full Screen) */}
                 <div className="absolute inset-0 md:hidden opacity-50 saturate-150">
-                    <img
+                    <Image
                         key={`blur-${activeMovie.title}`}
                         src={activeMovie.poster.replace('/w500/', '/original/')}
                         alt=""
+                        fill
+                        unoptimized
                         className="w-full h-full object-cover blur-[60px] scale-110"
                         style={{ transition: 'opacity 0.2s ease-in-out' }}
                     />
@@ -158,19 +162,20 @@ function Landing({
                 </div>
 
                 {/* Desktop: Full Landscape Backdrop */}
-                <picture className="absolute inset-0 hidden md:block">
-                    <source media="(min-width: 768px)" srcSet={activeMovie.backdrop} />
-                    <img
+                <div className="absolute inset-0 hidden md:block">
+                    <Image
                         key={`${activeMovie.title}-desktop`}
                         src={activeMovie.backdrop}
                         alt=""
+                        fill
+                        unoptimized
+                        priority
                         className="w-full h-full object-cover object-[center_15%] saturate-[1.1] opacity-[0.6] scale-[1]"
                         style={{
-                            transition: 'opacity 0.4s ease-in-out, transform 0.4s ease-out',
-                            imageRendering: 'auto'
+                            transition: 'opacity 0.4s ease-in-out, transform 0.4s ease-out'
                         }}
                     />
-                </picture>
+                </div>
             </div>
 
             {/* Subtle Overlay for legibility only */}

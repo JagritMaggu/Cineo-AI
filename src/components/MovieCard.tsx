@@ -4,6 +4,7 @@ import { memo, useMemo, useState, useEffect } from 'react';
 import { Movie } from '@/types/movie';
 import { Star, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface MovieCardProps {
     movie: Movie;
@@ -40,9 +41,11 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
 
             {/* ── 1. The Cinematic Backdrop (Ambient Cineo Glow) ── */}
             <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.25] overflow-hidden">
-                <img
+                <Image
                     src={poster}
                     alt=""
+                    fill
+                    unoptimized
                     className="w-full h-full object-cover blur-[160px] scale-150 saturate-[1.3]"
                 />
             </div>
@@ -65,9 +68,12 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                     {/* Right side: The Floating Portrait Piece (Moved up for mobile context) */}
                     <div className="w-full lg:w-auto h-auto flex justify-center order-1 lg:order-2 lg:max-h-[90vh] overflow-hidden lg:mt-10">
                         <div className="relative w-full h-[55vh] lg:w-auto lg:h-[90vh] lg:aspect-[2/3] lg:rounded-sm overflow-hidden lg:overflow-y-clip shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-0 border-transparent lg:border-white/5 bg-transparent lg:bg-black/40 [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[mask-image:none] [WebkitMaskImage:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[WebkitMaskImage:none]">
-                            <img
+                            <Image
                                 src={poster}
                                 alt={movie.title}
+                                fill
+                                unoptimized
+                                priority
                                 className="w-full h-full object-cover object-top lg:object-center saturate-[1.1] lg:saturate-100"
                             />
                         </div>
@@ -115,7 +121,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-                            className="text-[11px] md:text-xl lg:text-[1.2rem] leading-[1.6] text-white/50 font-light tracking-wide max-w-[92%] md:max-w-2xl mb-4 lg:mb-10 px-2 lg:px-0 mx-auto lg:mx-0"
+                            className="text-[11px] md:text-xl lg:text-[1.2rem] leading-[1.6] text-white/50 font-light tracking-wide max-w-[91%] md:max-w-2xl mb-4 lg:mb-10 px-2 lg:px-0 mx-auto lg:mx-0"
                         >
                             {movie.plot}
                         </motion.p>

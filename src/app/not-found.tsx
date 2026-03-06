@@ -80,18 +80,14 @@ function NotFoundContent() {
             <div className="relative z-10 w-full max-w-2xl px-8 flex flex-col items-center text-center">
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }} className="w-full">
 
-                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/[0.03] border border-white/5 mb-10 relative">
-                        <div className="absolute inset-0 rounded-full border-t border-white/20 animate-spin-slow opacity-30" />
-                        <ErrorIcon className="text-white/30" size={32} strokeWidth={1} />
-                    </div>
 
-                    <h1 className="text-7xl md:text-9xl font-black tracking-[-0.05em] text-white leading-none mb-4 selection:bg-white selection:text-black italic">
+                    <h1 className="text-5xl md:text-9xl font-black tracking-[-0.05em] text-white leading-none mb-4 selection:bg-white selection:text-black min-w-0">
                         {isImdbError ? "ID_ERROR" : "404"}
                     </h1>
 
                     <div className="flex items-center justify-center gap-3 mb-8">
                         <div className="h-[1px] w-6 md:w-8 bg-white/10" />
-                        <h2 className="text-sm md:text-base font-black text-white/90 uppercase tracking-[0.3em] md:tracking-[0.4em]">
+                        <h2 className="text-xs md:text-base font-black text-white/90 uppercase tracking-[0.3em] md:tracking-[0.4em]">
                             {errorTitle}
                         </h2>
                         <div className="h-[1px] w-6 md:w-8 bg-white/10" />
