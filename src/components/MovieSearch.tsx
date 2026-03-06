@@ -269,7 +269,16 @@ export default function MovieSearch() {
 
                 {/* Movie card — full width, poster-dominant */}
                 {movieData && (
-                    <MovieCard movie={movieData} onSearchOpen={() => setMobileOpen(true)} />
+                    <MovieCard
+                        movie={movieData}
+                        onSearchOpen={() => setMobileOpen(true)}
+                        onBack={() => {
+                            setMovieData(null);
+                            setSentiment(null);
+                            setError(null);
+                            setLoadingStep(null);
+                        }}
+                    />
                 )}
 
                 {/* Cast Marquee - renders below hero to prevent blocking */}

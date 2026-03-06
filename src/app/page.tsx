@@ -21,27 +21,8 @@ export default function Home() {
   return (
     <div className="flex min-h-screen bg-[#080808] text-white">
 
-      {/* ── Sidebar (desktop only) ── */}
-      <aside className="hidden md:flex flex-col w-[66px] shrink-0 fixed left-0 top-0 bottom-0 z-50 bg-[#080808] border-r border-white/[0.05]">
-        {/* Logo mark */}
-        <div className="flex items-center justify-center h-[60px] border-b border-white/[0.05]">
-          <Film size={18} className="text-white" />
-        </div>
-
-        {/* Nav */}
-        <nav className="flex flex-col flex-1 pt-2">
-          <SidebarIcon icon={HomeIcon} active />
-          <SidebarIcon icon={Bookmark} />
-        </nav>
-
-        {/* Bottom */}
-        <div className="border-t border-white/[0.05]">
-          <SidebarIcon icon={Settings} />
-        </div>
-      </aside>
-
-      {/* ── Main ── */}
-      <main className="flex-1 md:ml-[66px] min-h-screen flex flex-col">
+      {/* ── Main (Full Width) ── */}
+      <main className="flex-1 min-h-screen flex flex-col">
         <MovieSearch />
       </main>
 

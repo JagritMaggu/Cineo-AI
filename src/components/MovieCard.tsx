@@ -2,14 +2,15 @@
 
 import { memo, useMemo } from 'react';
 import { Movie } from '@/types/movie';
-import { Star } from 'lucide-react';
+import { Star, ArrowLeft } from 'lucide-react';
 
 interface MovieCardProps {
     movie: Movie;
     onSearchOpen?: () => void;
+    onBack?: () => void;
 }
 
-const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
+const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
     const genreTags = useMemo(
         () => movie.genre.split(',').map(g => g.trim()).filter(Boolean),
         [movie.genre]
@@ -38,15 +39,27 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
             {/* ── 2. The Fluid 100vh Dashboard (Inspired by Lucifer/Netflix Layout) ── */}
             <div className="relative z-10 w-full max-w-screen-2xl mx-auto px-6 md:px-20 flex-1 flex flex-col justify-center">
 
+                {/* Back Button */}
+                {onBack && (
+                    <button
+                        onClick={onBack}
+                        className="absolute top-8 left-6 md:left-20 text-white/30 hover:text-white/60 transition-colors flex items-center gap-2 group z-50 p-2"
+                    >
+                        <ArrowLeft size={20} strokeWidth={1.5} />
+                    </button>
+                )}
+
                 <div className="flex flex-col lg:flex-row gap-10 lg:gap-24 items-center lg:items-end">
 
                     {/* Left side: The Narrative & Meta (Cineo Theme) */}
                     <div className="flex-1 text-center lg:text-left order-2 lg:order-1">
 
                         <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-6">
-                            <div className="flex items-center gap-1.5 bg-yellow-400/10 border border-yellow-400/20 backdrop-blur-xl px-4 py-2 rounded text-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.05)]">
-                                <Star size={13} className="fill-yellow-400" />
-                                <span className="text-sm font-black tracking-widest leading-none">{movie.rating}</span>
+                            <div className={`flex items-center gap-1.5 border backdrop-blur-xl px-4 py-2 rounded shadow-[0_0_20px_rgba(250,204,21,0.05)] ${movie.rating === 'N/A' ? 'bg-white/5 border-white/10 text-white/40' : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'}`}>
+                                <Star size={13} className={movie.rating === 'N/A' ? 'fill-white/10' : 'fill-yellow-400'} />
+                                <span className="text-sm font-black tracking-widest leading-none">
+                                    {movie.rating === 'N/A' ? 'TBD' : movie.rating}
+                                </span>
                                 <span className="text-[10px] opacity-40 font-bold uppercase ml-1">IMDb</span>
                             </div>
                             <span className="text-xs font-black uppercase tracking-[0.4em] text-white/20 whitespace-nowrap">{movie.year}</span>
@@ -104,7 +117,7 @@ const MovieCard = memo(function MovieCard({ movie }: MovieCardProps) {
             </div>
 
             {/* ── Seamless Bottom Merge Gradient ── */}
-            <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#080808] to-transparent z-20 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-[#080808] to-transparent z-20 pointer-events-none" />
         </article>
     );
 });
