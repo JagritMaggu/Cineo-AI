@@ -92,7 +92,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                             </motion.h1>
 
                             <div className="w-px h-4 bg-white/10 shrink-0 mx-1 hidden md:block" />
-                            <div className="w-1 h-1 rounded-full bg-white/20 shrink-0 md:hidden" />
+
 
                             <div className={`flex items-center gap-1.5 border px-2.5 lg:px-4 py-1.5 lg:py-2 rounded shrink-0 ${movie.rating === 'N/A' ? 'bg-black/40 border-white/10 text-white/40' : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'}`}>
                                 <Star size={10} className={`lg:w-[13px] lg:h-[13px] ${movie.rating === 'N/A' ? 'fill-white/10' : 'fill-yellow-400'}`} />
@@ -105,6 +105,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                             <div className="w-px h-2.5 bg-white/10 shrink-0 mx-1 hidden md:block" />
                             <span className="text-[9px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.released}</span>
                             <div className="w-px h-2.5 bg-white/10 shrink-0 mx-1 hidden md:block" />
+                            <div className="w-1 h-1 rounded-full bg-white/20 shrink-0 md:hidden" />
                             <span className="text-[9px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.runtime}</span>
                         </div>
 
@@ -112,7 +113,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-                            className="text-[12px] md:text-xl lg:text-[1.2rem] leading-[1.6] text-white/50 font-light tracking-wide max-w-[85%] md:max-w-2xl mb-4 lg:mb-10 px-2 lg:px-0 mx-auto lg:mx-0 line-clamp-3 lg:line-clamp-none"
+                            className="text-[11px] md:text-xl lg:text-[1.2rem] leading-[1.6] text-white/50 font-light tracking-wide max-w-[85%] md:max-w-2xl mb-4 lg:mb-10 px-2 lg:px-0 mx-auto lg:mx-0"
                         >
                             {movie.plot}
                         </motion.p>
