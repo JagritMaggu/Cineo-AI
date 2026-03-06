@@ -21,6 +21,7 @@ export async function fetchMovie(imdbId: string): Promise<Movie | null> {
         poster: data.Poster,
         genre: data.Genre,
         runtime: data.Runtime,
+        released: data.Released,
         cast: data.Actors, // OMDb 3-actor summary (used as subtitle)
         fullCast: [],      // Populated by fetchFullCast in the API route
         plot: data.Plot,

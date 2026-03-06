@@ -16,7 +16,12 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
 
     useEffect(() => {
         setIsDesktop(window.innerWidth >= 1024);
-    }, []);
+
+        // Fix for mobile auto-scroll on render issues: Ensure we start at the top
+        if (window.innerWidth < 1024) {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+    }, [movie.title]); // Re-run when movie changes
     const genreTags = useMemo(
         () => movie.genre.split(',').map(g => g.trim()).filter(Boolean),
         [movie.genre]
@@ -59,7 +64,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
 
                     {/* Right side: The Floating Portrait Piece (Moved up for mobile context) */}
                     <div className="w-full lg:w-auto h-auto flex justify-center order-1 lg:order-2 lg:max-h-[90vh] overflow-hidden lg:mt-10">
-                        <div className="relative w-full h-[67vh] lg:w-auto lg:h-[90vh] lg:aspect-[2/3] lg:rounded-sm overflow-hidden lg:overflow-y-clip shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-0 border-transparent lg:border-white/5 bg-transparent lg:bg-black/40 [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[mask-image:none] [WebkitMaskImage:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[WebkitMaskImage:none]">
+                        <div className="relative w-full h-[61vh] lg:w-auto lg:h-[90vh] lg:aspect-[2/3] lg:rounded-sm overflow-hidden lg:overflow-y-clip shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-0 border-transparent lg:border-white/5 bg-transparent lg:bg-black/40 [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[mask-image:none] [WebkitMaskImage:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[WebkitMaskImage:none]">
                             <img
                                 src={poster}
                                 alt={movie.title}
@@ -97,6 +102,9 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                                 <span className="text-[8px] lg:text-[10px] opacity-40 font-bold uppercase ml-0.5 lg:ml-1">IMDb</span>
                             </div>
 
+                            <div className="w-px h-2.5 bg-white/10 shrink-0 mx-1 hidden md:block" />
+                            <span className="text-[9px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.released}</span>
+                            <div className="w-px h-2.5 bg-white/10 shrink-0 mx-1 hidden md:block" />
                             <span className="text-[9px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.runtime}</span>
                         </div>
 

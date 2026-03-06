@@ -103,13 +103,15 @@ function Landing({
     setInputVal,
     onSubmit,
     isLoading,
-    onMobileSearch
+    onMobileSearch,
+    isDesktop
 }: {
     inputVal: string;
     setInputVal: (v: string) => void;
     onSubmit: (e: React.FormEvent) => void;
     isLoading: boolean;
     onMobileSearch: () => void;
+    isDesktop: boolean;
 }) {
     const [activeMovie, setActiveMovie] = useState(MARQUEE_MOVIES[0]);
     const [activeIdx, setActiveIdx] = useState(0);
@@ -120,7 +122,7 @@ function Landing({
     }, []);
 
     return (
-        <div className="relative flex flex-col h-[100svh] lg:h-svh lg:min-h-svh justify-end pb-28 lg:pb-32 overflow-y-clip overscroll-y-none w-full max-w-[100vw]">
+        <div className="relative flex flex-col h-[100svh] lg:h-svh lg:min-h-svh justify-end pb-21 lg:pb-32 overflow-y-clip overscroll-y-none w-full max-w-[100vw]">
 
             {/* Brighter Proper Poster Background */}
             <div className="fixed inset-0 z-0 pointer-events-none transition-all duration-300 ease-out bg-[#080808]">
@@ -200,10 +202,10 @@ function Landing({
                             <AnimatePresence mode="wait">
                                 <motion.h1
                                     key={activeMovie.title}
-                                    initial={{ x: -20, opacity: 0 }}
-                                    animate={{ x: 0, opacity: 1 }}
-                                    exit={{ x: 20, opacity: 0 }}
-                                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                                    initial={isDesktop ? { x: -20, opacity: 0 } : { opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={isDesktop ? { x: 20, opacity: 0 } : { opacity: 0 }}
+                                    transition={isDesktop ? { duration: 0.8, ease: [0.22, 1, 0.36, 1] } : { duration: 0.2 }}
                                     className="text-[clamp(1.8rem,5vw,6rem)] lg:text-3xl font-black tracking-[-0.03em] leading-none uppercase"
                                 >
                                     <span className="text-white block truncate max-w-xl mx-auto lg:mx-0">{activeMovie.title}</span>
@@ -212,9 +214,9 @@ function Landing({
                         </div>
 
                         <motion.p
-                            initial={{ opacity: 0, y: 10 }}
+                            initial={isDesktop ? { opacity: 0, y: 10 } : { opacity: 0 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
+                            transition={isDesktop ? { duration: 0.8, delay: 0.2 } : { duration: 0.4 }}
                             className="text-white/60 text-[9px] md:text-sm leading-[1.6] max-w-xs lg:max-w-xl mx-auto lg:mx-0 font-medium tracking-[0.15em] uppercase px-2 lg:px-0"
                         >
                             Reveal the true audience pulse behind every film through AI-powered sentiment analysis.
@@ -223,9 +225,9 @@ function Landing({
 
                     {/* Search Input */}
                     <motion.form
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: 0.3 }}
+                        initial={isDesktop ? { opacity: 0, x: -20 } : { opacity: 1, x: 0 }}
+                        animate={isDesktop ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
+                        transition={isDesktop ? { duration: 0.8, delay: 0.3 } : { duration: 0 }}
                         onSubmit={onSubmit}
                         className="flex items-center w-[88vw] lg:w-full max-w-xl mx-auto lg:mx-0 -translate-x-[6px] lg:translate-x-0 border border-white/5 bg-black/40 rounded-md overflow-hidden hover:border-white/10 focus-within:border-white/20 transition-all duration-500"
                     >
@@ -243,7 +245,7 @@ function Landing({
                         <button
                             type="submit"
                             disabled={isLoading || !inputVal.trim()}
-                            className="px-6 lg:px-8 py-2.5 lg:py-3 m-1.5 lg:m-3 text-[9px] lg:text-[10px] font-black bg-white text-black hover:bg-[#e0e0e0] transition-all disabled:opacity-40 disabled:hover:bg-white rounded-sm uppercase tracking-[0.2em] shrink-0"
+                            className="px-4 lg:px-8 py-2 lg:py-3 m-1.5 lg:m-3 text-[9px] lg:text-[10px] font-black bg-white text-black hover:bg-[#e0e0e0] transition-all disabled:opacity-40 disabled:hover:bg-white rounded-sm uppercase tracking-[0.2em] shrink-0"
                         >
                             Analyze
                         </button>
@@ -400,6 +402,7 @@ export default function MovieSearch() {
                         onSubmit={onDesktopSubmit}
                         isLoading={isLoading}
                         onMobileSearch={() => setMobileOpen(true)}
+                        isDesktop={isDesktop}
                     />
                 )}
 
