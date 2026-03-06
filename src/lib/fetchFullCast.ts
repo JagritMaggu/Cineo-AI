@@ -59,7 +59,7 @@ export async function fetchFullCast(imdbId: string): Promise<CastMember[]> {
                     const edges = castGrouping.node?.credits?.edges || castGrouping.section?.items || [];
 
                     for (const edge of edges) {
-                        if (cast.length >= 32) break;
+                        if (cast.length >= 48) break;
                         const src = edge.node || edge; // Support different structures
                         const name = src.name?.nameText?.text || src.title?.node?.nameText?.text;
                         const role = src.creditedRoles?.edges?.[0]?.node?.characters?.edges?.[0]?.node?.name ||
@@ -83,7 +83,7 @@ export async function fetchFullCast(imdbId: string): Promise<CastMember[]> {
                     if (castV2.length > 0) {
                         console.log('[fetchFullCast] Found castV2 in JSON (Strategy 1B)');
                         for (const edge of castV2) {
-                            if (cast.length >= 32) break;
+                            if (cast.length >= 48) break;
                             const node = edge.node;
                             const name = node?.name?.nameText?.text;
                             const role = edge.characters?.[0]?.name || 'Actor';
@@ -107,7 +107,7 @@ export async function fetchFullCast(imdbId: string): Promise<CastMember[]> {
         if (cast.length === 0) {
             console.log('[fetchFullCast] Strategy 1 failed. Trying Strategy 2 (CSS Scraper)...');
             $('[data-testid="title-cast-item"], .ipc-metadata-list-summary-item').each((_, el) => {
-                if (cast.length >= 32) return;
+                if (cast.length >= 48) return;
                 const name = $(el).find('[data-testid="title-cast-item__actor"], .ipc-metadata-list-summary-item__t').text().trim();
                 const role = $(el).find('[data-testid="cast-item-characters-with-as"], .ipc-metadata-list-summary-item__s').text().trim();
                 const img = $(el).find('img');
@@ -128,7 +128,7 @@ export async function fetchFullCast(imdbId: string): Promise<CastMember[]> {
         if (cast.length === 0) {
             console.log('[fetchFullCast] Strategy 2 failed. Trying Strategy 3 (Table Scraper)...');
             $('table.cast_list tr').each((_, row) => {
-                if (cast.length >= 32) return;
+                if (cast.length >= 48) return;
                 const nameLink = $(row).find('td:not(.primary_photo) a').first();
                 const name = nameLink.text().trim();
                 const role = $(row).find('.character').text().trim().replace(/\s+/g, ' ');
@@ -150,7 +150,6 @@ export async function fetchFullCast(imdbId: string): Promise<CastMember[]> {
         if (cast.length === 0) {
             console.log('[fetchFullCast] All strategies failed. Brute-forcing actor links...');
             $('a[href*="/name/nm/"]').each((_, el) => {
-                if (cast.length >= 10) return;
                 const name = $(el).text().trim();
                 if (name.length > 3 && !name.includes('...') && !cast.find(c => c.name === name)) {
                     cast.push({ name, role: 'Actor' });

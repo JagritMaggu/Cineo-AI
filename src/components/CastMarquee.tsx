@@ -12,6 +12,12 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isPaused, setIsPaused] = useState(false);
 
+    // Triple the cast array to create enough runway for seamless infinity
+    const extendedCast = useMemo(() => {
+        if (!cast || cast.length === 0) return [];
+        return [...cast, ...cast, ...cast];
+    }, [cast]);
+
     useEffect(() => {
         if (isLoading || !cast || cast.length === 0 || isPaused) return;
 
@@ -23,17 +29,24 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
             if (!firstChild) return;
 
             const cardWidth = firstChild.offsetWidth;
-            const gap = 64; // md:gap-16 is 64px
+            const gap = 64; // md:gap-16
             const scrollStep = cardWidth + gap;
 
-            const isAtEnd = container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10;
+            // Current scrollWidth of exactly one set
+            const singleSetWidth = (cardWidth + gap) * cast.length;
 
-            if (isAtEnd) {
-                container.scrollTo({ left: 0, behavior: 'smooth' });
-            } else {
-                container.scrollBy({ left: scrollStep, behavior: 'smooth' });
-            }
-        }, 3000); // 3 seconds: movement + ~1s pause
+            const targetScroll = container.scrollLeft + scrollStep;
+
+            container.scrollTo({ left: targetScroll, behavior: 'smooth' });
+
+            // After the smooth animation finishes (~600ms), check if we need to jump back
+            setTimeout(() => {
+                if (container.scrollLeft >= singleSetWidth * 2) {
+                    container.scrollTo({ left: container.scrollLeft - singleSetWidth, behavior: 'auto' });
+                }
+            }, 800);
+
+        }, 3500); // 3.5s total: movement + ~1s pause
 
         return () => clearInterval(interval);
     }, [cast, isLoading, isPaused]);
@@ -49,8 +62,8 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
                     <div className="flex gap-8 md:gap-16 overflow-hidden">
                         {[1, 2, 3, 4, 5, 6].map((i) => (
                             <div key={i} className="flex items-center gap-5 shrink-0 opacity-10 animate-pulse">
-                                <div className="w-14 h-14 md:w-20 md:h-20 bg-white/10 rounded-full" />
-                                <div className="space-y-2">
+                                <div className="aspect-[2/3] w-[160px] md:w-[220px] bg-white/10 rounded-sm" />
+                                <div className="space-y-2 px-1">
                                     <div className="w-24 h-2 bg-white/10 rounded" />
                                     <div className="w-16 h-2 bg-white/10 rounded" />
                                 </div>
@@ -78,20 +91,24 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
                     </div>
                 </div>
 
-                <div className="relative group">
-                    {/* ── 1. End-to-End Edge Blurs ── */}
-                    <div className="absolute left-0 top-0 bottom-0 w-24 md:w-56 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-transparent z-30 pointer-events-none" />
-                    <div className="absolute right-0 top-0 bottom-0 w-24 md:w-56 bg-gradient-to-l from-[#080808] via-[#080808]/80 to-transparent z-30 pointer-events-none" />
+                <div className="relative overflow-hidden">
+                    {/* ── 1. True Edge Blurs (Gradient Overlays) ── */}
+                    <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-[#080808] to-transparent z-40 pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-[#080808] to-transparent z-40 pointer-events-none" />
 
                     <div
                         ref={scrollRef}
                         onMouseEnter={() => setIsPaused(true)}
                         onMouseLeave={() => setIsPaused(false)}
-                        className="relative -mx-6 md:-mx-20 px-6 md:px-20 overflow-x-auto no-scrollbar pb-8 flex gap-8 md:gap-16 snap-x snap-mandatory scroll-smooth"
+                        className="relative overflow-x-auto no-scrollbar pb-8 flex gap-8 md:gap-16 snap-x snap-mandatory p-1"
+                        style={{
+                            WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+                            maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)'
+                        }}
                     >
-                        {cast.map((member, i) => (
+                        {extendedCast.map((member, i) => (
                             <div
-                                key={i}
+                                key={`${member.name}-${i}`}
                                 className="flex flex-col gap-6 shrink-0 snap-start cursor-default transition-all duration-500 w-[160px] md:w-[220px]"
                             >
                                 <div className="relative aspect-[2/3] w-full rounded-sm overflow-hidden border border-white/5 bg-white/[0.02]">
