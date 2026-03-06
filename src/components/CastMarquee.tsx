@@ -22,20 +22,35 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
         return (
             <div className="w-full bg-[#080808] py-20 relative z-20">
                 <div className="max-w-[1720px] mx-auto px-6 md:px-20">
-                    <div className="flex items-center gap-5 mb-10 opacity-20">
-                        <h3 className="text-[10px] font-black uppercase tracking-[0.6em] text-white whitespace-nowrap">The Global Ensemble</h3>
-                        <div className="flex-1 h-px bg-white/20" />
+                    <div className="flex items-center justify-between mb-12">
+                        <div className="flex items-center gap-6 flex-1 opacity-20">
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.8em] text-white whitespace-nowrap">The Global Ensemble</h3>
+                            <div className="flex-1 h-px bg-white/20" />
+                        </div>
                     </div>
-                    <div className="flex gap-8 md:gap-16 overflow-hidden">
-                        {[1, 2, 3, 4, 5, 6].map((i) => (
-                            <div key={i} className="flex items-center gap-5 shrink-0 opacity-10 animate-pulse">
-                                <div className="aspect-[2/3] w-[160px] md:w-[220px] bg-[#0f0f0f] rounded-sm" />
-                                <div className="space-y-2 px-1">
-                                    <div className="w-24 h-2 bg-white/10 rounded" />
-                                    <div className="w-16 h-2 bg-white/10 rounded" />
+
+                    <div className="relative overflow-hidden">
+                        {/* ── 1. Edge Blurs for Skeleton ── */}
+                        <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-transparent z-40 pointer-events-none" />
+                        <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-[#080808] via-[#080808]/80 to-transparent z-40 pointer-events-none" />
+
+                        <div
+                            className="flex gap-8 md:gap-16 p-1 overflow-hidden"
+                            style={{
+                                WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+                                maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)'
+                            }}
+                        >
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                                <div key={i} className="flex flex-col gap-6 shrink-0 opacity-10 animate-pulse w-[160px] md:w-[220px]">
+                                    <div className="aspect-[2/3] w-full bg-[#0f0f0f] rounded-sm border border-white/5" />
+                                    <div className="space-y-3 px-1">
+                                        <div className="w-2/3 h-2 bg-white/20 rounded-full" />
+                                        <div className="w-1/2 h-1.5 bg-white/10 rounded-full" />
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

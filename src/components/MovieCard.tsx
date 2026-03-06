@@ -49,7 +49,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                     </button>
                 )}
 
-                <div className="flex flex-col lg:flex-row gap-10 lg:gap-24 items-center lg:items-end">
+                <div className="flex flex-col lg:flex-row gap-10 lg:gap-24 items-center lg:items-center">
 
                     {/* Left side: The Narrative & Meta (Cineo Theme) */}
                     <div className="flex-1 text-center lg:text-left order-2 lg:order-1">
@@ -103,12 +103,12 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                     </div>
 
                     {/* Right side: The Floating Portrait Piece */}
-                    <div className="w-full lg:w-auto h-auto max-h-[85vh] flex justify-center order-1 lg:order-2 lg:translate-y-4">
-                        <div className="relative h-[85vh] aspect-[2/3] rounded-sm overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-white/5 bg-black/40">
+                    <div className="w-full lg:w-auto h-auto max-h-[94vh] flex justify-center order-1 lg:order-2 lg:-translate-y-6">
+                        <div className="relative h-[94vh] aspect-[2/3] rounded-sm overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.6)] border border-white/5 bg-black/40">
                             <img
                                 src={poster}
                                 alt={movie.title}
-                                className="w-full h-full object-contain"
+                                className="w-full h-full object-cover"
                             />
                         </div>
                     </div>
