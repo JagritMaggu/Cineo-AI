@@ -122,7 +122,7 @@ function Landing({
     }, []);
 
     return (
-        <div className="relative flex flex-col h-[100svh] lg:h-svh lg:min-h-svh justify-end pb-15 lg:pb-32 overflow-y-clip overscroll-y-none w-full max-w-[100vw]">
+        <div className="relative flex flex-col h-[100svh] lg:h-svh lg:min-h-svh justify-end pb-9 lg:pb-32 overflow-y-clip overscroll-y-none w-full max-w-[100vw]">
 
             {/* Brighter Proper Poster Background */}
             <div className="fixed inset-0 z-0 pointer-events-none transition-all duration-300 ease-out bg-[#080808]">
@@ -139,7 +139,7 @@ function Landing({
                 </div>
 
                 {/* Mobile: Top Poster (Full Width, Natural Height) */}
-                <div className="absolute top-0 left-0 right-0 h-[67vh] md:hidden">
+                <div className="absolute top-0 left-0 right-0 h-[71vh] md:hidden">
                     <Image
                         key={`${activeMovie.title}-mobile`}
                         src={activeMovie.poster.replace('/w500/', '/original/')}
