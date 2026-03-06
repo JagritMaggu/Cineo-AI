@@ -25,7 +25,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
     }, [movie.poster]);
 
     return (
-        <article className="w-full bg-[#080808] h-[100svh] text-white relative overflow-hidden flex flex-col">
+        <article className="w-full bg-[#080808] h-[105svh] text-white relative overflow-hidden flex flex-col">
 
             {/* ── 1. The Cinematic Backdrop (Ambient Cineo Glow) ── */}
             <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.25] overflow-hidden">
@@ -37,15 +37,15 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
             </div>
 
             {/* ── 2. The Fluid 100vh Dashboard (Inspired by Lucifer/Netflix Layout) ── */}
-            <div className="relative z-10 w-full max-w-screen-2xl mx-auto px-6 md:px-20 flex-1 flex flex-col justify-center">
+            <div className="relative z-10 w-full max-w-screen-3xl mx-auto px-6 md:px-20 flex-1 flex flex-col justify-center">
 
                 {/* Back Button */}
                 {onBack && (
                     <button
                         onClick={onBack}
-                        className="absolute top-8 left-6 md:left-20 text-white/30 hover:text-white/60 transition-colors flex items-center gap-2 group z-50 p-2"
+                        className="absolute top-10 left-6 md:left-20 text-white/60 hover:text-white/90 transition-colors flex items-center gap-2 group z-50 p-2"
                     >
-                        <ArrowLeft size={20} strokeWidth={1.5} />
+                        <ArrowLeft size={22} strokeWidth={1.5} />
                     </button>
                 )}
 
@@ -117,7 +117,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
             </div>
 
             {/* ── Seamless Bottom Merge Gradient ── */}
-            <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-[#080808] to-transparent z-20 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#080808] via-[#080808]/40 to-transparent z-20 pointer-events-none" />
         </article>
     );
 });
