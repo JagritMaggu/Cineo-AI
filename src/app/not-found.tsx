@@ -59,7 +59,7 @@ function NotFoundContent() {
                         <div className="absolute inset-0 md:hidden opacity-30 saturate-150">
                             <Image src={activeMovie.poster.replace('/w500/', '/original/')} alt="" fill unoptimized className="object-cover blur-[100px] scale-125" />
                         </div>
-                        <div className="absolute top-0 left-0 right-0 h-[67vh] md:hidden opacity-40">
+                        <div className="absolute top-0 left-0 right-0 h-[80vh] md:hidden opacity-40">
                             <Image src={activeMovie.poster.replace('/w500/', '/original/')} alt="" fill unoptimized priority className="object-cover object-top"
                                 style={{
                                     maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
