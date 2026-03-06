@@ -64,7 +64,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
 
                     {/* Right side: The Floating Portrait Piece (Moved up for mobile context) */}
                     <div className="w-full lg:w-auto h-auto flex justify-center order-1 lg:order-2 lg:max-h-[90vh] overflow-hidden lg:mt-10">
-                        <div className="relative w-full h-[60vh] lg:w-auto lg:h-[90vh] lg:aspect-[2/3] lg:rounded-sm overflow-hidden lg:overflow-y-clip shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-0 border-transparent lg:border-white/5 bg-transparent lg:bg-black/40 [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[mask-image:none] [WebkitMaskImage:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[WebkitMaskImage:none]">
+                        <div className="relative w-full h-[57vh] lg:w-auto lg:h-[90vh] lg:aspect-[2/3] lg:rounded-sm overflow-hidden lg:overflow-y-clip shadow-[0_20px_80px_rgba(0,0,0,0.6)] border-0 border-transparent lg:border-white/5 bg-transparent lg:bg-black/40 [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[mask-image:none] [WebkitMaskImage:linear-gradient(to_bottom,black_80%,transparent_100%)] lg:[WebkitMaskImage:none]">
                             <img
                                 src={poster}
                                 alt={movie.title}
@@ -78,35 +78,37 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                         initial={isDesktop ? { opacity: 0, x: -10 } : {}}
                         animate={isDesktop ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="flex-1 w-full max-w-full text-center lg:text-left order-2 lg:order-1 px-0 md:px-0 mt-2 lg:mt-0 pb-8 lg:pb-0 overflow-x-hidden -translate-x-[6px] lg:translate-x-0 lg:-translate-y-4"
+                        className="flex-1 w-full max-w-full text-left order-2 lg:order-1 px-0 md:px-0 mt-2 lg:mt-0 pb-8 lg:pb-0 overflow-x-hidden -translate-x-[6px] lg:translate-x-0 lg:-translate-y-4"
                     >
 
-                        <div className="flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-start gap-2 md:gap-5 mb-5 md:mb-10 px-0 lg:px-0 w-full overflow-hidden">
-                            <motion.h1
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                                className="text-[17px] md:text-3xl lg:text-5xl xl:text-6xl font-black tracking-tighter leading-none text-white uppercase whitespace-normal lg:whitespace-nowrap min-w-0 text-center lg:text-left"
-                            >
-                                {movie.title}
-                            </motion.h1>
+                        <div className="flex flex-row items-start justify-between lg:justify-start gap-4 lg:gap-5 mb-5 md:mb-10 px-5 lg:px-0 w-full overflow-hidden">
+                            <div className="flex flex-col items-start lg:flex-row lg:items-center lg:gap-5 min-w-0">
+                                <motion.h1
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                                    className="text-[17px] md:text-3xl lg:text-5xl xl:text-6xl font-black tracking-tighter leading-none text-white uppercase whitespace-normal lg:whitespace-nowrap truncate text-left"
+                                >
+                                    {movie.title}
+                                </motion.h1>
 
-                            <div className="w-px h-4 bg-white/10 shrink-0 mx-1 hidden md:block" />
+                                <div className="w-px h-4 bg-white/10 shrink-0 mx-1 hidden lg:block" />
 
+                                <div className="flex items-center gap-1.5 lg:gap-5 mt-1.5 lg:mt-0">
+                                    <span className="text-[10px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.released}</span>
+                                    <div className="w-px h-2.5 bg-white/10 shrink-0 mx-1 hidden lg:block" />
+                                    <div className="w-1 h-1 rounded-full bg-white/20 shrink-0 lg:hidden" />
+                                    <span className="text-[10px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.runtime}</span>
+                                </div>
+                            </div>
 
-                            <div className={`flex items-center gap-1.5 border px-2.5 lg:px-4 py-1.5 lg:py-2 rounded shrink-0 ${movie.rating === 'N/A' ? 'bg-black/40 border-white/10 text-white/40' : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'}`}>
+                            <div className={`flex items-center gap-1.5 border px-2.5 lg:px-4 py-1.5 lg:py-2 rounded shrink-0 ml-auto lg:ml-0 ${movie.rating === 'N/A' ? 'bg-black/40 border-white/10 text-white/40' : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'}`}>
                                 <Star size={10} className={`lg:w-[13px] lg:h-[13px] ${movie.rating === 'N/A' ? 'fill-white/10' : 'fill-yellow-400'}`} />
                                 <span className="text-[10px] lg:text-sm font-black tracking-widest leading-none">
                                     {movie.rating === 'N/A' ? 'TBD' : movie.rating}
                                 </span>
                                 <span className="text-[8px] lg:text-[10px] opacity-40 font-bold uppercase ml-0.5 lg:ml-1">IMDb</span>
                             </div>
-
-                            <div className="w-px h-2.5 bg-white/10 shrink-0 mx-1 hidden md:block" />
-                            <span className="text-[9px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.released}</span>
-                            <div className="w-px h-2.5 bg-white/10 shrink-0 mx-1 hidden md:block" />
-                            <div className="w-1 h-1 rounded-full bg-white/20 shrink-0 md:hidden" />
-                            <span className="text-[9px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.runtime}</span>
                         </div>
 
                         <motion.p
