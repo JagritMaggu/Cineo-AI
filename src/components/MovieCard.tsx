@@ -87,8 +87,8 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                         className="flex-1 w-full max-w-full text-left order-2 lg:order-1 px-0 md:px-0 mt-2 lg:mt-0 pb-8 lg:pb-0 overflow-x-hidden -translate-x-[6px] lg:translate-x-0 lg:-translate-y-4"
                     >
 
-                        <div className="flex flex-row items-start justify-between lg:justify-start gap-4 lg:gap-5 mb-5 md:mb-10 w-full max-w-[91%] mx-auto lg:max-w-none lg:mx-0 lg:px-0 overflow-hidden">
-                            <div className="flex flex-col items-start lg:flex-row lg:items-center lg:gap-5 min-w-0">
+                        <div className="flex flex-row items-start justify-between gap-4 lg:gap-5 mb-5 md:mb-10 w-full max-w-[91%] mx-auto lg:max-w-none lg:mx-0 lg:px-0 overflow-hidden">
+                            <div className="flex flex-col items-start min-w-0">
                                 <motion.h1
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
@@ -98,9 +98,9 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                                     {movie.title}
                                 </motion.h1>
 
-                                <div className="w-px h-4 bg-white/10 shrink-0 mx-1 hidden lg:block" />
+                                <div className="w-px h-4 bg-white/10 shrink-0 mx-1 hidden" />
 
-                                <div className="flex items-center gap-1.5 lg:gap-5 mt-1.5 lg:mt-0">
+                                <div className="flex items-center gap-1.5 lg:gap-5 mt-1.5">
                                     <span className="text-[10px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.released}</span>
                                     <div className="w-px h-2.5 bg-white/10 shrink-0 mx-1 hidden lg:block" />
                                     <div className="w-1 h-1 rounded-full bg-white/20 shrink-0 lg:hidden" />
@@ -108,7 +108,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                                 </div>
                             </div>
 
-                            <div className={`flex items-center gap-1.5 border px-2.5 lg:px-4 py-1.5 lg:py-2 rounded shrink-0 ml-auto lg:ml-0 ${movie.rating === 'N/A' ? 'bg-black/40 border-white/10 text-white/40' : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'}`}>
+                            <div className={`flex items-center gap-1.5 border px-2.5 lg:px-4 py-1.5 lg:py-2 rounded shrink-0 ml-auto ${movie.rating === 'N/A' ? 'bg-black/40 border-white/10 text-white/40' : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'}`}>
                                 <Star size={10} className={`lg:w-[13px] lg:h-[13px] ${movie.rating === 'N/A' ? 'fill-white/10' : 'fill-yellow-400'}`} />
                                 <span className="text-[10px] lg:text-sm font-black tracking-widest leading-none">
                                     {movie.rating === 'N/A' ? 'TBD' : movie.rating}
