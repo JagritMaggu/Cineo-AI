@@ -2,6 +2,7 @@
 
 import { useMemo, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { CastMember } from '@/types/movie';
 
 interface CastMarqueeProps {
@@ -71,41 +72,43 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
                     </div>
                 </div>
 
-                <div className="relative overflow-hidden">
+                <div className="relative">
                     {/* ── 1. Edge Blurs (Gradient Overlays) ── */}
                     <div className="absolute left-0 top-0 bottom-0 w-8 md:w-64 bg-gradient-to-r from-[#080808] via-[#080808] to-transparent z-40 pointer-events-none" />
                     <div className="absolute right-0 top-0 bottom-0 w-8 md:w-64 bg-gradient-to-l from-[#080808] via-[#080808] to-transparent z-40 pointer-events-none" />
 
-                    <div
-                        className="flex gap-8 md:gap-16 p-1 animate-marquee [mask-image:linear-gradient(to_right,transparent_0%,black_5%,black_95%,transparent_100%)] md:[mask-image:linear-gradient(to_right,transparent_0%,black_20%,black_80%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_5%,black_95%,transparent_100%)] md:[-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_20%,black_80%,transparent_100%)]"
-                    >
-                        {extendedCast.map((member, i) => (
-                            <div
-                                key={`${member.name}-${i}`}
-                                className="flex flex-col gap-6 shrink-0 cursor-default w-[160px] md:w-[220px]"
-                            >
-                                <div className="relative aspect-[2/3] w-full rounded-sm overflow-hidden border border-white/5 bg-[#0f0f0f]">
-                                    {member.image ? (
-                                        <Image
-                                            src={member.image}
-                                            alt={member.name}
-                                            fill
-                                            unoptimized
-                                            className="object-cover grayscale-[0.2] pointer-events-none"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-2xl font-black text-white/10 uppercase bg-[#0f0f0f]">
-                                            {member.name[0]}
-                                        </div>
-                                    )}
-                                </div>
+                    <div className="overflow-x-auto no-scrollbar cursor-pointer active:cursor-grabbing">
+                        <div
+                            className="flex gap-8 md:gap-16 p-1 animate-marquee [mask-image:linear-gradient(to_right,transparent_0%,black_5%,black_95%,transparent_100%)] md:[mask-image:linear-gradient(to_right,transparent_0%,black_20%,black_80%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_5%,black_95%,transparent_100%)] md:[-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_20%,black_80%,transparent_100%)]"
+                        >
+                            {extendedCast.map((member, i) => (
+                                <div
+                                    key={`${member.name}-${i}`}
+                                    className="flex flex-col gap-6 shrink-0 cursor-default w-[160px] md:w-[220px]"
+                                >
+                                    <div className="relative aspect-[2/3] w-full rounded-sm overflow-hidden border border-white/5 bg-[#0f0f0f]">
+                                        {member.image ? (
+                                            <Image
+                                                src={member.image}
+                                                alt={member.name}
+                                                fill
+                                                unoptimized
+                                                className="object-cover grayscale-[0.2] pointer-events-none"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-2xl font-black text-white/10 uppercase bg-[#0f0f0f]">
+                                                {member.name[0]}
+                                            </div>
+                                        )}
+                                    </div>
 
-                                <div className="flex flex-col px-1">
-                                    <p className="text-[10px] md:text-sm font-black text-white/80 uppercase tracking-wider mb-1 line-clamp-1">{member.name}</p>
-                                    <p className="text-[10px] md:text-[11px] text-white/20 uppercase tracking-[0.2em] font-medium line-clamp-1">{member.role || 'Principal Cast'}</p>
+                                    <div className="flex flex-col px-1">
+                                        <p className="text-[10px] md:text-sm font-black text-white/80 uppercase tracking-wider mb-1 line-clamp-1">{member.name}</p>
+                                        <p className="text-[10px] md:text-[11px] text-white/20 uppercase tracking-[0.2em] font-medium line-clamp-1">{member.role || 'Principal Cast'}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
