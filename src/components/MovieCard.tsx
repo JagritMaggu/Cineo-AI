@@ -93,7 +93,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                                    className="text-[17px] md:text-xl lg:text-3xl xl:text-4xl font-black leading-none text-white uppercase whitespace-normal lg:whitespace-nowrap truncate text-left"
+                                    className="text-[17px] md:text-4xl lg:text-6xl xl:text-7xl font-black leading-none text-white uppercase whitespace-normal lg:whitespace-nowrap truncate text-left"
                                 >
                                     {movie.title}
                                 </motion.h1>
