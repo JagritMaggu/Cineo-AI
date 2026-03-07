@@ -87,8 +87,8 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                         className="flex-1 w-full max-w-full text-left order-2 lg:order-1 px-0 md:px-0 mt-2 lg:mt-0 pb-8 lg:pb-0 overflow-x-hidden -translate-x-[6px] lg:translate-x-0 lg:-translate-y-4"
                     >
 
-                        <div className="flex flex-row lg:flex-col items-start justify-between lg:justify-start gap-4 lg:gap-0 mb-5 md:mb-10 w-full max-w-[91%] mx-auto lg:max-w-none lg:mx-0 lg:px-0 overflow-hidden lg:overflow-visible">
-                            <div className="flex flex-col items-start min-w-0 lg:w-full">
+                        <div className="flex flex-row lg:flex-col items-start justify-between lg:justify-start gap-4 lg:gap-0 mb-5 md:mb-10 w-full max-w-[89%] mx-auto lg:max-w-none lg:mx-0 lg:px-0 overflow-hidden lg:overflow-visible">
+                            <div className="flex flex-col items-start min-w-0 lg:w-full lg:max-w-2xl">
                                 <motion.h1
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
