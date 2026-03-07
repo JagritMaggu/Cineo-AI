@@ -101,7 +101,7 @@ export default function CastMarquee({ cast, isLoading }: CastMarqueeProps) {
                                 </div>
 
                                 <div className="flex flex-col px-1">
-                                    <p className="text-xs md:text-sm font-black text-white/80 uppercase tracking-wider mb-1 line-clamp-1">{member.name}</p>
+                                    <p className="text-[10px] md:text-sm font-black text-white/80 uppercase tracking-wider mb-1 line-clamp-1">{member.name}</p>
                                     <p className="text-[10px] md:text-[11px] text-white/20 uppercase tracking-[0.2em] font-medium line-clamp-1">{member.role || 'Principal Cast'}</p>
                                 </div>
                             </div>
