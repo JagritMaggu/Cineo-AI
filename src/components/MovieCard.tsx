@@ -87,8 +87,8 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                         className="flex-1 w-full max-w-full text-left order-2 lg:order-1 px-0 md:px-0 mt-2 lg:mt-0 pb-8 lg:pb-0 overflow-x-hidden -translate-x-[6px] lg:translate-x-0 lg:-translate-y-4"
                     >
 
-                        <div className="flex flex-row items-start justify-between gap-4 lg:gap-5 mb-5 md:mb-10 w-full max-w-[91%] mx-auto lg:max-w-none lg:mx-0 lg:px-0 overflow-hidden">
-                            <div className="flex flex-col items-start min-w-0">
+                        <div className="flex flex-row lg:flex-col items-start justify-between lg:justify-start gap-4 lg:gap-0 mb-5 md:mb-10 w-full max-w-[91%] mx-auto lg:max-w-none lg:mx-0 lg:px-0 overflow-hidden lg:overflow-visible">
+                            <div className="flex flex-col items-start min-w-0 lg:w-full">
                                 <motion.h1
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
@@ -100,20 +100,32 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
 
                                 <div className="w-px h-4 bg-white/10 shrink-0 mx-1 hidden" />
 
-                                <div className="flex items-center gap-1.5 lg:gap-5 mt-1.5">
-                                    <span className="text-[10px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.released}</span>
-                                    <div className="w-px h-2.5 bg-white/10 shrink-0 mx-1 hidden lg:block" />
-                                    <div className="w-1 h-1 rounded-full bg-white/20 shrink-0 lg:hidden" />
-                                    <span className="text-[10px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.runtime}</span>
+                                <div className="flex items-center justify-between lg:w-full mt-1.5 lg:mt-6">
+                                    <div className="flex items-center gap-1.5 lg:gap-5">
+                                        <span className="text-[10px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.released}</span>
+                                        <div className="w-px h-2.5 bg-white/10 shrink-0 mx-1 hidden lg:block" />
+                                        <div className="w-1 h-1 rounded-full bg-white/20 shrink-0 lg:hidden" />
+                                        <span className="text-[10px] lg:text-xs font-black uppercase tracking-[0.2em] lg:tracking-[0.4em] text-white/20 whitespace-nowrap shrink-0">{movie.runtime}</span>
+                                    </div>
+
+                                    {/* IMDb Tag for Desktop: Now aligned with metadata line on the opposite end */}
+                                    <div className={`hidden lg:flex items-center gap-1.5 border px-4 py-2 rounded shrink-0 ${movie.rating === 'N/A' ? 'bg-black/40 border-white/10 text-white/40' : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'}`}>
+                                        <Star size={13} className={`${movie.rating === 'N/A' ? 'fill-white/10' : 'fill-yellow-400'}`} />
+                                        <span className="text-sm font-black tracking-widest leading-none">
+                                            {movie.rating === 'N/A' ? 'TBD' : movie.rating}
+                                        </span>
+                                        <span className="text-[10px] opacity-40 font-bold uppercase ml-1">IMDb</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className={`flex items-center gap-1.5 border px-2.5 lg:px-4 py-1.5 lg:py-2 rounded shrink-0 ml-auto lg:mt-6.5 xl:mt-9.5 ${movie.rating === 'N/A' ? 'bg-black/40 border-white/10 text-white/40' : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'}`}>
-                                <Star size={10} className={`lg:w-[13px] lg:h-[13px] ${movie.rating === 'N/A' ? 'fill-white/10' : 'fill-yellow-400'}`} />
-                                <span className="text-[10px] lg:text-sm font-black tracking-widest leading-none">
+                            {/* IMDb Tag for Mobile: Preserved in the title row */}
+                            <div className={`flex lg:hidden items-center gap-1.5 border px-2.5 py-1.5 rounded shrink-0 ml-auto ${movie.rating === 'N/A' ? 'bg-black/40 border-white/10 text-white/40' : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'}`}>
+                                <Star size={10} className={`${movie.rating === 'N/A' ? 'fill-white/10' : 'fill-yellow-400'}`} />
+                                <span className="text-[10px] font-black tracking-widest leading-none">
                                     {movie.rating === 'N/A' ? 'TBD' : movie.rating}
                                 </span>
-                                <span className="text-[8px] lg:text-[10px] opacity-40 font-bold uppercase ml-0.5 lg:ml-1">IMDb</span>
+                                <span className="text-[8px] opacity-40 font-bold uppercase ml-0.5">IMDb</span>
                             </div>
                         </div>
 
