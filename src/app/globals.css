@@ -110,9 +110,6 @@ body {
   animation: marquee 180s linear infinite;
 }
 
-.animate-marquee:hover {
-  animation-play-state: paused !important;
-}
 
 /* ─── Shimmer ─── */
 @keyframes shimmer {
