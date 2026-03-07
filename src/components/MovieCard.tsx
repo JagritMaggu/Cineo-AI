@@ -108,7 +108,7 @@ const MovieCard = memo(function MovieCard({ movie, onBack }: MovieCardProps) {
                                 </div>
                             </div>
 
-                            <div className={`flex items-center gap-1.5 border px-2.5 lg:px-4 py-1.5 lg:py-2 rounded shrink-0 ml-auto lg:mt-8 xl:mt-11 ${movie.rating === 'N/A' ? 'bg-black/40 border-white/10 text-white/40' : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'}`}>
+                            <div className={`flex items-center gap-1.5 border px-2.5 lg:px-4 py-1.5 lg:py-2 rounded shrink-0 ml-auto lg:mt-6.5 xl:mt-9.5 ${movie.rating === 'N/A' ? 'bg-black/40 border-white/10 text-white/40' : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'}`}>
                                 <Star size={10} className={`lg:w-[13px] lg:h-[13px] ${movie.rating === 'N/A' ? 'fill-white/10' : 'fill-yellow-400'}`} />
                                 <span className="text-[10px] lg:text-sm font-black tracking-widest leading-none">
                                     {movie.rating === 'N/A' ? 'TBD' : movie.rating}
